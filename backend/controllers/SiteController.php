@@ -4,7 +4,7 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
+use mdm\admin\components\AccessControl;
 use common\models\LoginForm;
 
 /**
@@ -20,7 +20,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'rules' => [
+                /*'rules' => [
                     [
                         'actions' => ['login', 'error', 'example'],
                         'allow' => true
@@ -30,7 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
+                ],*/
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),

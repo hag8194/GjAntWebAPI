@@ -16,10 +16,11 @@ return [
     'modules' => [
         'admin' => [
             'class' => 'mdm\admin\Module',
+            'layout' => 'right-menu',
+            'mainLayout' => '@app/views/layouts/main.php',
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
-                    'layout' => 'left-menu', // avaliable value 'left-menu', 'right-menu' and 'top-menu'
                     'userClassName' => 'common\models\User',
                     'idField' => 'id',
                     'usernameField' => 'username',
@@ -54,7 +55,7 @@ return [
                 'assignment' => [
                     'label' => 'Grand Access' // change label
                 ],
-                'route' => null, // disable menu
+                //'route' => null, // disable menu
             ],
         ]
     ],
@@ -86,9 +87,29 @@ return [
         'assetManager' => [
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
-                    'skin' => 'skin-yellow-light',
+                    'skin' => 'skin-green-light',
                 ],
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => 'AIzaSyAaa0EMcPKpjjZrVwbiPuRHJK_-2dh2zNM',
+                        'language' => 'id',
+                        'version' => '3.1.18'
+                    ]
+                ]
             ],
+        ],
+        'i18n' => [
+            'translations' => [
+                'backend*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@backend/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ]
         ],
         /*
         'urlManager' => [
@@ -104,9 +125,8 @@ return [
         'as access' => [
             'class' => 'mdm\admin\components\AccessControl',
             'allowActions' => [
-                'site/*',
-                'admin/*',
-                'some-controller/some-action',
+                'site/login',
+                'site/error'
                 // The actions listed here will be allowed to everyone including guests.
                 // So, 'admin/*' should not appear here in the production, of course.
                 // But in the earlier stages of your development, you may probably want to

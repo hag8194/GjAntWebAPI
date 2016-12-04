@@ -21,7 +21,9 @@
         "dmstr/yii2-adminlte-asset": "^2.3",
         "mdmsoft/yii2-admin": "~2.0",
         "voime/yii2-google-maps": "*",
-        "2amigos/yii2-google-maps-library" : "*"
+        "2amigos/yii2-google-maps-library" : "*",
+        "hector68/yii2-map-input-widget": "^2.0",
+        "kartik-v/bootstrap-fileinput": "^4.3"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

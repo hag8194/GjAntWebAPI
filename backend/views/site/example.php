@@ -21,7 +21,7 @@ use dosamigos\google\maps\services\TravelMode;
 //use voime\GoogleMaps\Map;
 
 /* @var $this yii\web\View */
-
+/* @var $model backend\models\MapModel */
 $this->params['breadcrumbs'][] = 'About';
 
 $this->beginBlock('content-header'); ?>
@@ -31,17 +31,51 @@ About <small>static page</small>
 <div class="site-about">
     <p> This is the About page. You may modify the following file to customize its content: </p>
     <code><?= __FILE__ ?></code>
-    <?php
-    /* Map::widget([
-        'zoom' => 8,
-        'center' => [-34.397, 150.644],
-        'width' => '700px',
-        'height' => '400px',
-        'mapType' => Map::MAP_TYPE_ROADMAP,
-    ]);*/
+    <?php $form = \yii\bootstrap\ActiveForm::begin() ?>
+        <?= $form->field($model, 'coordinates')->widget('hector68\yii2\widgets\MapInputWidget',
+            [
+                // Initial map center latitude. Used only when the input has no value.
+                // Otherwise the input value latitude will be used as map center.
+                // Defaults to 0.
+                'latitude' => 42,
 
-    ?>
+                // Initial map center longitude. Used only when the input has no value.
+                // Otherwise the input value longitude will be used as map center.
+                // Defaults to 0.
+                'longitude' => 42,
 
+                // Initial map zoom.
+                // Defaults to 0.
+                'zoom' => 12,
+
+                // Map container width.
+                // Defaults to '100%'.
+                'width' => '420px',
+
+                // Map container height.
+                // Defaults to '300px'.
+                'height' => '420px',
+
+                // Coordinates representation pattern. Will be use to construct a value of an actual input.
+                // Will also be used to parse an input value to show the initial input value on the map.
+                // You can use two macro-variables: '%latitude%' and '%longitude%'.
+                // Defaults to '(%latitude%,%longitude%)'.
+                'pattern' => '[%longitude%-%latitude%]',
+
+                // Marker animation behavior defines if a marker should be animated on position change.
+                // Defaults to false.
+                'animateMarker' => true,
+
+                // Map alignment behavior defines if a map should be centered when a marker is repositioned.
+                // Defaults to true.
+                'alignMapCenter' => false,
+
+                // A flag which defines if a search bar should be rendered over the map.
+                'enableSearchBar' => true,
+
+            ]
+            ); ?>
+    <?php $form = \yii\bootstrap\ActiveForm::end() ?>
     <?php
     $coord = new LatLng(['lat' => 39.720089311812094, 'lng' => 2.91165944519042]);
     $map = new Map([

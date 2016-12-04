@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use backend\models\MapModel;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -98,6 +99,9 @@ class SiteController extends Controller
 
     public function actionExample()
     {
-        return $this->render('example');
+        $model = new MapModel();
+        return $this->render('example',[
+            'model' => $model
+        ]);
     }
 }

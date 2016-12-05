@@ -111,9 +111,8 @@ return [
                 ],
             ]
         ],
-        /*
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            //'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
@@ -121,7 +120,6 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
             ],
         ],
-        */
         'as access' => [
             'class' => 'mdm\admin\components\AccessControl',
             'allowActions' => [

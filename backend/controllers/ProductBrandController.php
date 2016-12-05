@@ -2,8 +2,8 @@
 
 namespace backend\controllers;
 
-use common\models\Brand;
-use common\models\searchmodels\BrandSearch;
+use common\models\ProductBrand;
+use common\models\searchmodels\ProductBrand as ProductBrandSearch;
 use mdm\admin\components\AccessControl;
 use Yii;
 use yii\filters\VerbFilter;
@@ -11,9 +11,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * BrandController implements the CRUD actions for Brand model.
+ * ProductBrandController implements the CRUD actions for ProductBrand model.
  */
-class BrandController extends Controller
+class ProductBrandController extends Controller
 {
     /**
      * @inheritdoc
@@ -34,12 +34,12 @@ class BrandController extends Controller
     }
 
     /**
-     * Lists all Brand models.
+     * Lists all ProductBrand models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new BrandSearch();
+        $searchModel = new ProductBrandSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -49,28 +49,29 @@ class BrandController extends Controller
     }
 
     /**
-     * Displays a single Brand model.
-     * @param integer $id
+     * Displays a single ProductBrand model.
+     * @param integer $product_id
+     * @param integer $brand_id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($product_id, $brand_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($product_id, $brand_id),
         ]);
     }
 
     /**
-     * Creates a new Brand model.
+     * Creates a new ProductBrand model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Brand();
+        $model = new ProductBrand();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'product_id' => $model->product_id, 'brand_id' => $model->brand_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -79,17 +80,18 @@ class BrandController extends Controller
     }
 
     /**
-     * Updates an existing Brand model.
+     * Updates an existing ProductBrand model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $product_id
+     * @param integer $brand_id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($product_id, $brand_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($product_id, $brand_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'product_id' => $model->product_id, 'brand_id' => $model->brand_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -98,28 +100,30 @@ class BrandController extends Controller
     }
 
     /**
-     * Deletes an existing Brand model.
+     * Deletes an existing ProductBrand model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer $product_id
+     * @param integer $brand_id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($product_id, $brand_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($product_id, $brand_id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Brand model based on its primary key value.
+     * Finds the ProductBrand model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Brand the loaded model
+     * @param integer $product_id
+     * @param integer $brand_id
+     * @return ProductBrand the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($product_id, $brand_id)
     {
-        if (($model = Brand::findOne($id)) !== null) {
+        if (($model = ProductBrand::findOne(['product_id' => $product_id, 'brand_id' => $brand_id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

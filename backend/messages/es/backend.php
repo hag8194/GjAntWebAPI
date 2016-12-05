@@ -17,7 +17,18 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Are you sure you want to delete this item?' => '',
+    'Are you sure you want to delete this item?' => '¿Desea eliminar este registro?',
+    'Categories' => 'Categorías',
+    'Create Category' => 'Crear Categoría',
+    'Create Product' => 'Crear Producto',
+    'Create Product Brand' => 'Crear Producto Marca',
+    'Create Product Category' => 'Crear Producto Categoría',
+    'Product Brands' => 'Producto Marcas',
+    'Product Categories' => 'Producto Categorías',
+    'Products' => 'Productos',
+    'Brand' => 'Marca',
+    'Description' => 'Descripción',
+    'Name' => 'Nombre',
     'Brands' => 'Marcas',
     'Create' => 'Crear',
     'Create Brand' => 'Crear Marca',
@@ -27,7 +38,4 @@ return [
     'Sign in to start your session' => 'Inicia sesión para comenzar',
     'Update' => 'Actualizar',
     'Update {modelClass}: ' => 'Actualizando: ',
-    'Brand' => 'Marca',
-    'Description' => 'Descripción',
-    'Name' => 'Nombre',
 ];

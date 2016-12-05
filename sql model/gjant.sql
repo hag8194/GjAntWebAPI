@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2016 a las 21:33:10
--- Versión del servidor: 10.1.9-MariaDB
--- Versión de PHP: 5.6.15
+-- Tiempo de generación: 05-12-2016 a las 03:19:53
+-- Versión del servidor: 10.1.19-MariaDB
+-- Versión de PHP: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -61,19 +61,48 @@ CREATE TABLE `auth_item` (
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/admin/*', 2, NULL, NULL, NULL, 1480812650, 1480812650),
+('/admin/user/index', 2, NULL, NULL, NULL, 1480901647, 1480901647),
 ('/brand/*', 2, NULL, NULL, NULL, 1480812024, 1480812024),
 ('/brand/create', 2, NULL, NULL, NULL, 1480811240, 1480811240),
 ('/brand/delete', 2, NULL, NULL, NULL, 1480811240, 1480811240),
 ('/brand/index', 2, NULL, NULL, NULL, 1480811240, 1480811240),
 ('/brand/update', 2, NULL, NULL, NULL, 1480811240, 1480811240),
 ('/brand/view', 2, NULL, NULL, NULL, 1480811240, 1480811240),
+('/category/*', 2, NULL, NULL, NULL, 1480900646, 1480900646),
+('/category/create', 2, NULL, NULL, NULL, 1480901108, 1480901108),
+('/category/delete', 2, NULL, NULL, NULL, 1480901108, 1480901108),
+('/category/index', 2, NULL, NULL, NULL, 1480901107, 1480901107),
+('/category/update', 2, NULL, NULL, NULL, 1480901108, 1480901108),
+('/category/view', 2, NULL, NULL, NULL, 1480901108, 1480901108),
+('/product-brand/*', 2, NULL, NULL, NULL, 1480900657, 1480900657),
+('/product-brand/create', 2, NULL, NULL, NULL, 1480901120, 1480901120),
+('/product-brand/delete', 2, NULL, NULL, NULL, 1480901121, 1480901121),
+('/product-brand/index', 2, NULL, NULL, NULL, 1480901120, 1480901120),
+('/product-brand/update', 2, NULL, NULL, NULL, 1480901121, 1480901121),
+('/product-brand/view', 2, NULL, NULL, NULL, 1480901120, 1480901120),
+('/product-category/*', 2, NULL, NULL, NULL, 1480900650, 1480900650),
+('/product-category/create', 2, NULL, NULL, NULL, 1480901115, 1480901115),
+('/product-category/delete', 2, NULL, NULL, NULL, 1480901115, 1480901115),
+('/product-category/index', 2, NULL, NULL, NULL, 1480901115, 1480901115),
+('/product-category/update', 2, NULL, NULL, NULL, 1480901115, 1480901115),
+('/product-category/view', 2, NULL, NULL, NULL, 1480901115, 1480901115),
+('/product/*', 2, NULL, NULL, NULL, 1480900683, 1480900683),
+('/product/create', 2, NULL, NULL, NULL, 1480901126, 1480901126),
+('/product/delete', 2, NULL, NULL, NULL, 1480901126, 1480901126),
+('/product/index', 2, NULL, NULL, NULL, 1480901126, 1480901126),
+('/product/update', 2, NULL, NULL, NULL, 1480901126, 1480901126),
+('/product/view', 2, NULL, NULL, NULL, 1480901126, 1480901126),
 ('/site/example', 2, NULL, NULL, NULL, 1480811248, 1480811248),
 ('/site/index', 2, NULL, NULL, NULL, 1480811248, 1480811248),
 ('/site/logout', 2, NULL, NULL, NULL, 1480813307, 1480813307),
 ('admin', 2, NULL, NULL, NULL, 1480812629, 1480813935),
 ('administrator', 1, NULL, NULL, NULL, 1480220029, 1480220029),
-('Brand Module', 2, NULL, NULL, NULL, 1480807234, 1480807234),
+('Brand CRUD', 2, NULL, NULL, NULL, 1480807234, 1480900537),
+('Category CRUD', 2, NULL, NULL, NULL, 1480900581, 1480900581),
 ('client', 1, NULL, NULL, NULL, 1480220062, 1480220062),
+('Product CRUD', 2, NULL, NULL, NULL, 1480900556, 1480900556),
+('ProductBrand CRUD', 2, NULL, NULL, NULL, 1480900610, 1480900610),
+('ProductCategory CRUD', 2, NULL, NULL, NULL, 1480900623, 1480900623),
 ('site', 2, NULL, NULL, NULL, 1480813276, 1480813276),
 ('vendor', 1, NULL, NULL, NULL, 1480220049, 1480220049);
 
@@ -95,9 +124,17 @@ CREATE TABLE `auth_item_child` (
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('admin', '/admin/*'),
 ('administrator', 'admin'),
-('administrator', 'Brand Module'),
+('administrator', 'Brand CRUD'),
+('administrator', 'Category CRUD'),
+('administrator', 'Product CRUD'),
+('administrator', 'ProductBrand CRUD'),
+('administrator', 'ProductCategory CRUD'),
 ('administrator', 'site'),
-('Brand Module', '/brand/*'),
+('Brand CRUD', '/brand/*'),
+('Category CRUD', '/category/*'),
+('Product CRUD', '/product/*'),
+('ProductBrand CRUD', '/product-brand/*'),
+('ProductCategory CRUD', '/product-category/*'),
 ('site', '/site/example'),
 ('site', '/site/index'),
 ('site', '/site/logout');
@@ -166,11 +203,22 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
-(2, 'Brand', NULL, NULL, 0, NULL),
+(2, 'Brand', 13, NULL, 0, NULL),
 (3, 'Crear', 2, '/brand/create', 1, NULL),
 (4, 'Example', NULL, '/site/example', NULL, '''fa fa-file-code-o'',''header'''),
 (5, 'Principal', 2, '/brand/index', 0, NULL),
-(6, 'Escritorio', NULL, '/site/index', NULL, NULL);
+(6, 'Escritorio', NULL, '/site/index', 0, NULL),
+(7, 'Categoría', 13, NULL, NULL, NULL),
+(8, 'Crear', 7, '/category/create', 1, NULL),
+(9, 'Principal', 7, '/category/index', 0, NULL),
+(10, 'Asignaciones', NULL, NULL, 4, NULL),
+(11, 'Asignar categorías', 10, '/product-category/index', NULL, NULL),
+(12, 'Asignar marcas', 10, '/product-brand/index', NULL, NULL),
+(13, 'Maestros', NULL, NULL, 3, NULL),
+(14, 'Administrar', NULL, '/admin/user/index', 1, NULL),
+(15, 'Producto', NULL, NULL, 2, NULL),
+(16, 'Principal', 15, '/product/index', 0, NULL),
+(18, 'Crear', 15, '/product/create', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -399,7 +447,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --

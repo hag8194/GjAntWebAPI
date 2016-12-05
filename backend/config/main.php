@@ -112,7 +112,7 @@ return [
             ]
         ],
         'urlManager' => [
-            //'enablePrettyUrl' => true,
+            'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',

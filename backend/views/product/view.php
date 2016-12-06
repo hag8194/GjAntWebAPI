@@ -1,5 +1,7 @@
 <?php
 
+use kartik\file\FileInput;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -39,5 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_by',
         ],
     ]) ?>
+
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+        <?= $form->field($upload_image_model, 'imageFiles[]')->widget(FileInput::classname(), [
+            'options' => ['multiple' => true, 'accept' => 'image/*'],
+            'pluginOptions' => ['previewFileType' => 'image']
+        ]); ?>
+    <?php $form = ActiveForm::end() ?>
 
 </div>

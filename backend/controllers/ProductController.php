@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\UploadProductImagesForm;
 use common\models\Product;
 use common\models\searchmodels\Product as ProductSearch;
 use mdm\admin\components\AccessControl;
@@ -9,6 +10,7 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -55,8 +57,16 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        $upload_image_model = new UploadProductImagesForm();
+
+        if($upload_image_model->load(Yii::$app->getRequest()->post())) {
+            $upload_image_model->imageFiles = UploadedFile::getInstances($upload_image_model, 'imageFiles');
+            return $upload_image_model->upload();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'upload_image_model' => $upload_image_model
         ]);
     }
 

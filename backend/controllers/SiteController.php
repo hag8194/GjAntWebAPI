@@ -2,10 +2,15 @@
 namespace backend\controllers;
 
 use backend\models\MapModel;
+use backend\models\RegisterForm;
+use common\models\Client;
+use common\models\Employer;
 use Yii;
+//use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use mdm\admin\components\AccessControl;
+
 use common\models\LoginForm;
 
 /**
@@ -23,7 +28,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 /*'rules' => [
                     [
-                        'actions' => ['login', 'error', 'example'],
+                        'actions' => ['login', 'error', 'example', 'signup'],
                         'allow' => true
                     ],
                     [
@@ -95,6 +100,33 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionRegister()
+    {
+        $model = new RegisterForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if($model->role === 0){
+                $employer = new Employer();
+                $employer->setAttribute('user_id', 1);
+                return $this->render('/employer/create', ['model' => $employer]);
+            }
+            else{
+                $client = new Client();
+                $client->setAttribute('user_id', 1);
+                return $this->render('/client/create', ['model' => $client]);
+            }
+        }
+
+        return $this->render('register', [
+            'model' => $model,
+        ]);
     }
 
     public function actionExample()

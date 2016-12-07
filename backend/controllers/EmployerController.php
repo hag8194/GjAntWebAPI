@@ -2,20 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\UploadProductImagesForm;
-use common\models\Product;
-use common\models\searchmodels\Product as ProductSearch;
-use mdm\admin\components\AccessControl;
 use Yii;
-use yii\filters\VerbFilter;
+use common\models\Employer;
+use common\models\searchmodels\EmployerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
+use yii\filters\VerbFilter;
 
 /**
- * ProductController implements the CRUD actions for Product model.
+ * EmployerController implements the CRUD actions for Employer model.
  */
-class ProductController extends Controller
+class EmployerController extends Controller
 {
     /**
      * @inheritdoc
@@ -29,19 +26,16 @@ class ProductController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::className()
-            ]
         ];
     }
 
     /**
-     * Lists all Product models.
+     * Lists all Employer models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProductSearch();
+        $searchModel = new EmployerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,34 +45,25 @@ class ProductController extends Controller
     }
 
     /**
-     * Displays a single Product model.
+     * Displays a single Employer model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $upload_image_model = new UploadProductImagesForm();
-
-        if($upload_image_model->load(Yii::$app->request->post()))
-        {
-            $upload_image_model->imageFiles = UploadedFile::getInstances($upload_image_model, 'imageFiles');
-            $upload_image_model->upload();
-        }
-
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'upload_image_model' => $upload_image_model
         ]);
     }
 
     /**
-     * Creates a new Product model.
+     * Creates a new Employer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Product();
+        $model = new Employer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -90,7 +75,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Updates an existing Product model.
+     * Updates an existing Employer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -109,7 +94,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Deletes an existing Product model.
+     * Deletes an existing Employer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -122,15 +107,15 @@ class ProductController extends Controller
     }
 
     /**
-     * Finds the Product model based on its primary key value.
+     * Finds the Employer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Product the loaded model
+     * @return Employer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Employer::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

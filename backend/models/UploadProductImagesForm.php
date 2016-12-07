@@ -9,7 +9,9 @@
 namespace backend\models;
 
 
+use common\models\ProductImage;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 class UploadProductImagesForm extends Model
@@ -25,13 +27,11 @@ class UploadProductImagesForm extends Model
             [
                 ['imageFiles'], 'image',
                 'extensions' => 'png, jpg',
-                'minWidth' => 100, 'maxWidth' => 1000,
+                'minWidth' => 100, 'maxWidth' => 1900,
                 'minHeight' => 100, 'maxHeight' => 1000,
                 'maxFiles' => 2,
                 'skipOnEmpty' => false
-            ],
-
-        ];
+            ]];
     }
 
     /**
@@ -41,7 +41,7 @@ class UploadProductImagesForm extends Model
     {
         if ($this->validate()) {
             foreach ($this->imageFiles as $file) {
-                $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                $file->saveAs('img/' . $file->baseName . '.' . $file->extension);
             }
             return true;
         }

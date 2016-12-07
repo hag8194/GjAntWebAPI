@@ -1,19 +1,16 @@
 <?php
 
-use kartik\file\FileInput;
-use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Product */
-/* @var $upload_image_model backend\models\UploadProductImagesForm */
+/* @var $model common\models\Employer */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Products'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Employers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-view">
+<div class="employer-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -31,24 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'code',
+            'id',
             'name',
-            'quantity',
-            'price',
-            'status',
+            'lastname',
+            'identification',
+            'address',
             'created_at',
             'updated_at',
-            'updated_by',
+            'user_id',
         ],
     ]) ?>
-
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-
-        <?= $form->field($upload_image_model, 'imageFiles[]')->widget(FileInput::classname(), [
-            'options' => ['multiple' => true, 'accept' => 'image/*'],
-            'pluginOptions' => ['previewFileType' => 'image']
-        ]); ?>
-
-    <?php $form = ActiveForm::end() ?>
 
 </div>

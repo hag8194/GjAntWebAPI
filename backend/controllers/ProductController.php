@@ -78,10 +78,11 @@ class ProductController extends Controller
                 try{
                     foreach ($productImages as $productImage) {
                         $productImage->delete();
+                        //Problema al eliminar las imagenes...
                         //unlink(Yii::$app->urlManager->createAbsoluteUrl($productImage->getAttribute('path')));
                     }
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Se han eliminado las imagenes');
+                    Yii::$app->session->setFlash('info', 'Se han eliminado las imagenes');
                 }catch (Exception $e){
                     $transaction->rollBack();
                 }

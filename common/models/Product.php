@@ -31,6 +31,7 @@ use yii\behaviors\TimestampBehavior;
  */
 class Product extends \yii\db\ActiveRecord
 {
+    public static $STATUS_LABEL = ['No mostrar', 'Mostrar'];
     /**
      * @inheritdoc
      */

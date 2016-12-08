@@ -1,8 +1,10 @@
 <?php
 
+use common\models\Product;
 use kartik\file\FileInput;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\web\UploadedFile;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -14,8 +16,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Products'), 'url
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -35,20 +35,44 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'quantity',
             'price',
-            'status',
-            'created_at',
-            'updated_at',
-            'updated_by',
+            [
+              'attribute' => 'state',
+              'value' => Product::$STATUS_LABEL[$model->status]
+            ],
+            [
+                'attribute' => 'created_at',
+                'value' => Yii::$app->formatter->asDateTime($model->created_at, 'full')
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => Yii::$app->formatter->asDateTime($model->updated_at, 'full')
+            ],
+            [
+                'attribute' => 'updated_by',
+                'value' => $model->updatedBy->username
+            ]
         ],
     ]) ?>
 
+    <?php
+        $aux = [];
+        foreach ($model->productImages as $productImage)
+            array_push($aux, Yii::$app->urlManager->createAbsoluteUrl($productImage->path));
+    ?>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($upload_image_model, 'imageFiles[]')->widget(FileInput::classname(), [
             'options' => ['multiple' => true, 'accept' => 'image/*'],
-            'pluginOptions' => ['previewFileType' => 'image']
+            'pluginOptions' => [
+                'previewFileType' => 'image',
+                'initialPreview' => $aux,
+                'initialPreviewAsData'=>true,
+            ],
+            /*'pluginEvents' => [
+                'fileclear' => 'function() { alert("dsa1"); }'
+            ]*/
         ]); ?>
-
+    <?= Html::submitButton(Yii::t('backend','Save changes'), ['class' => 'btn btn-flat btn-block btn-primary']) ?>
     <?php $form = ActiveForm::end() ?>
 
 </div>

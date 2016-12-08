@@ -10,10 +10,12 @@ use yii\bootstrap\ActiveForm;
 $this->title = Yii::t('backend', 'Register');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-register">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p><?= Yii::t('backend', 'Please fill out the following fields to create a new user:') ?></p>
+<?php $this->beginBlock('content-header'); ?>
+<?= $this->title ?> <small><?= Yii::t('backend', 'Please fill out the following fields to create a new user:') ?></small>
+<?php $this->endBlock(); ?>
+
+<div class="site-register">
 
     <div class="row">
         <div class="col-lg-5">

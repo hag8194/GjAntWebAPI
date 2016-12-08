@@ -4,10 +4,14 @@ namespace backend\controllers;
 
 use backend\models\UploadProductImagesForm;
 use common\models\Product;
+use common\models\ProductImage;
 use common\models\searchmodels\Product as ProductSearch;
 use mdm\admin\components\AccessControl;
 use Yii;
+use yii\db\Exception;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -62,7 +66,26 @@ class ProductController extends Controller
         if($upload_image_model->load(Yii::$app->request->post()))
         {
             $upload_image_model->imageFiles = UploadedFile::getInstances($upload_image_model, 'imageFiles');
-            $upload_image_model->upload();
+            if(!empty($upload_image_model->imageFiles))
+            {
+                if($upload_image_model->upload($id))
+                    Yii::$app->session->setFlash('success', 'Imagenes guardadas exitosamente');
+            }
+            else
+            {
+                $productImages = ProductImage::find()->where(['product_id' => $id])->all();
+                $transaction = Yii::$app->db->beginTransaction();
+                try{
+                    foreach ($productImages as $productImage) {
+                        $productImage->delete();
+                        //unlink(Yii::$app->urlManager->createAbsoluteUrl($productImage->getAttribute('path')));
+                    }
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', 'Se han eliminado las imagenes');
+                }catch (Exception $e){
+                    $transaction->rollBack();
+                }
+            }
         }
 
         return $this->render('view', [

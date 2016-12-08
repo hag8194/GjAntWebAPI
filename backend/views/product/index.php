@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Product;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
@@ -12,8 +13,6 @@ $this->title = Yii::t('backend', 'Products');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -30,10 +29,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'quantity',
             'price',
-            // 'status',
-            // 'created_at',
-            // 'updated_at',
-            // 'updated_by',
+            [
+                'attribute' => 'status',
+                'value' => function($model){
+                    return Product::$STATUS_LABEL[$model->status];
+                }
+            ],
+            [
+                'attribute' => 'created_at',
+                'value' => function($model){
+                    return Yii::$app->formatter->asDatetime($model->created_at, 'short');
+                }
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function($model){
+                    return Yii::$app->formatter->asDatetime($model->updated_at, 'short');
+                }
+            ],
+            [
+                'label' => 'Usuario',
+                'value' => function($model){
+                    return $model->updatedBy->username;
+                },
+                //'attribute' => 'updated_by'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

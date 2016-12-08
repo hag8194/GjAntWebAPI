@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Product;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,8 +13,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
-
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
@@ -22,13 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(Product::$STATUS_LABEL)?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

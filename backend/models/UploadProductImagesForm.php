@@ -10,8 +10,10 @@ namespace backend\models;
 
 
 use common\models\ProductImage;
+use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 class UploadProductImagesForm extends Model
@@ -19,7 +21,7 @@ class UploadProductImagesForm extends Model
     /**
      * @var UploadedFile[]
      */
-    public $imageFiles;
+    public $imageFiles = [];
 
     public function rules()
     {
@@ -27,24 +29,47 @@ class UploadProductImagesForm extends Model
             [
                 ['imageFiles'], 'image',
                 'extensions' => 'png, jpg',
-                'minWidth' => 100, 'maxWidth' => 1900,
-                'minHeight' => 100, 'maxHeight' => 1000,
-                'maxFiles' => 2,
-                'skipOnEmpty' => false
+                'maxFiles' => 6,
+                //'skipOnEmpty' => false
             ]];
     }
 
     /**
      * @var UploadedFile $file
+     * @return True | False True if the file was stored successfully and saved in the DB
      */
-    public function upload()
+    public function upload($id)
     {
-        if ($this->validate()) {
-            foreach ($this->imageFiles as $file) {
-                $file->saveAs('img/' . $file->baseName . '.' . $file->extension);
+        if ($this->validate())
+        {
+            foreach ($this->imageFiles as $file)
+            {
+                $model = new ProductImage();
+                $path = 'img/' . $this->generateFileName() . '.' . $file->extension;
+                $model->setAttributes(['product_id' => $id, 'path' =>  '/' . $path]);
+
+                if(!$file->saveAs($path) || !$model->save()){
+                    return false;
+                }
+                $this->resizeImage($path);
             }
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return String Random string
+     */
+    private function generateFileName(){
+        return Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * @param String $path
+     * @return void
+     */
+    private function resizeImage($path){
+        Image::thumbnail($path, 120, 120)->save($path, ['quality' => 100]);
     }
 }

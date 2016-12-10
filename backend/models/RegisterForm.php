@@ -1,9 +1,11 @@
 <?php
 namespace backend\models;
 
+use backend\utils\ImageHandler;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use yii\web\UploadedFile;
 
 /**
  * Signup form
@@ -13,6 +15,7 @@ class RegisterForm extends Model
     public $username;
     public $email;
     public $password;
+    public $avatar;
 
     public $role;
 
@@ -38,6 +41,8 @@ class RegisterForm extends Model
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
 
+            ['avatar', 'image', 'extensions' => 'png, jpg', 'maxFiles' => 1],
+
             ['role', 'required']
         ];
     }
@@ -51,6 +56,7 @@ class RegisterForm extends Model
             'username' => Yii::t('backend', 'Username'),
             'email' => Yii::t('backend', 'Email'),
             'password' => Yii::t('backend', 'Password'),
+            'avatar' => Yii::t('backend', 'Avatar'),
             'role' => Yii::t('backend', 'Rol')
         ];
     }
@@ -58,7 +64,7 @@ class RegisterForm extends Model
     /**
      * Register user.
      *
-     * @return True|False
+     * @return True | False
      */
     public function toRegister()
     {
@@ -67,11 +73,31 @@ class RegisterForm extends Model
         }
         
         $user = new User();
+
+        //if(!$path = $this->uploadAvatar())$path = '';
+
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
+        $user->avatar = $this->uploadAvatar();
+
         $user->generateAuthKey();
-        
+
         return $user->save();
     }
+    /*
+     * Upload the user avatar
+     *
+     * @return String | null
+     */
+    private function uploadAvatar()
+    {
+        if($this->avatar = UploadedFile::getInstance($this, 'avatar'))
+        {
+            $path = 'img/' . ImageHandler::generateFileName() . '.' . $this->avatar->extension;
+            return $this->avatar->saveAs($path) ? $path : null;
+        }
+        return null;
+    }
+
 }

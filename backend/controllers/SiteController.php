@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use mdm\admin\components\AccessControl;
 
 use common\models\LoginForm;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -111,15 +112,16 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->request->post()) && $model->toRegister()) {
+            $id = Yii::$app->db->lastInsertID;
             if($model->role === 0){
                 $employer = new Employer();
-                $employer->setAttribute('user_id', 1);
+                $employer->setAttribute('user_id', $id);
                 return $this->render('/employer/create', ['model' => $employer]);
             }
             else{
                 $client = new Client();
-                $client->setAttribute('user_id', 1);
+                $client->setAttribute('user_id', $id);
                 return $this->render('/client/create', ['model' => $client]);
             }
         }

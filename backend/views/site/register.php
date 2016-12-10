@@ -19,7 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-register']); ?>
+            <?php $form = ActiveForm::begin([
+                    'id' => 'form-register',
+                    'options' => ['enctype' => 'multipart/form-data']
+            ]); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
@@ -27,7 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
-                <?= $form->field($model, 'role')->dropDownList($model::$ROLE_DATA) ?>
+                <?= $form->field($model, 'role')->dropDownList($model::$ROLE_DATA, ['prompt' => Yii::t('backend', 'Please select a role')]) ?>
+
+                <?= $form->field($model, 'avatar')->widget('kartik\file\FileInput',[]) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('backend', 'Register'), ['class' => 'btn btn-primary', 'name' => 'register-button']) ?>

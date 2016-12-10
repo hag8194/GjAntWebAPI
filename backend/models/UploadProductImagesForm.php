@@ -9,6 +9,7 @@
 namespace backend\models;
 
 
+use backend\utils\ImageHandler;
 use common\models\ProductImage;
 use Yii;
 use yii\base\Model;
@@ -45,31 +46,18 @@ class UploadProductImagesForm extends Model
             foreach ($this->imageFiles as $file)
             {
                 $model = new ProductImage();
-                $path = 'img/' . $this->generateFileName() . '.' . $file->extension;
+                $path = 'img/' . ImageHandler::generateFileName() . '.' . $file->extension;
                 $model->setAttributes(['product_id' => $id, 'path' =>  '/' . $path]);
 
                 if(!$file->saveAs($path) || !$model->save()){
                     return false;
                 }
-                $this->resizeImage($path);
+                ImageHandler::resizeImage($path);
             }
             return true;
         }
         return false;
     }
 
-    /**
-     * @return String Random string
-     */
-    private function generateFileName(){
-        return Yii::$app->security->generateRandomString();
-    }
 
-    /**
-     * @param String $path
-     * @return void
-     */
-    private function resizeImage($path){
-        Image::thumbnail($path, 120, 120)->save($path, ['quality' => 100]);
-    }
 }

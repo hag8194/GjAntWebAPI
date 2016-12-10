@@ -25,6 +25,12 @@ if (Yii::$app->controller->action->id === 'login') {
     dmstr\web\AdminLteAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
+
+    if($avatar = Yii::$app->user->identity->avatar)
+        $avatar = Yii::$app->urlManager->createAbsoluteUrl($avatar);
+    else
+        $avatar = Yii::$app->urlManager->createAbsoluteUrl("img/default-avatar.gif");
+
     ?>
     <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -42,12 +48,12 @@ if (Yii::$app->controller->action->id === 'login') {
 
         <?= $this->render(
             'header.php',
-            ['directoryAsset' => $directoryAsset]
+            ['directoryAsset' => $directoryAsset, 'avatar' => $avatar]
         ) ?>
 
         <?= $this->render(
             'left.php',
-            ['directoryAsset' => $directoryAsset]
+            ['directoryAsset' => $directoryAsset, 'avatar' => $avatar]
         )
         ?>
 

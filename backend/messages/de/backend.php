@@ -18,6 +18,7 @@
  */
 return [
     'Are you sure you want to delete this item?' => '',
+    'Avatar' => '',
     'Brands' => '',
     'Categories' => '',
     'Clients' => '',
@@ -35,6 +36,7 @@ return [
     'Employers' => '',
     'Password' => '',
     'Please fill out the following fields to create a new user:' => '',
+    'Please select a role' => '',
     'Product Brands' => '',
     'Product Categories' => '',
     'Products' => '',

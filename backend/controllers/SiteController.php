@@ -112,17 +112,15 @@ class SiteController extends Controller
     {
         $model = new RegisterForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->toRegister()) {
-            $id = Yii::$app->db->lastInsertID;
-            if($model->role === 0){
-                $employer = new Employer();
-                $employer->setAttribute('user_id', $id);
-                return $this->render('/employer/create', ['model' => $employer]);
+        if ($model->load(Yii::$app->request->post()) && $user_id = $model->toRegister()) {
+            $authManager = Yii::$app->authManager;
+            if($model->role == 0){
+                $authManager->assign($authManager->getRole('vendor'), $user_id);
+                return $this->redirect(['/employer/create', 'user_id' => $user_id]);
             }
             else{
-                $client = new Client();
-                $client->setAttribute('user_id', $id);
-                return $this->render('/client/create', ['model' => $client]);
+                $authManager->assign($authManager->getRole('client'), $user_id);
+                return $this->redirect(['/client/create', 'user_id' => $user_id]);
             }
         }
 
@@ -137,5 +135,9 @@ class SiteController extends Controller
         return $this->render('example',[
             'model' => $model
         ]);
+    }
+    public function actionProfile()
+    {
+        return $this->render('profile');
     }
 }

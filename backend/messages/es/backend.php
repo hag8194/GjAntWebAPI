@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Avatar' => '',
     'Clients' => '',
     'Create Client' => '',
     'Create Employer' => '',
@@ -25,6 +26,7 @@ return [
     'Employers' => '',
     'Password' => '',
     'Please fill out the following fields to create a new user:' => '',
+    'Please select a role' => '',
     'Register' => '',
     'Related Articles' => '',
     'Rol' => '',
@@ -33,6 +35,7 @@ return [
     'This email address has already been taken.' => '',
     'This username has already been taken.' => '',
     'Username' => '',
+    'Name' => 'Nombre',
     'Are you sure you want to delete this item?' => '¿Desea eliminar este registro?',
     'Brands' => 'Marcas',
     'Categories' => 'Categorías',

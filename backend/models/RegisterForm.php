@@ -64,7 +64,7 @@ class RegisterForm extends Model
     /**
      * Register user.
      *
-     * @return True | False
+     * @return int | null
      */
     public function toRegister()
     {
@@ -80,10 +80,9 @@ class RegisterForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->avatar = $this->uploadAvatar();
+        $user->status = 0;
 
-        $user->generateAuthKey();
-
-        return $user->save();
+        return $user->save() ? Yii::$app->db->lastInsertID : null;
     }
     /*
      * Upload the user avatar
@@ -95,7 +94,13 @@ class RegisterForm extends Model
         if($this->avatar = UploadedFile::getInstance($this, 'avatar'))
         {
             $path = 'img/' . ImageHandler::generateFileName() . '.' . $this->avatar->extension;
-            return $this->avatar->saveAs($path) ? $path : null;
+
+            if($this->avatar->saveAs($path)){
+                ImageHandler::resizeImage($path);
+                return $path;
+            }
+
+            return null;
         }
         return null;
     }

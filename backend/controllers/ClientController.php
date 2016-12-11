@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Client;
 use common\models\searchmodels\ClientSearch;
@@ -61,17 +62,27 @@ class ClientController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($user_id)
     {
+        if(empty($user_id) || !User::find()->where('id='. $user_id)->exists()){
+            throw new NotFoundHttpException(Yii::t('backend', 'The user was not found'));
+        }
+
         $model = new Client();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->setAttribute('user_id', $user_id);
+            if($model->save()){
+                $user = User::findOne($user_id);
+                $user->setAttribute('status', 10);
+                $user->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

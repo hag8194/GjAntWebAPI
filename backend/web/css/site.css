@@ -118,3 +118,15 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+/*---Karktik FileInput Widget---*/
+.kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+.kv-avatar .file-input {
+    display: table-cell;
+    max-width: 220px;
+}

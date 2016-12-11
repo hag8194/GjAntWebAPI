@@ -24,15 +24,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            [
+                'value' => function($model){
+                    $src = Yii::$app->urlManager->createAbsoluteUrl(
+                        !empty($model->user->avatar) ?
+                            $model->user->avatar : 'img/default-avatar.gif');
+                    return Html::img($src, ['class' => 'img-circle', 'width' => 45]);
+                },
+                'format' => 'html'
+            ],
+
             'fullname',
             'identification',
             'address',
             'phone1',
-            // 'phone2',
-            // 'credit_limit',
-            // 'credit_use',
-            // 'created_at',
-            // 'updated_at',
+             'created_at:datetime',
+             'updated_at:datetime',
             // 'employer_id',
             // 'user_id',
 

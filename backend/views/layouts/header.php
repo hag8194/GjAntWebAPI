@@ -31,10 +31,10 @@ use yii\helpers\Html;
                                  alt="User Image"/>
 
                             <p>
-                                <?= Yii::$app->getUser()->getIdentity()->email . ' - '
-                                        . Yii::$app->getAuthManager()
+                                <?= Yii::$app->getUser()->getIdentity()->email . ' <br> '
+                                        . array_pop(Yii::$app->getAuthManager()
                                         ->getRolesByUser(Yii::$app->getUser()
-                                        ->getId())['administrator']->name  ?>
+                                        ->getId()))->name  ?>
                                 <small>Member since
                                     <?= Yii::$app->getFormatter()
                                         ->asDatetime(Yii::$app->getUser()
@@ -57,7 +57,7 @@ use yii\helpers\Html;
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="<?= Yii::$app->urlManager->createUrl('site/profile') ?>" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(

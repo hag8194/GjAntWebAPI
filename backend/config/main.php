@@ -1,4 +1,6 @@
 <?php
+use yii\bootstrap\Html;
+
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
@@ -24,30 +26,25 @@ return [
                     'userClassName' => 'common\models\User',
                     'idField' => 'id',
                     'usernameField' => 'username',
-                    /*'fullnameField' => 'profile.full_name',
                     'extraColumns' => [
+                        'email',
                         [
-                            'attribute' => 'full_name',
-                            'label' => 'Full Name',
-                            'value' => function($model, $key, $index, $column) {
-                                return $model->profile->full_name;
-                            },
+                            'attribute' => 'created_at',
+                            'format' => 'dateTime'
                         ],
                         [
-                            'attribute' => 'dept_name',
-                            'label' => 'Department',
-                            'value' => function($model, $key, $index, $column) {
-                                return $model->profile->dept->name;
-                            },
+                            'attribute' => 'updated_at',
+                            'format' => 'dateTime'
                         ],
                         [
-                            'attribute' => 'post_name',
-                            'label' => 'Post',
+                            'attribute' => 'avatar',
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return $model->profile->post->name;
-                            },
-                        ],
-                    ],*/
+                                return Html::img($model->avatar, ['class' => 'img-circle']);
+                            }
+
+                        ]
+                    ],
                     'searchClass' => 'common\models\searchmodels\UserSearch'
                 ],
             ],

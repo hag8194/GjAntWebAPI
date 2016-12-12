@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Client */
+/* @var $model common\models\ClientWallet */
 
-$this->title = $model->fullname;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Clients'), 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Client Wallets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="client-view">
+<div class="client-wallet-view">
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -27,16 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'fullname',
-            'identification',
-            'address',
-            'phone1',
-            'phone2',
-            'credit_limit',
-            'credit_use',
-            'created_at:datetime',
-            'updated_at:datetime',
-            'user_id',
+            'employer_id',
+            'client_id',
         ],
     ]) ?>
 

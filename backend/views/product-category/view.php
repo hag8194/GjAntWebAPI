@@ -12,8 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-category-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'product_id' => $model->product_id, 'category_id' => $model->category_id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('backend', 'Delete'), ['delete', 'product_id' => $model->product_id, 'category_id' => $model->category_id], [

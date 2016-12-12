@@ -42,7 +42,6 @@ return [
                             'value' => function($model, $key, $index, $column) {
                                 return Html::img($model->avatar, ['class' => 'img-circle']);
                             }
-
                         ]
                     ],
                     'searchClass' => 'common\models\searchmodels\UserSearch'

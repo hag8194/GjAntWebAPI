@@ -8,7 +8,7 @@ use common\models\User;
 use yii\web\UploadedFile;
 
 /**
- * Signup form
+ * Register form
  */
 class RegisterForm extends Model
 {
@@ -73,8 +73,6 @@ class RegisterForm extends Model
         }
         
         $user = new User();
-
-        //if(!$path = $this->uploadAvatar())$path = '';
 
         $user->username = $this->username;
         $user->email = $this->email;

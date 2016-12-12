@@ -17,7 +17,6 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $user_id
  *
- * @property Client[] $clients
  * @property User $user
  */
 class Employer extends \yii\db\ActiveRecord
@@ -68,14 +67,6 @@ class Employer extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getClients()
-    {
-        return $this->hasMany(Client::className(), ['employer_id' => 'id']);
     }
 
     /**

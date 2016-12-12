@@ -18,10 +18,8 @@ use yii\behaviors\TimestampBehavior;
  * @property double $credit_use
  * @property integer $created_at
  * @property integer $updated_at
- * @property integer $employer_id
  * @property integer $user_id
  *
- * @property Employer $employer
  * @property User $user
  */
 class Client extends \yii\db\ActiveRecord
@@ -50,12 +48,11 @@ class Client extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fullname', 'identification', 'address', 'phone1', 'employer_id', 'user_id'], 'required'],
+            [['fullname', 'identification', 'address', 'phone1', 'user_id'], 'required'],
             [['credit_limit', 'credit_use'], 'number'],
-            [['created_at', 'updated_at', 'employer_id', 'user_id'], 'integer'],
+            [['created_at', 'updated_at', 'user_id'], 'integer'],
             [['fullname', 'address'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],
-            [['employer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employer::className(), 'targetAttribute' => ['employer_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -76,17 +73,8 @@ class Client extends \yii\db\ActiveRecord
             'credit_use' => Yii::t('backend', 'Credit Use'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
-            'employer_id' => Yii::t('backend', 'Employer ID'),
             'user_id' => Yii::t('backend', 'User ID'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEmployer()
-    {
-        return $this->hasOne(Employer::className(), ['id' => 'employer_id']);
     }
 
     /**

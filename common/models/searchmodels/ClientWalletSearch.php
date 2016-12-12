@@ -5,12 +5,12 @@ namespace common\models\searchmodels;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Client;
+use common\models\ClientWallet;
 
 /**
- * ClientSearch represents the model behind the search form about `common\models\Client`.
+ * ClientWalletSearch represents the model behind the search form about `common\models\ClientWallet`.
  */
-class ClientSearch extends Client
+class ClientWalletSearch extends ClientWallet
 {
     /**
      * @inheritdoc
@@ -18,9 +18,7 @@ class ClientSearch extends Client
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at', 'user_id'], 'integer'],
-            [['fullname', 'identification', 'address', 'phone1', 'phone2'], 'safe'],
-            [['credit_limit', 'credit_use'], 'number'],
+            [['id', 'employer_id', 'client_id'], 'integer'],
         ];
     }
 
@@ -42,7 +40,7 @@ class ClientSearch extends Client
      */
     public function search($params)
     {
-        $query = Client::find();
+        $query = ClientWallet::find();
 
         // add conditions that should always apply here
 
@@ -61,18 +59,9 @@ class ClientSearch extends Client
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'credit_limit' => $this->credit_limit,
-            'credit_use' => $this->credit_use,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'user_id' => $this->user_id,
+            'employer_id' => $this->employer_id,
+            'client_id' => $this->client_id,
         ]);
-
-        $query->andFilterWhere(['like', 'fullname', $this->fullname])
-            ->andFilterWhere(['like', 'identification', $this->identification])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'phone1', $this->phone1])
-            ->andFilterWhere(['like', 'phone2', $this->phone2]);
 
         return $dataProvider;
     }

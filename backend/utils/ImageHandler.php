@@ -11,6 +11,7 @@ namespace backend\utils;
 
 use Yii;
 use yii\imagine\Image;
+use yii\web\UploadedFile;
 
 class ImageHandler
 {

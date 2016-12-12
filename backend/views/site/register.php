@@ -33,22 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'role')->dropDownList($model::$ROLE_DATA, ['prompt' => Yii::t('backend', 'Please select a role')]) ?>
 
-                <?= $form->field($model, 'avatar')->widget('kartik\file\FileInput',[
+                <?= $form->field($model, '_avatar')->widget('kartik\file\FileInput',[
                         'pluginOptions' => [
-                            'overwriteInitial' => true,
-                            'maxFileSize' => 1500,
-                            'showClose' => false,
-                            'showCaption' => false,
-                            'browseLabel' => '',
-                            'removeLabel' => '',
-                            'browseIcon' => '<i class="glyphicon glyphicon-folder-open"></i>',
-                            'removeIcon' => '<i class="glyphicon glyphicon-remove"></i>',
-                            'removeTitle' => 'Cancel or reset changes',
-                            'elErrorContainer' => '#kv-avatar-errors-1',
-                            'msgErrorClass' => 'alert alert-block alert-danger',
-                            'defaultPreviewContent' => '<img src="' . Yii::$app->urlManager->createAbsoluteUrl('img/default-avatar.gif') . '" alt="Your Avatar" style="width:160px">',
-                            'layoutTemplates' => ['main2' => '{preview} {remove} {browse}'],
-                            'allowedFileExtensions' => ["jpg", "png", "gif"]
+                            'allowedFileExtensions' => ["jpg", "png"]
                         ]
                 ]) ?>
 

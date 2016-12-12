@@ -1,11 +1,14 @@
 <?php
 namespace common\models;
 
+use backend\utils\ImageHandler;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
+use yii\web\UploadedFile;
 
 /**
  * User model
@@ -17,14 +20,31 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property string $avatar
+ * @property string $access_token
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property Client[] $clients
+ * @property Employer[] $employers
+ * @property Product[] $products
  */
+
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 10;
+
+    const SCENARIO_UPDATE = 'update';
+
+    public $password;
+    public $repeat_password;
+    public $_avatar;
+
+    public $role;
+
+    public static $ROLE_DATA  = ['Vendedor', 'Cliente'];
 
     /**
      * @inheritdoc
@@ -44,6 +64,28 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_DEFAULT =>[
+                'username',
+                'email',
+                'password',
+                '_avatar',
+                'avatar',
+                'role'
+            ],
+            self::SCENARIO_UPDATE => [
+                'username',
+                'email',
+                'password',
+                'repeat_password',
+                '_avatar',
+                'avatar'
+            ]
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -52,9 +94,21 @@ class User extends ActiveRecord implements IdentityInterface
         if ($this->isNewRecord) {
             $this->access_token = $this->getUniqueAccessToken();
             $this->generateAuthKey();
+            $this->setPassword($this->password);
         }
+        if($path = $this->uploadAvatar())
+            $this->avatar = $path;
+
         return parent::beforeSave($insert);
+
     }
+
+    public function beforeDelete()
+    {
+        Yii::$app->authManager->revokeAll($this->id);
+        return parent::beforeDelete();
+    }
+
 
     /**
      * @inheritdoc
@@ -62,9 +116,49 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+
+            ['username', 'trim'],
+            ['username', 'required'],
+            ['username', 'unique', 'message' => Yii::t('backend', 'This username has already been taken.')],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'unique', 'message' => Yii::t('backend','This email address has already been taken.')],
+            ['email', 'string', 'max' => 255],
+
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
-            [['avatar'], 'string', 'max' => 45]
+
+            [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
+
+            [['avatar', 'access_token'], 'string', 'max' => 45],
+
+            ['password', 'required', 'on' => [self::SCENARIO_DEFAULT]],
+            ['password', 'compare', 'compareAttribute' => 'repeat_password', 'on' => [self::SCENARIO_UPDATE]],
+            ['password', 'string', 'min' => 6],
+
+            ['repeat_password', 'compare', 'compareAttribute' => 'password'],
+
+            ['_avatar', 'image', 'extensions' => 'png, jpg', 'maxFiles' => 1],
+
+            ['role', 'required', 'on' => [self::SCENARIO_DEFAULT]]
+
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('backend', 'Username'),
+            'email' => Yii::t('backend', 'Email'),
+            'password' => Yii::t('backend', 'Password'),
+            'avatar' => Yii::t('backend', 'Avatar'),
+            'role' => Yii::t('backend', 'Rol')
         ];
     }
 
@@ -206,5 +300,50 @@ class User extends ActiveRecord implements IdentityInterface
             $result = $this->getUniqueAccessToken();
         }
         return $result;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClient()
+    {
+        return $this->hasOne(Client::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployer()
+    {
+        return $this->hasOne(Employer::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['updated_by' => 'id']);
+    }
+
+    /*
+     * Upload the user avatar
+     *
+     * @return String | null
+     */
+    private function uploadAvatar()
+    {
+        if($this->_avatar = UploadedFile::getInstance($this, '_avatar'))
+        {
+            $path = 'img/' . ImageHandler::generateFileName() . '.' . $this->_avatar->extension;
+
+            if($this->_avatar->saveAs($path)){
+                ImageHandler::resizeImage($path);
+                return $path;
+            }
+
+            return null;
+        }
+        return null;
     }
 }

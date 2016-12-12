@@ -56,8 +56,8 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'quantity', 'price', 'created_at', 'updated_at', 'updated_by'], 'required'],
-            [['id', 'quantity', 'status', 'created_at', 'updated_at', 'updated_by'], 'integer'],
+            [['name', 'quantity', 'price', 'updated_by'], 'required'],
+            [['quantity', 'status', 'updated_by'], 'integer'],
             [['price'], 'number'],
             [['code', 'name'], 'string', 'max' => 255],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],

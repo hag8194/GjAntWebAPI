@@ -2,9 +2,11 @@
 namespace backend\controllers;
 
 use backend\models\MapModel;
+use backend\models\ProfileForm;
 use backend\models\RegisterForm;
 use common\models\Client;
 use common\models\Employer;
+use common\models\User;
 use Yii;
 //use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -104,21 +106,25 @@ class SiteController extends Controller
     }
 
     /**
-     * Signs user up.
+     * Register user.
      *
      * @return mixed
      */
     public function actionRegister()
     {
-        $model = new RegisterForm();
+        $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $user_id = $model->toRegister()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
             $authManager = Yii::$app->authManager;
-            if($model->role == 0){
+            $user_id = Yii::$app->db->lastInsertID;
+            if($model->role == 0)
+            {
                 $authManager->assign($authManager->getRole('vendor'), $user_id);
                 return $this->redirect(['/employer/create', 'user_id' => $user_id]);
             }
-            else{
+            else
+            {
                 $authManager->assign($authManager->getRole('client'), $user_id);
                 return $this->redirect(['/client/create', 'user_id' => $user_id]);
             }
@@ -136,8 +142,36 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
     public function actionProfile()
     {
-        return $this->render('profile');
+        $model_user = User::findOne(Yii::$app->user->id);
+        $model_employer = Employer::findOne(['user_id' => Yii::$app->user->id]);
+        $model_client = Client::findOne(['user_id' => Yii::$app->user->id]);
+
+        $model_user->scenario = User::SCENARIO_UPDATE;
+
+        if($model_user->load(Yii::$app->request->post()) && $model_user->save())
+            Yii::$app->session->addFlash('success', Yii::t('backend', 'User updated'));
+
+        if($model_employer)
+        {
+           if($model_employer->load(Yii::$app->request->post()) && $model_employer->save()){
+               Yii::$app->session->addFlash('success', Yii::t('backend', 'Employer updated'));
+           }
+        }
+
+        if($model_client)
+        {
+            if($model_client->load(Yii::$app->request->post()) && $model_client->save()){
+                Yii::$app->session->addFlash('success', Yii::t('backend', 'Client updated'));
+            }
+        }
+
+        return $this->render('profile', [
+            'model_user' => $model_user,
+            'model_employer' => $model_employer,
+            'model_client' => $model_client
+        ]);
     }
 }

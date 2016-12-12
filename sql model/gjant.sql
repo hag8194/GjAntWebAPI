@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-12-2016 a las 06:09:59
+-- Tiempo de generación: 12-12-2016 a las 05:05:40
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -38,13 +38,9 @@ CREATE TABLE `auth_assignment` (
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('administrator', '1', 1480259031),
-('client', '11', 1481429775),
-('client', '4', 1481422719),
-('client', '5', 1481423170),
-('vendor', '10', 1481429576),
-('vendor', '7', 1481423577),
-('vendor', '8', 1481423949),
-('vendor', '9', 1481424620);
+('client', '18', 1481511322),
+('vendor', '1', 1481508332),
+('vendor', '17', 1481510739);
 
 -- --------------------------------------------------------
 
@@ -81,6 +77,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/category/index', 2, NULL, NULL, NULL, 1480901107, 1480901107),
 ('/category/update', 2, NULL, NULL, NULL, 1480901108, 1480901108),
 ('/category/view', 2, NULL, NULL, NULL, 1480901108, 1480901108),
+('/client-wallet/*', 2, NULL, NULL, NULL, 1481510888, 1481510888),
+('/client-wallet/create', 2, NULL, NULL, NULL, 1481510888, 1481510888),
+('/client-wallet/index', 2, NULL, NULL, NULL, 1481510888, 1481510888),
 ('/client/*', 2, NULL, NULL, NULL, 1481079715, 1481079715),
 ('/client/index', 2, NULL, NULL, NULL, 1481079715, 1481079715),
 ('/employer/*', 2, NULL, NULL, NULL, 1481079698, 1481079698),
@@ -103,6 +102,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/product/index', 2, NULL, NULL, NULL, 1480901126, 1480901126),
 ('/product/update', 2, NULL, NULL, NULL, 1480901126, 1480901126),
 ('/product/view', 2, NULL, NULL, NULL, 1480901126, 1480901126),
+('/related-articles/*', 2, NULL, NULL, NULL, 1481510872, 1481510872),
+('/related-articles/create', 2, NULL, NULL, NULL, 1481510878, 1481510878),
+('/related-articles/index', 2, NULL, NULL, NULL, 1481510878, 1481510878),
 ('/site/*', 2, NULL, NULL, NULL, 1481431390, 1481431390),
 ('/site/example', 2, NULL, NULL, NULL, 1480811248, 1480811248),
 ('/site/index', 2, NULL, NULL, NULL, 1480811248, 1480811248),
@@ -115,11 +117,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('Category CRUD', 2, NULL, NULL, NULL, 1480900581, 1480900581),
 ('client', 1, NULL, NULL, NULL, 1480220062, 1480220062),
 ('Client CRUD', 2, NULL, NULL, NULL, 1481079791, 1481079791),
+('ClientWallet CRUD', 2, NULL, NULL, NULL, 1481510908, 1481510908),
 ('Employer CRUD', 2, NULL, NULL, NULL, 1481079810, 1481079810),
 ('Product CRUD', 2, NULL, NULL, NULL, 1480900556, 1480900556),
 ('ProductBrand CRUD', 2, NULL, NULL, NULL, 1480900610, 1480900610),
 ('ProductCategory CRUD', 2, NULL, NULL, NULL, 1480900623, 1480900623),
 ('register-user', 2, NULL, NULL, NULL, 1481070676, 1481070676),
+('RelatedArticles CRUD', 2, NULL, NULL, NULL, 1481510934, 1481510934),
 ('site', 2, NULL, NULL, NULL, 1480813276, 1480813276),
 ('vendor', 1, NULL, NULL, NULL, 1480220049, 1480220049);
 
@@ -144,21 +148,25 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'Brand CRUD'),
 ('administrator', 'Category CRUD'),
 ('administrator', 'Client CRUD'),
+('administrator', 'ClientWallet CRUD'),
 ('administrator', 'Employer CRUD'),
 ('administrator', 'Product CRUD'),
 ('administrator', 'ProductBrand CRUD'),
 ('administrator', 'ProductCategory CRUD'),
 ('administrator', 'register-user'),
+('administrator', 'RelatedArticles CRUD'),
 ('administrator', 'site'),
 ('Brand CRUD', '/brand/*'),
 ('Category CRUD', '/category/*'),
 ('client', 'site'),
 ('Client CRUD', '/client/*'),
+('ClientWallet CRUD', '/client-wallet/*'),
 ('Employer CRUD', '/employer/*'),
 ('Product CRUD', '/product/*'),
 ('ProductBrand CRUD', '/product-brand/*'),
 ('ProductCategory CRUD', '/product-category/*'),
 ('register-user', '/site/register'),
+('RelatedArticles CRUD', '/related-articles/*'),
 ('site', '/site/example'),
 ('site', '/site/index'),
 ('site', '/site/logout'),
@@ -227,7 +235,6 @@ CREATE TABLE `client` (
   `credit_use` double DEFAULT '0',
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
-  `employer_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -235,8 +242,20 @@ CREATE TABLE `client` (
 -- Volcado de datos para la tabla `client`
 --
 
-INSERT INTO `client` (`id`, `fullname`, `identification`, `address`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `employer_id`, `user_id`) VALUES
-(1, 'Cesar Ramirez Sandoval', '123456789', 'Carialinda', '04145805372', '', 0, 0, 1481429826, 1481429826, 2, 11);
+INSERT INTO `client` (`id`, `fullname`, `identification`, `address`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `user_id`) VALUES
+(1, 'Victoria Monserrat Noguera Foster', '20819656', 'Flor amarillo', '+584145551123', '', 10, 0, 1481511538, 1481511538, 18);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `client_wallet`
+--
+
+CREATE TABLE `client_wallet` (
+  `id` int(11) NOT NULL,
+  `employer_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -260,8 +279,7 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `address`, `created_at`, `updated_at`, `user_id`) VALUES
-(2, 'Ivan', 'Giordano', '24330567', 'Los caobos', 1481424631, 1481424631, 9),
-(3, 'Hugo', 'Giordano', '24330565', 'Los caobos', 1481429611, 1481429611, 10);
+(1, 'Cesar', 'Ramirez', '18412245', 'Carialinda', 1481510749, 1481510749, 17);
 
 -- --------------------------------------------------------
 
@@ -291,18 +309,22 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (7, 'Categoría', 13, NULL, NULL, NULL),
 (8, 'Crear', 7, '/category/create', 1, NULL),
 (9, 'Principal', 7, '/category/index', 0, NULL),
-(10, 'Asignaciones', NULL, NULL, 6, NULL),
+(10, 'Asignaciones', NULL, NULL, 8, NULL),
 (11, 'Asignar categorías', 10, '/product-category/index', NULL, NULL),
 (12, 'Asignar marcas', 10, '/product-brand/index', NULL, NULL),
-(13, 'Maestros', NULL, NULL, 4, NULL),
+(13, 'Maestros', NULL, NULL, 5, NULL),
 (14, 'Administrar', NULL, '/admin/user/index', 1, NULL),
-(15, 'Producto', NULL, NULL, 5, NULL),
+(15, 'Producto', NULL, NULL, 6, NULL),
 (16, 'Principal', 15, '/product/index', 0, NULL),
 (18, 'Crear', 15, '/product/create', 1, NULL),
 (19, 'Registrar usuario', NULL, '/site/register', 2, NULL),
 (20, 'Clientes', 22, '/client/index', 1, NULL),
 (21, 'Empleados', 22, '/employer/index', 0, NULL),
-(22, 'Datos Personales', NULL, NULL, 3, NULL);
+(22, 'Datos Personales', NULL, NULL, 3, NULL),
+(23, 'Cartera de cliente', NULL, NULL, 4, NULL),
+(24, 'Principal', 23, '/client-wallet/index', NULL, NULL),
+(25, 'Crear', 23, '/client-wallet/create', 1, NULL),
+(26, 'Articulos Relacionados', NULL, '/related-articles/index', 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -345,7 +367,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`) VALUES
-(1, '1234', 'Zapato', 40, 124456, 0, 1481080669, 1481173141, 1);
+(1, '3141589', 'Cinturon', 15, 500, 0, 1481514759, 1481514759, 1),
+(2, '1234', 'Zapato', 40, 124456, 0, 1481514771, 1481514771, 1);
 
 -- --------------------------------------------------------
 
@@ -392,6 +415,14 @@ CREATE TABLE `related_articles` (
   `child` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `related_articles`
+--
+
+INSERT INTO `related_articles` (`parent`, `child`) VALUES
+(1, 2),
+(2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -405,7 +436,7 @@ CREATE TABLE `user` (
   `password_hash` varchar(255) CHARACTER SET utf8 NOT NULL,
   `password_reset_token` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `status` smallint(6) NOT NULL DEFAULT '10',
+  `status` smallint(6) NOT NULL DEFAULT '0',
   `avatar` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `access_token` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) NOT NULL,
@@ -418,9 +449,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$xtDsB1/aoohzjVTaHgG1LOdn7QtElQti605QLnkucWxiCoa0o85vi', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, NULL, '', 0, 1480273544),
-(9, 'ivangn', 'LwrU_T_AYCllor8zVMtSCb3BLa2sEcLY', '$2y$13$Euoidhi1oNr9aUE.sH8raOIqIxTsBv2KXmZzmhT0w4wTZ18vrki.i', NULL, 'ign-jm@hotmail.com', 10, NULL, '', 1481424620, 1481424620),
-(10, 'hag819', '1nAEbljO28DQp8W7xVfMg1Cih134keor', '$2y$13$UORrK0GzpFCf3RMMcdnhYeDv4p.c.gFaOz.3LDb7r30unkcFfP4.K', NULL, 'hugo007_123@hotmail.com', 10, 'img/G4WVqO8tKmmgC47ec9FW3k4mdBtuf0OE.jpg', '4d1f70c3349517f6c88916ac36510084', 1481429576, 1481429611),
-(11, 'feanoro', '80bYDeVY2o2RvMGcihAU9tiw1rLHQejJ', '$2y$13$1a.1b3Q9XUsHDl.PmRGbje442d4lnPV/3PqbTfw/HeEiXBRWIre2q', NULL, 'ers.cesar@gmail.com', 10, 'img/dLm1eKh4KWXxwq0bvGgQZQkeIhuZZv6K.jpg', 'e3bebf2d701b2537dc4e0f5dfdcd1f6f', 1481429775, 1481429826);
+(17, 'feanoro', '626c4cq_90x4oDPEJBUvkjvg5ojepk55', '$2y$13$Q4LB3aH4zR/ZtyhNfxJIRuZD8xDhjR3sk1/MPOOrRnysRBO0RJBAS', NULL, 'ers.cesar@gmail.com', 10, 'img/EBfDwQFaXS01AvhzcccVnpbFR9F_-enu.jpg', 'bffc98bf5424084d8ce9c2164a864403', 1481510739, 1481510739),
+(18, 'monsefoster', '0EjT38x57QyG6etDWmZhSIII9eKmoU3t', '$2y$13$tg/cu0RCFqzsIjiMABtNL.4mOvWXH3TsG2r9pvZKQyZVztrngg8C2', NULL, 'monsefoster@gmail.com', 10, 'img/aEmTm9xGmQ10uBydFu5IgcPKI1x9bFR-.jpg', '38b800534a401f336ff4bfa2cec480f2', 1481511322, 1481511322);
 
 --
 -- Índices para tablas volcadas
@@ -470,8 +500,16 @@ ALTER TABLE `category`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_client_employer1_idx` (`employer_id`),
   ADD KEY `fk_client_user1_idx` (`user_id`);
+
+--
+-- Indices de la tabla `client_wallet`
+--
+ALTER TABLE `client_wallet`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `client_id_UNIQUE` (`client_id`),
+  ADD KEY `fk_client_wallet_client1_idx` (`client_id`),
+  ADD KEY `fk_client_wallet_employer1_idx` (`employer_id`);
 
 --
 -- Indices de la tabla `employer`
@@ -498,6 +536,7 @@ ALTER TABLE `migration`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code_UNIQUE` (`code`),
   ADD KEY `fk_product_user1_idx` (`updated_by`);
 
 --
@@ -560,25 +599,35 @@ ALTER TABLE `category`
 ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT de la tabla `client_wallet`
+--
+ALTER TABLE `client_wallet`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+--
+-- AUTO_INCREMENT de la tabla `product`
+--
+ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- Restricciones para tablas volcadas
 --
@@ -606,14 +655,20 @@ ALTER TABLE `auth_item_child`
 -- Filtros para la tabla `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `fk_client_employer1` FOREIGN KEY (`employer_id`) REFERENCES `employer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_client_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_client_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `client_wallet`
+--
+ALTER TABLE `client_wallet`
+  ADD CONSTRAINT `fk_client_wallet_client1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_client_wallet_employer1` FOREIGN KEY (`employer_id`) REFERENCES `employer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `employer`
 --
 ALTER TABLE `employer`
-  ADD CONSTRAINT `fk_employer_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_employer_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `menu`

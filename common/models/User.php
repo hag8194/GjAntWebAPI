@@ -1,14 +1,11 @@
 <?php
 namespace common\models;
 
-use backend\utils\ImageHandler;
+use backend\utils\ImageHandlerTrait;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
-use yii\web\UploadedFile;
 
 /**
  * User model
@@ -43,8 +40,30 @@ class User extends ActiveRecord implements IdentityInterface
     public $_avatar;
 
     public $role;
-
     public static $ROLE_DATA  = ['Vendedor', 'Cliente'];
+
+    use ImageHandlerTrait;
+
+    /** Trait Implementation **/
+    protected  function getIModel()
+    {
+        return $this;
+    }
+
+    protected  function getIAttributeName()
+    {
+        return '_avatar';
+    }
+
+    protected function getIAttribute()
+    {
+        return $this->_avatar;
+    }
+
+    protected  function setIAttribute($attribute)
+    {
+        $this->_avatar = $attribute;
+    }
 
     /**
      * @inheritdoc
@@ -96,7 +115,7 @@ class User extends ActiveRecord implements IdentityInterface
             $this->generateAuthKey();
             $this->setPassword($this->password);
         }
-        if($path = $this->uploadAvatar())
+        if($path = $this->upload())
             $this->avatar = $path;
 
         return parent::beforeSave($insert);
@@ -108,7 +127,6 @@ class User extends ActiveRecord implements IdentityInterface
         Yii::$app->authManager->revokeAll($this->id);
         return parent::beforeDelete();
     }
-
 
     /**
      * @inheritdoc
@@ -324,26 +342,5 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['updated_by' => 'id']);
-    }
-
-    /*
-     * Upload the user avatar
-     *
-     * @return String | null
-     */
-    private function uploadAvatar()
-    {
-        if($this->_avatar = UploadedFile::getInstance($this, '_avatar'))
-        {
-            $path = 'img/' . ImageHandler::generateFileName() . '.' . $this->_avatar->extension;
-
-            if($this->_avatar->saveAs($path)){
-                ImageHandler::resizeImage($path);
-                return $path;
-            }
-
-            return null;
-        }
-        return null;
     }
 }

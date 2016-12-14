@@ -63,7 +63,22 @@ trait ImageHandlerTrait
      */
     public function uploadAll($resize = true)
     {
-
+        $this->setIAttribute(UploadedFile::getInstances($this->getIModel(), $this->getIAttributeName()));
+        if($this->getIAttribute())
+        {
+            $paths = [];
+            foreach ($this->getIAttribute() as $attribute)
+            {
+                $path = 'img/' . $this->generateFileName() . '.' . $attribute->extension;
+                if($attribute->saveAs($path))
+                {
+                    $resize ? $this->resizeImage($path) : null;
+                    array_push($paths, $path) ;
+                }
+                return $paths;
+            }
+        }
+        return null;
     }
 
     /**

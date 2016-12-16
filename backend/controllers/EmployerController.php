@@ -64,8 +64,8 @@ class EmployerController extends Controller
      */
     public function actionCreate($user_id)
     {
-        if(empty($user_id) || !User::find()->where('id='. $user_id)->exists()){
-            throw new NotFoundHttpException(Yii::t('backend', 'The user was not found'));
+        if(empty($user_id) || !User::find()->where('id='. $user_id)->exists() || Employer::find()->where('user_id='. $user_id)->exists()){
+            throw new NotFoundHttpException(Yii::t('backend', 'Invalid user'));
         }
 
         $model = new Employer();

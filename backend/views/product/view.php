@@ -3,6 +3,7 @@
 use common\models\Product;
 use kartik\file\FileInput;
 use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
 use yii\widgets\DetailView;
@@ -19,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-img">Upload Image</button>
         <?= Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -54,25 +56,38 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?php
-        $aux = [];
-        foreach ($model->productImages as $productImage)
-            array_push($aux, Yii::$app->urlManager->createAbsoluteUrl($productImage->path));
-    ?>
+    <div>
+        <?php
+            if(!empty($model->productImages))
+            {
+                foreach ($model->productImages as $productImage)
+                    echo Html::img(Yii::$app->urlManager->createAbsoluteUrl($productImage->path));
+            }
+            else
+            {
+                echo '
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        El producto no tiene imagenes
+                    </div>
+                </div>';
+            }
+        ?>
+    </div>
+
+    <?php Modal::begin([
+        'id' => 'upload-img',
+        'header' => '<h2>' . Yii::t('backend', 'Upload Image') . '</h2>',
+    ]) ?>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-
-        <?= $form->field($upload_image_model, 'imageFiles[]')->widget(FileInput::classname(), [
-            'options' => ['multiple' => true, 'accept' => 'image/*'],
-            'pluginOptions' => [
-                'previewFileType' => 'image',
-                'initialPreview' => $aux,
-                'initialPreviewAsData'=>true,
-            ],
-            /*'pluginEvents' => [
-                'fileclear' => 'function() { alert("dsa1"); }'
-            ]*/
-        ]); ?>
-    <?= Html::submitButton(Yii::t('backend','Save changes'), ['class' => 'btn btn-flat btn-block btn-primary']) ?>
+    <?= $form->field($upload_image_model, 'imageFiles[]')->widget(FileInput::classname(), [
+        'options' => ['multiple' => true, 'accept' => 'image/*'],
+        'pluginOptions' => [
+            'previewFileType' => 'image',
+            'initialPreviewAsData' => true,
+        ]
+    ]); ?>
+    <?= Html::submitButton(Yii::t('backend','Save changes'), ['class' => 'btn btn-primary']) ?>
     <?php $form = ActiveForm::end() ?>
-
+    <?php Modal::end(); ?>
 </div>

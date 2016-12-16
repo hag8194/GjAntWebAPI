@@ -9,6 +9,7 @@
 namespace backend\utils;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
 
@@ -69,14 +70,14 @@ trait ImageHandlerTrait
             $paths = [];
             foreach ($this->getIAttribute() as $attribute)
             {
-                $path = 'img/' . $this->generateFileName() . '.' . $attribute->extension;
-                if($attribute->saveAs($path))
+                $aux = 'img/' . $this->generateFileName() . '.' . $attribute->extension;
+                if($attribute->saveAs($aux))
                 {
-                    $resize ? $this->resizeImage($path) : null;
-                    array_push($paths, $path) ;
+                    $resize ? $this->resizeImage($aux) : null;
+                    array_push($paths, $aux) ;
                 }
-                return $paths;
             }
+            return $paths;
         }
         return null;
     }

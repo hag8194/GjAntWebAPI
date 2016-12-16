@@ -65,11 +65,17 @@ class ProductController extends Controller
 
         if($upload_image_model->load(Yii::$app->request->post()))
         {
-            $upload_image_model->imageFiles = UploadedFile::getInstances($upload_image_model, 'imageFiles');
-            if(!empty($upload_image_model->imageFiles))
+            if(!empty($paths = $upload_image_model->uploadAll()) && !empty($upload_image_model->imageFiles))
             {
-                if($upload_image_model->upload($id))
-                    Yii::$app->session->setFlash('success', 'Imagenes guardadas exitosamente');
+                foreach ($paths as $path)
+                {
+                    $model = new ProductImage();
+                    $model->setAttributes(['product_id' => $id, 'path' =>  '/' . $path]);
+
+                    if(!$model->save()){
+                        return false;
+                    }
+                }
             }
             else
             {

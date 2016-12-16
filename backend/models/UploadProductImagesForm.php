@@ -10,6 +10,7 @@ namespace backend\models;
 
 
 use backend\utils\ImageHandler;
+use backend\utils\ImageHandlerTrait;
 use common\models\ProductImage;
 use Yii;
 use yii\base\Model;
@@ -24,6 +25,29 @@ class UploadProductImagesForm extends Model
      */
     public $imageFiles = [];
 
+    use ImageHandlerTrait;
+
+    /** Trait Implementation **/
+    protected  function getIModel()
+    {
+        return $this;
+    }
+
+    protected  function getIAttributeName()
+    {
+        return 'imageFiles';
+    }
+
+    protected function getIAttribute()
+    {
+        return $this->imageFiles;
+    }
+
+    protected  function setIAttribute($attribute)
+    {
+        $this->imageFiles = $attribute;
+    }
+
     public function rules()
     {
         return [
@@ -34,30 +58,4 @@ class UploadProductImagesForm extends Model
                 //'skipOnEmpty' => false
             ]];
     }
-
-    /**
-     * @var UploadedFile $file
-     * @return True | False True if the file was stored successfully and saved in the DB
-     */
-    public function upload($id)
-    {
-        if ($this->validate())
-        {
-            foreach ($this->imageFiles as $file)
-            {
-                $model = new ProductImage();
-                $path = 'img/' . ImageHandler::generateFileName() . '.' . $file->extension;
-                $model->setAttributes(['product_id' => $id, 'path' =>  '/' . $path]);
-
-                if(!$file->saveAs($path) || !$model->save()){
-                    return false;
-                }
-                ImageHandler::resizeImage($path);
-            }
-            return true;
-        }
-        return false;
-    }
-
-
 }

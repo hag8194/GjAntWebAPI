@@ -14,12 +14,18 @@ use yii\helpers\ArrayHelper;
 
 class MapModel extends Model
 {
-    public $coordinates;
+    public $address;
+    public $latitude;
+    public $longitude;
+    public $country;
 
     public function rules()
     {
         return [
-            [['coordinates'], 'safe']
+            [['address'], 'safe'],
+            [['latitude'], 'safe'],
+            [['longitude'], 'safe'],
+            [['country'], 'safe']
         ];
     }
 

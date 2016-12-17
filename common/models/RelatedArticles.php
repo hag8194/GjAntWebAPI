@@ -42,8 +42,8 @@ class RelatedArticles extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'parent' => Yii::t('backend', 'Parent'),
-            'child' => Yii::t('backend', 'Child'),
+            'parent' => Yii::t('backend', 'Parent Article'),
+            'child' => Yii::t('backend', 'Child Article'),
         ];
     }
 

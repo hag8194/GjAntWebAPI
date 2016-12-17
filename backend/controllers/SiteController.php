@@ -138,6 +138,7 @@ class SiteController extends Controller
     public function actionExample()
     {
         $model = new MapModel();
+
         return $this->render('example',[
             'model' => $model
         ]);

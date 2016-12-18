@@ -1,0 +1,4 @@
+http://localhost/GjAntWebAPI/api/web/v1/users/login?fields=id,email,avatar,access_token&expand=employer
+Se debe agregar en el body: 'x-www-form-urlencoded'
+    username: ivangn
+    password: alejandro24

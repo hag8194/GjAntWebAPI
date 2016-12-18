@@ -73,9 +73,6 @@ class ClientController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->setAttribute('user_id', $user_id);
             if($model->save()){
-                $user = User::findOne($user_id);
-                $user->setAttribute('status', 10);
-                $user->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

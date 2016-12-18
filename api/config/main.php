@@ -21,6 +21,7 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
+            'loginUrl' => null
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -39,6 +40,8 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule', 
                     'controller' => ['v1/user', 'v1/brand'],
+                    'extraPatterns' => ['POST login' => 'login'],
+                    'except' => ['delete'],
                     'tokens' => [
                         '{id}' => '<id:\\w+>'
                     ]

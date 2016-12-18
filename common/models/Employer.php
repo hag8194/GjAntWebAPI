@@ -42,6 +42,17 @@ class Employer extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function beforeSave($insert)
+    {
+        $user = User::findOne($this->user_id);
+        $user->status = User::STATUS_ACTIVE;
+        $user->save(false);
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [

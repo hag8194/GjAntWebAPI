@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "product".
@@ -63,6 +64,23 @@ class Product extends \yii\db\ActiveRecord
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
+
+    public function fields()
+    {
+        return ArrayHelper::merge(parent::fields(), [
+            'productImages'
+        ]);
+    }
+
+    public function extraFields()
+    {
+        return [
+            'brands',
+            'categories',
+            'children'
+        ];
+    }
+
 
     /**
      * @inheritdoc

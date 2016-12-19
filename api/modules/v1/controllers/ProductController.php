@@ -3,16 +3,14 @@
 namespace api\modules\v1\controllers;
 
 use yii\filters\auth\QueryParamAuth;
+use yii\helpers\Url;
 use yii\rest\ActiveController;
+use yii\web\Link;
+use yii\web\Linkable;
 
-/**
- * Country Controller API
- *
- * @author Budi Irawan <deerawan@gmail.com>
- */
-class BrandController extends ActiveController
+class ProductController extends ActiveController
 {
-    public $modelClass = 'common\models\Brand';
+    public $modelClass = 'common\models\Product';
 
     public function behaviors()
     {
@@ -24,5 +22,3 @@ class BrandController extends ActiveController
         return $behaviors;
     }
 }
-
-

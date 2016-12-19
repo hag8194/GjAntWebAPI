@@ -39,7 +39,7 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => ['v1/user', 'v1/brand'],
+                    'controller' => ['v1/brand', 'v1/product', 'v1/product-image', 'v1/related-articles', 'v1/user'],
                     'extraPatterns' => ['POST login' => 'login'],
                     'except' => ['delete'],
                     'tokens' => [

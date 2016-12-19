@@ -30,6 +30,6 @@ class UserController extends ActiveController
             if ($user && $user->validatePassword($password))
                 return $user;
         }
-        throw new BadRequestHttpException('Missing params');
+        throw new BadRequestHttpException('Missing Body Params');
     }
 }

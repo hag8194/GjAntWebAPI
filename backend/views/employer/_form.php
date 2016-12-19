@@ -18,7 +18,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'identification')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'address')->widget(\kalyabin\maplocation\SelectMapLocationWidget::className(), [
+        'attributeLatitude' => 'latitude',
+        'attributeLongitude' => 'longitude',
+        'googleMapApiKey' => Yii::$app->params['GOOGLE_API_KEY'],
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('backend', 'Create') : Yii::t('backend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

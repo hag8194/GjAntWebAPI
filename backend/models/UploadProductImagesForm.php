@@ -8,14 +8,8 @@
 
 namespace backend\models;
 
-
-use backend\utils\ImageHandler;
 use backend\utils\ImageHandlerTrait;
-use common\models\ProductImage;
-use Yii;
 use yii\base\Model;
-use yii\helpers\ArrayHelper;
-use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 class UploadProductImagesForm extends Model

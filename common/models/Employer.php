@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\utils\MapTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -17,10 +18,13 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $user_id
  *
+ * @property ClientWallet[] $clientWallets
  * @property User $user
  */
 class Employer extends \yii\db\ActiveRecord
 {
+    use MapTrait;
+
     /**
      * @inheritdoc
      */
@@ -56,8 +60,8 @@ class Employer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name', 'lastname', 'identification', 'address', 'user_id'], 'required'],
             [['created_at', 'updated_at', 'user_id'], 'integer'],
-            [['user_id'], 'required'],
             [['name', 'lastname', 'identification', 'address'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -78,6 +82,14 @@ class Employer extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClientWallets()
+    {
+        return $this->hasMany(ClientWallet::className(), ['employer_id' => 'id']);
     }
 
     /**

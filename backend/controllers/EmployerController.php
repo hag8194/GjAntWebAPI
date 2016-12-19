@@ -71,6 +71,7 @@ class EmployerController extends Controller
         $model = new Employer();
 
         if ($model->load(Yii::$app->request->post())) {
+
             $model->setAttribute('user_id', $user_id);
             if($model->save()){
                 return $this->redirect(['view', 'id' => $model->id]);

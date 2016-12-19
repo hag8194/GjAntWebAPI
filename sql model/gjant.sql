@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-12-2016 a las 16:18:13
+-- Tiempo de generación: 19-12-2016 a las 07:14:57
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -44,7 +44,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('vendor', '19', 1482068615),
 ('vendor', '20', 1482069380),
 ('vendor', '21', 1482069511),
-('vendor', '22', 1482071345);
+('vendor', '22', 1482071345),
+('vendor', '23', 1482121365);
 
 -- --------------------------------------------------------
 
@@ -208,7 +209,8 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`id`, `name`, `description`) VALUES
-(1, 'Adidas', '');
+(1, 'Adidas', ''),
+(4, 'Test', NULL);
 
 -- --------------------------------------------------------
 
@@ -237,17 +239,10 @@ CREATE TABLE `client` (
   `phone2` varchar(45) DEFAULT NULL,
   `credit_limit` double DEFAULT '0',
   `credit_use` double DEFAULT '0',
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `client`
---
-
-INSERT INTO `client` (`id`, `fullname`, `identification`, `address`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 'Victoria Monserrat Noguera Foster', '20819656', 'Flor amarillo', '+584145551123', '', 10, 0, 1481511538, 1481511538, 18);
 
 -- --------------------------------------------------------
 
@@ -269,12 +264,12 @@ CREATE TABLE `client_wallet` (
 
 CREATE TABLE `employer` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `lastname` varchar(255) DEFAULT NULL,
-  `identification` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `identification` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -283,11 +278,7 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `address`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 'Cesar', 'Ramirez', '18412245', 'Carialinda', 1481510749, 1481510749, 17),
-(2, 'Ivan', 'Giordano', '24330567', 'Los caobos', 1482068633, 1482068633, 19),
-(3, 'Hugo Alejandro', 'Giordano Navas', '24330565', 'Los caobos', 1482069404, 1482069404, 20),
-(4, 'Norma Johana', 'Romero Colina', '18412244', '', 1482069532, 1482069532, 21),
-(5, 'Tamara Elena', 'Cusnier Albretch', '4426269', 'El parral', 1482071361, 1482071361, 22);
+(1, 'Cesar', 'Ramirez', '18412245', 'Carialinda 1era Etapa, Naguanagua, Carabobo, Venezuela', 1482122619, 1482122619, 23);
 
 -- --------------------------------------------------------
 
@@ -464,12 +455,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$xtDsB1/aoohzjVTaHgG1LOdn7QtElQti605QLnkucWxiCoa0o85vi', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, NULL, 'cdhc28ff5634094d8e69h2164a864404', 0, 1480273544),
-(17, 'feanoro', '626c4cq_90x4oDPEJBUvkjvg5ojepk55', '$2y$13$Q4LB3aH4zR/ZtyhNfxJIRuZD8xDhjR3sk1/MPOOrRnysRBO0RJBAS', NULL, 'ers.cesar@gmail.com', 10, 'img/EBfDwQFaXS01AvhzcccVnpbFR9F_-enu.jpg', 'bffc98bf5424084d8ce9c2164a864403', 1481510739, 1481510739),
-(18, 'monsefoster', '0EjT38x57QyG6etDWmZhSIII9eKmoU3t', '$2y$13$tg/cu0RCFqzsIjiMABtNL.4mOvWXH3TsG2r9pvZKQyZVztrngg8C2', NULL, 'monsefoster@gmail.com', 10, 'img/aEmTm9xGmQ10uBydFu5IgcPKI1x9bFR-.jpg', '38b800534a401f336ff4bfa2cec480f2', 1481511322, 1481511322),
-(19, 'ivangn', '7A4p1yLxbSQ7ijtnlUjMy6npfmiY_hPC', '$2y$13$QVTBe3Z5jBKr4d6TZp1aoub75hFiC6cBFQahV/Ktn8F45FbPwAOSu', NULL, 'ign-jm@hotmail.com', 10, 'img/TBFbf-bU8Wnw3RahpqSbBjSvkNCS_UOt.jpg', '15f9cba86f27ad8615cddad7d99754f8', 1482068615, 1482068615),
-(20, 'hag819', 's1TihGiBpLQXKwRlPAfy9hMdDZbZe2b0', '$2y$13$I9jsclm.bXbaLCY4ZmSYHOpvkKUSUSpuislXRE.ISI2oaweMFPbVG', NULL, 'hugo007_1234@hotmail.com', 10, 'img/KtHW3dT8FjlxyK5v7T3k0HNvRdY9bm-x.jpg', 'fa1a793f381745ac4763d6fbd35107b7', 1482069380, 1482069380),
-(21, 'noromero1', 'g81PVbfWkjmYgGWJCqd-q26agR4JpLbr', '$2y$13$rfJruVwo/MRnpmtTk1Trye8ynyrccdn1aLwBkbVEXHWzvztQIe/P.', NULL, 'johanaromero@gmail.com', 10, NULL, 'bb241ca66d21269ae33f5bffebbda906', 1482069510, 1482069532),
-(22, 'tcusnier', 'RrYW90gBJowE6KpBBQv-K_XC0M15BOPp', '$2y$13$kUyVs7GDS41A.GGeNVauD.Jqll1IYnKMoDDhzLFA8B72vamn7RL.C', NULL, 'tamaracusnier@hotmail.com', 10, 'img/fp5p6B_fsvJ1f9cpRuHEJneNa-LQXwxF.jpg', '9a0bc0b105c9ceed3a498763846df63d', 1482071345, 1482071361);
+(23, 'feanoro', 'BHPq0FaqMKtpCiDEiK0GeOK9kcvcffa5', '$2y$13$nL2uTv0G7Ww98oT7RU8uBeUlk93yxww3kNrtRnmlBD.8ygcAzCZzK', NULL, 'ers.cesar@gmail.com', 10, 'img/SJAl2Y67W-KnaGBut0A-dlogFf-EobbT.jpg', 'f8770671e2153cf22d072c5b6ee27126', 1482121365, 1482122619);
 
 --
 -- Índices para tablas volcadas
@@ -519,6 +505,7 @@ ALTER TABLE `category`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `identification_UNIQUE` (`identification`),
   ADD KEY `fk_client_user1_idx` (`user_id`);
 
 --
@@ -535,6 +522,7 @@ ALTER TABLE `client_wallet`
 --
 ALTER TABLE `employer`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `identification_UNIQUE` (`identification`),
   ADD KEY `fk_employer_user1_idx` (`user_id`);
 
 --
@@ -606,7 +594,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `category`
 --
@@ -616,7 +604,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
@@ -626,7 +614,7 @@ ALTER TABLE `client_wallet`
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
@@ -646,7 +634,7 @@ ALTER TABLE `product_image`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- Restricciones para tablas volcadas
 --

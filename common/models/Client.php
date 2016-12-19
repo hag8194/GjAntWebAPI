@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\utils\MapTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -21,9 +22,12 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $user_id
  *
  * @property User $user
+ * @property ClientWallet $clientWallet
  */
 class Client extends \yii\db\ActiveRecord
 {
+    use MapTrait;
+
     /**
      * @inheritdoc
      */
@@ -65,6 +69,7 @@ class Client extends \yii\db\ActiveRecord
             [['created_at', 'updated_at', 'user_id'], 'integer'],
             [['fullname', 'address'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],
+            [['identification'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -95,5 +100,13 @@ class Client extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClientWallet()
+    {
+        return $this->hasOne(ClientWallet::className(), ['client_id' => 'id']);
     }
 }

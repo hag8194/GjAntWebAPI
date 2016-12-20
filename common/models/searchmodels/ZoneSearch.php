@@ -2,14 +2,15 @@
 
 namespace common\models\searchmodels;
 
-use common\models\ProductBrand as ProductBrandModel;
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use common\models\Zone;
 
 /**
- * ProductBrand represents the model behind the search form about `common\models\ProductBrand`.
+ * ZoneSearch represents the model behind the search form about `common\models\Zone`.
  */
-class ProductBrand extends ProductBrandModel
+class ZoneSearch extends Zone
 {
     /**
      * @inheritdoc
@@ -17,7 +18,9 @@ class ProductBrand extends ProductBrandModel
     public function rules()
     {
         return [
-            [['product_id', 'brand_id'], 'integer'],
+            [['id'], 'integer'],
+            [['name', 'description'], 'safe'],
+            [['lat', 'lng'], 'number'],
         ];
     }
 
@@ -39,7 +42,7 @@ class ProductBrand extends ProductBrandModel
      */
     public function search($params)
     {
-        $query = ProductBrandModel::find();
+        $query = Zone::find();
 
         // add conditions that should always apply here
 
@@ -57,9 +60,13 @@ class ProductBrand extends ProductBrandModel
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'product_id' => $this->product_id,
-            'brand_id' => $this->brand_id,
+            'id' => $this->id,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
         ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

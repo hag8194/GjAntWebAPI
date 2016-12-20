@@ -12,7 +12,6 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $id
  * @property string $fullname
  * @property string $identification
- * @property string $address
  * @property string $phone1
  * @property string $phone2
  * @property double $credit_limit
@@ -20,7 +19,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $user_id
+ * @property integer $address_id
  *
+ * @property Address $address
  * @property User $user
  * @property ClientWallet $clientWallet
  */
@@ -64,12 +65,13 @@ class Client extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fullname', 'identification', 'address', 'phone1', 'user_id'], 'required'],
+            [['fullname', 'identification', 'phone1', 'user_id', 'address_id'], 'required'],
             [['credit_limit', 'credit_use'], 'number'],
-            [['created_at', 'updated_at', 'user_id'], 'integer'],
-            [['fullname', 'address'], 'string', 'max' => 255],
+            [['created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
+            [['fullname'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],
             [['identification'], 'unique'],
+            [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -83,7 +85,6 @@ class Client extends \yii\db\ActiveRecord
             'id' => Yii::t('backend', 'ID'),
             'fullname' => Yii::t('backend', 'Fullname'),
             'identification' => Yii::t('backend', 'Identification'),
-            'address' => Yii::t('backend', 'Address'),
             'phone1' => Yii::t('backend', 'Phone1'),
             'phone2' => Yii::t('backend', 'Phone2'),
             'credit_limit' => Yii::t('backend', 'Credit Limit'),
@@ -91,8 +92,18 @@ class Client extends \yii\db\ActiveRecord
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),
+            'address_id' => Yii::t('backend', 'Address ID'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAddress()
+    {
+        return $this->hasOne(Address::className(), ['id' => 'address_id']);
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery

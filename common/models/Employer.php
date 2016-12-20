@@ -13,13 +13,16 @@ use yii\behaviors\TimestampBehavior;
  * @property string $name
  * @property string $lastname
  * @property string $identification
- * @property string $address
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $zone_id
  * @property integer $user_id
+ * @property integer $address_id
  *
  * @property ClientWallet[] $clientWallets
+ * @property Address $address
  * @property User $user
+ * @property Zone $zone
  */
 class Employer extends \yii\db\ActiveRecord
 {
@@ -60,10 +63,13 @@ class Employer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'lastname', 'identification', 'address', 'user_id'], 'required'],
-            [['created_at', 'updated_at', 'user_id'], 'integer'],
-            [['name', 'lastname', 'identification', 'address'], 'string', 'max' => 255],
+            [['name', 'lastname', 'identification', 'zone_id', 'user_id', 'address_id'], 'required'],
+            [['created_at', 'updated_at', 'zone_id', 'user_id', 'address_id'], 'integer'],
+            [['name', 'lastname', 'identification'], 'string', 'max' => 255],
+            [['identification'], 'unique'],
+            [['address_id'], 'exist', 'skipOnError' => true, 'targetClass' => Address::className(), 'targetAttribute' => ['address_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['zone_id'], 'exist', 'skipOnError' => true, 'targetClass' => Zone::className(), 'targetAttribute' => ['zone_id' => 'id']],
         ];
     }
 
@@ -77,10 +83,10 @@ class Employer extends \yii\db\ActiveRecord
             'name' => Yii::t('backend', 'Name'),
             'lastname' => Yii::t('backend', 'Lastname'),
             'identification' => Yii::t('backend', 'Identification'),
-            'address' => Yii::t('backend', 'Address'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),
+            'address_id' => Yii::t('backend', 'Address ID')
         ];
     }
 
@@ -95,8 +101,25 @@ class Employer extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getAddress()
+    {
+        return $this->hasOne(Address::className(), ['id' => 'address_id']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getZone()
+    {
+        return $this->hasOne(Zone::className(), ['id' => 'zone_id']);
     }
 }

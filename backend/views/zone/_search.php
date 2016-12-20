@@ -4,20 +4,26 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\searchmodels\ProductBrand */
+/* @var $model common\models\searchmodels\ZoneSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-brand-search">
+<div class="zone-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'product_id') ?>
+    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'brand_id') ?>
+    <?= $form->field($model, 'name') ?>
+
+    <?= $form->field($model, 'description') ?>
+
+    <?= $form->field($model, 'lat') ?>
+
+    <?= $form->field($model, 'lng') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('backend', 'Search'), ['class' => 'btn btn-primary']) ?>

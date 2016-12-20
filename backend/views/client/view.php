@@ -29,14 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'fullname',
             'identification',
-            'address',
             'phone1',
-            'phone2',
+            [
+                'label' => $model->getAttributeLabel('phone2'),
+                'value' => !$model->phone2 ? Yii::t('backend', 'Don´t has second phone') : $model->phone2
+            ],
             'credit_limit',
             'credit_use',
             'created_at:datetime',
             'updated_at:datetime',
+            [
+                'label' => $model->getAttributeLabel('address_id'),
+                'value' => $model->address->name
+            ],
             'user_id',
+
         ],
     ]) ?>
 

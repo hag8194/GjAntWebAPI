@@ -92,7 +92,7 @@ class Client extends \yii\db\ActiveRecord
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),
-            'address_id' => Yii::t('backend', 'Address ID'),
+            'address_id' => Yii::t('backend', 'Address'),
         ];
     }
 

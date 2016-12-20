@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-12-2016 a las 07:14:57
+-- Tiempo de generación: 20-12-2016 a las 19:45:36
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -19,6 +19,28 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `gjant`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `address`
+--
+
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `lat` float NOT NULL,
+  `lng` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `address`
+--
+
+INSERT INTO `address` (`id`, `name`, `lat`, `lng`) VALUES
+(1, 'Carialinda 1era Etapa, Naguanagua, Carabobo, Venezuela', 10.3024, -68.0386),
+(2, 'Conjunto Residencial Los Laureles, Valencia, Carabobo, Venezuela', 10.1508, -68.028),
+(3, 'Clínica IEQ Los Mangos, Avenida 110, Valencia, Carabobo, Venezuela', 10.1973, -68.0263);
 
 -- --------------------------------------------------------
 
@@ -39,13 +61,16 @@ CREATE TABLE `auth_assignment` (
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('administrator', '1', 1480259031),
 ('client', '18', 1481511322),
+('client', '26', 1482254756),
 ('vendor', '1', 1481508332),
 ('vendor', '17', 1481510739),
 ('vendor', '19', 1482068615),
 ('vendor', '20', 1482069380),
 ('vendor', '21', 1482069511),
 ('vendor', '22', 1482071345),
-('vendor', '23', 1482121365);
+('vendor', '23', 1482121365),
+('vendor', '24', 1482208219),
+('vendor', '25', 1482253197);
 
 -- --------------------------------------------------------
 
@@ -89,12 +114,6 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/client/index', 2, NULL, NULL, NULL, 1481079715, 1481079715),
 ('/employer/*', 2, NULL, NULL, NULL, 1481079698, 1481079698),
 ('/employer/index', 2, NULL, NULL, NULL, 1481079705, 1481079705),
-('/product-brand/*', 2, NULL, NULL, NULL, 1480900657, 1480900657),
-('/product-brand/create', 2, NULL, NULL, NULL, 1480901120, 1480901120),
-('/product-brand/delete', 2, NULL, NULL, NULL, 1480901121, 1480901121),
-('/product-brand/index', 2, NULL, NULL, NULL, 1480901120, 1480901120),
-('/product-brand/update', 2, NULL, NULL, NULL, 1480901121, 1480901121),
-('/product-brand/view', 2, NULL, NULL, NULL, 1480901120, 1480901120),
 ('/product-category/*', 2, NULL, NULL, NULL, 1480900650, 1480900650),
 ('/product-category/create', 2, NULL, NULL, NULL, 1480901115, 1480901115),
 ('/product-category/delete', 2, NULL, NULL, NULL, 1480901115, 1480901115),
@@ -116,6 +135,9 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/site/logout', 2, NULL, NULL, NULL, 1480813307, 1480813307),
 ('/site/profile', 2, NULL, NULL, NULL, 1481431397, 1481431397),
 ('/site/register', 2, NULL, NULL, NULL, 1481079415, 1481079415),
+('/zone/*', 2, NULL, NULL, NULL, 1482207849, 1482207849),
+('/zone/create', 2, NULL, NULL, NULL, 1482207849, 1482207849),
+('/zone/index', 2, NULL, NULL, NULL, 1482207849, 1482207849),
 ('admin', 2, NULL, NULL, NULL, 1480812629, 1480813935),
 ('administrator', 1, NULL, NULL, NULL, 1480220029, 1480220029),
 ('Brand CRUD', 2, NULL, NULL, NULL, 1480807234, 1480900537),
@@ -130,7 +152,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('register-user', 2, NULL, NULL, NULL, 1481070676, 1481070676),
 ('RelatedArticles CRUD', 2, NULL, NULL, NULL, 1481510934, 1481510934),
 ('site', 2, NULL, NULL, NULL, 1480813276, 1480813276),
-('vendor', 1, NULL, NULL, NULL, 1480220049, 1480220049);
+('vendor', 1, NULL, NULL, NULL, 1480220049, 1480220049),
+('Zone CRUD', 2, NULL, NULL, NULL, 1482207903, 1482207903);
 
 -- --------------------------------------------------------
 
@@ -161,6 +184,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'register-user'),
 ('administrator', 'RelatedArticles CRUD'),
 ('administrator', 'site'),
+('administrator', 'Zone CRUD'),
 ('Brand CRUD', '/brand/*'),
 ('Category CRUD', '/category/*'),
 ('client', 'site'),
@@ -168,7 +192,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('ClientWallet CRUD', '/client-wallet/*'),
 ('Employer CRUD', '/employer/*'),
 ('Product CRUD', '/product/*'),
-('ProductBrand CRUD', '/product-brand/*'),
 ('ProductCategory CRUD', '/product-category/*'),
 ('register-user', '/site/register'),
 ('RelatedArticles CRUD', '/related-articles/*'),
@@ -177,7 +200,8 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('site', '/site/logout'),
 ('site', '/site/profile'),
 ('vendor', '/product/index'),
-('vendor', 'site');
+('vendor', 'site'),
+('Zone CRUD', '/zone/*');
 
 -- --------------------------------------------------------
 
@@ -234,15 +258,22 @@ CREATE TABLE `client` (
   `id` int(11) NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `identification` varchar(45) NOT NULL,
-  `address` varchar(255) NOT NULL,
   `phone1` varchar(45) NOT NULL,
   `phone2` varchar(45) DEFAULT NULL,
   `credit_limit` double DEFAULT '0',
   `credit_use` double DEFAULT '0',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `client`
+--
+
+INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
+(1, 'Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 1482255082, 1482256033, 26, 3);
 
 -- --------------------------------------------------------
 
@@ -267,18 +298,20 @@ CREATE TABLE `employer` (
   `name` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `identification` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `zone_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `employer`
 --
 
-INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `address`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 'Cesar', 'Ramirez', '18412245', 'Carialinda 1era Etapa, Naguanagua, Carabobo, Venezuela', 1482122619, 1482122619, 23);
+INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`, `updated_at`, `zone_id`, `user_id`, `address_id`) VALUES
+(1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1482253119, 1, 24, 1),
+(2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2);
 
 -- --------------------------------------------------------
 
@@ -308,9 +341,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (7, 'Categoría', 13, NULL, NULL, NULL),
 (8, 'Crear', 7, '/category/create', 1, NULL),
 (9, 'Principal', 7, '/category/index', 0, NULL),
-(10, 'Asignaciones', NULL, NULL, 8, NULL),
-(11, 'Asignar categorías', 10, '/product-category/index', NULL, NULL),
-(12, 'Asignar marcas', 10, '/product-brand/index', NULL, NULL),
+(11, 'Asignar categorías', NULL, '/product-category/index', 8, NULL),
+(12, 'Zonas', 13, NULL, 3, NULL),
 (13, 'Maestros', NULL, NULL, 5, NULL),
 (14, 'Administrar', NULL, '/admin/user/index', 1, NULL),
 (15, 'Producto', NULL, NULL, 6, NULL),
@@ -323,7 +355,9 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (23, 'Cartera de cliente', NULL, NULL, 4, NULL),
 (24, 'Principal', 23, '/client-wallet/index', NULL, NULL),
 (25, 'Crear', 23, '/client-wallet/create', 1, NULL),
-(26, 'Articulos Relacionados', NULL, '/related-articles/index', 7, NULL);
+(26, 'Articulos Relacionados', NULL, '/related-articles/index', 7, NULL),
+(27, 'Principal', 12, '/zone/index', NULL, NULL),
+(28, 'Crear', 12, '/zone/create', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -455,11 +489,43 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$xtDsB1/aoohzjVTaHgG1LOdn7QtElQti605QLnkucWxiCoa0o85vi', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, NULL, 'cdhc28ff5634094d8e69h2164a864404', 0, 1480273544),
-(23, 'feanoro', 'BHPq0FaqMKtpCiDEiK0GeOK9kcvcffa5', '$2y$13$nL2uTv0G7Ww98oT7RU8uBeUlk93yxww3kNrtRnmlBD.8ygcAzCZzK', NULL, 'ers.cesar@gmail.com', 10, 'img/SJAl2Y67W-KnaGBut0A-dlogFf-EobbT.jpg', 'f8770671e2153cf22d072c5b6ee27126', 1482121365, 1482122619);
+(24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$1xgJD/Q6djUN68KapaE2p.oP36jhCeEk7jRwCkd7VyWpz0XOLK3Ae', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482252228),
+(25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, 'img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
+(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482255082);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `zone`
+--
+
+CREATE TABLE `zone` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  `lat` float NOT NULL,
+  `lng` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `zone`
+--
+
+INSERT INTO `zone` (`id`, `name`, `description`, `lat`, `lng`) VALUES
+(1, 'Municipio Naguanagua', 'Municipio Naguanagua', 10.2683, -68.0179),
+(2, 'Municipio San Diego, Carabobo, Venezuela', 'Municipio San Diego', 10.2536, -67.9583),
+(3, 'Bejuma, Carabobo, Venezuela', 'Municipio Bejuma', 10.1771, -68.2594),
+(4, 'Valencia, Libertador, Carabobo, Venezuela', 'Municipio Libertador', 10.1579, -67.9972);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `auth_assignment`
@@ -506,7 +572,8 @@ ALTER TABLE `category`
 ALTER TABLE `client`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `identification_UNIQUE` (`identification`),
-  ADD KEY `fk_client_user1_idx` (`user_id`);
+  ADD KEY `fk_client_user1_idx` (`user_id`),
+  ADD KEY `fk_client_address1_idx` (`address_id`);
 
 --
 -- Indices de la tabla `client_wallet`
@@ -523,7 +590,9 @@ ALTER TABLE `client_wallet`
 ALTER TABLE `employer`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `identification_UNIQUE` (`identification`),
-  ADD KEY `fk_employer_user1_idx` (`user_id`);
+  ADD KEY `fk_employer_user1_idx` (`user_id`),
+  ADD KEY `fk_employer_zone1_idx` (`zone_id`),
+  ADD KEY `fk_employer_address1_idx` (`address_id`);
 
 --
 -- Indices de la tabla `menu`
@@ -587,9 +656,20 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `password_reset_token` (`password_reset_token`);
 
 --
+-- Indices de la tabla `zone`
+--
+ALTER TABLE `zone`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
+--
+-- AUTO_INCREMENT de la tabla `address`
+--
+ALTER TABLE `address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `brand`
 --
@@ -604,7 +684,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
@@ -614,12 +694,12 @@ ALTER TABLE `client_wallet`
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --
@@ -634,7 +714,12 @@ ALTER TABLE `product_image`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+--
+-- AUTO_INCREMENT de la tabla `zone`
+--
+ALTER TABLE `zone`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Restricciones para tablas volcadas
 --
@@ -662,6 +747,7 @@ ALTER TABLE `auth_item_child`
 -- Filtros para la tabla `client`
 --
 ALTER TABLE `client`
+  ADD CONSTRAINT `fk_client_address1` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_client_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
@@ -675,7 +761,9 @@ ALTER TABLE `client_wallet`
 -- Filtros para la tabla `employer`
 --
 ALTER TABLE `employer`
-  ADD CONSTRAINT `fk_employer_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_employer_address1` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_employer_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_employer_zone1` FOREIGN KEY (`zone_id`) REFERENCES `zone` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `menu`

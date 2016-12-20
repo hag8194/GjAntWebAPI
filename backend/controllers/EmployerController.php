@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Address;
 use common\models\User;
 use Yii;
 use common\models\Employer;
@@ -69,17 +70,23 @@ class EmployerController extends Controller
         }
 
         $model = new Employer();
+        $model_address = new Address();
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            $model->setAttribute('user_id', $user_id);
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model_address->load(Yii::$app->request->post()))
+        {
+            if($model_address->save())
+            {
+                $model->setAttribute('address_id', Yii::$app->db->lastInsertID);
+                $model->setAttribute('user_id', $user_id);
+                if($model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'model_address' => $model_address
         ]);
     }
 
@@ -92,14 +99,17 @@ class EmployerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model_address = Address::findOne($model->address_id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model_address->load(Yii::$app->request->post())
+            && $model->save() && $model_address->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+            'model_address' => $model_address
+        ]);
     }
 
     /**

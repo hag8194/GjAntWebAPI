@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Employer */
+/* @var $model_address common\models\Address */
 
 $this->title = Yii::t('backend', 'Update {modelClass}: ', [
     'modelClass' => 'Employer',
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'model_address' => $model_address
     ]) ?>
 
 </div>

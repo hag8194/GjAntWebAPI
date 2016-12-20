@@ -30,11 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'lastname',
             'identification',
-            'address',
             'created_at:datetime',
             'updated_at:datetime',
+            [
+                'label' => $model->getAttributeLabel('zone_id'),
+                'value' => $model->zone->name
+            ],
             'user_id',
+            [
+                'label' => $model->getAttributeLabel('address_id'),
+                'value' => $model->address->name
+            ],
         ],
     ]) ?>
-
 </div>

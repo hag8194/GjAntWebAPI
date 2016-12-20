@@ -18,6 +18,7 @@ class PluginsAssets extends AssetBundle
         'iCheck/all.css'
     ];
     public $js = [
-        'iCheck/icheck.min.js'
+        'iCheck/icheck.min.js',
+        'slimScroll/jquery.slimscroll.min.js'
     ];
 }

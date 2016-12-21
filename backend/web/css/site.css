@@ -130,3 +130,35 @@ a.desc:after {
     display: table-cell;
     max-width: 220px;
 }
+
+/*---Login---*/
+.login-page {
+    background: url(../img/login-background.png) no-repeat center !important;
+    background-size: cover !important;
+    min-height: 0 !important;
+    height: auto !important;
+
+}
+
+.login-page .transparent-box{
+    opacity: 0.6;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.login-page .login-box .login-logo > h1 {
+    color: white;
+
+}
+
+ .login-page .login-box {
+     position: relative;
+     z-index: 2;
+ }
+
+ .radio label, .checkbox label {
+    padding-left: 0;
+}

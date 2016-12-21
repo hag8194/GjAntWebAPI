@@ -21,7 +21,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="<?= Yii::$app->getHomeUrl() ?>"><img src="<?= Yii::$app->urlManager->baseUrl ?>/img/logo2p.png" width="80px" /><b>GjAnt</b></a>
+        <h1><img src="<?= Yii::$app->urlManager->baseUrl ?>/img/logo2p.png" width="80px" /> GjAnt</h1>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -41,7 +41,7 @@ $fieldOptions2 = [
 
         <div class="row">
             <div class="col-xs-8">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($model, 'rememberMe')->checkbox(['class' => 'icheckbox']) ?>
             </div>
             <!-- /.col -->
             <div class="col-xs-4">

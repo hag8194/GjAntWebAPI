@@ -15,7 +15,7 @@ class PluginsAssets extends AssetBundle
     public $sourcePath = '@vendor/almasaeed2010/adminlte/plugins';
 
     public $css = [
-        'iCheck/all.css'
+        'iCheck/square/green.css'
     ];
     public $js = [
         'iCheck/icheck.min.js',

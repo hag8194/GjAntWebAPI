@@ -135,7 +135,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'message' => Yii::t('backend', 'This username has already been taken.')],

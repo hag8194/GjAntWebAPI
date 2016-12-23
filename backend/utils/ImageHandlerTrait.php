@@ -9,7 +9,6 @@
 namespace backend\utils;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
 

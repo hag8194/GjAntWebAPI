@@ -11,7 +11,7 @@ use Yii;
  * @property string $name
  * @property string $description
  *
- * @property ProductHasBrand[] $productHasBrands
+ * @property ProductBrand[] $productBrands
  * @property Product[] $products
  */
 class Brand extends \yii\db\ActiveRecord
@@ -49,9 +49,9 @@ class Brand extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductHasBrands()
+    public function getProductBrands()
     {
-        return $this->hasMany(ProductHasBrand::className(), ['brand_id' => 'id']);
+        return $this->hasMany(ProductBrand::className(), ['brand_id' => 'id']);
     }
 
     /**
@@ -59,6 +59,6 @@ class Brand extends \yii\db\ActiveRecord
      */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('product_has_brand', ['brand_id' => 'id']);
+        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('product_brand', ['brand_id' => 'id']);
     }
 }

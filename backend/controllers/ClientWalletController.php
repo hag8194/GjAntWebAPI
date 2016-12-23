@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
+use backend\models\ClientListViewSearch;
+use backend\models\EmployerListViewSearch;
+use common\models\Employer;
 use Yii;
 use common\models\ClientWallet;
-use common\models\searchmodels\ClientWalletSearch;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -29,96 +31,49 @@ class ClientWalletController extends Controller
         ];
     }
 
-    /**
-     * Lists all ClientWallet models.
-     * @return mixed
-     */
     public function actionIndex()
     {
-        $searchModel = new ClientWalletSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $employerSearchModel = new EmployerListViewSearch();
+        $employerDataProvider = $employerSearchModel->search(Yii::$app->request->queryParams);
+
+        $clientSearchModel = null;
+        $clientDataProvider = null;
+
+        if(($employer =  Yii::$app->request->get('Employer')) &&
+                Employer::find()->where('id=' . $employer['id'])->exists())
+        {
+            $model_employer = Employer::findOne($employer['id']);
+
+            $clientSearchModel = new ClientListViewSearch();
+            $clientSearchModel->zone_name = $model_employer->zone->name;
+
+            $clientDataProvider = $clientSearchModel->search(Yii::$app->request->queryParams);
+
+        }
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'employerSearchModel' => $employerSearchModel,
+            'employerDataProvider' => $employerDataProvider,
+            'clientSearchModel' => $clientSearchModel,
+            'clientDataProvider' => $clientDataProvider
         ]);
     }
 
-    /**
-     * Displays a single ClientWallet model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
+    public function actionAssignClient($client_id, $employer_id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+        if(Yii::$app->request->isAjax)
+        {
+            $query = ClientWallet::find()->where(['client_id' => $client_id, 'employer_id' => $employer_id]);
 
-    /**
-     * Creates a new ClientWallet model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new ClientWallet();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            if(!$query->exists()){
+                $model = new ClientWallet();
+                $model->setAttributes(['client_id' => $client_id, 'employer_id' => $employer_id]);
+                return $model->save();
+            }
+            else
+                return $query->one()->delete();
         }
-    }
-
-    /**
-     * Updates an existing ClientWallet model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing ClientWallet model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the ClientWallet model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return ClientWallet the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = ClientWallet::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        else
+            throw new BadRequestHttpException('The request need to be an Ajax');
     }
 }

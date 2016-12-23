@@ -67,6 +67,7 @@ class Client extends \yii\db\ActiveRecord
         return [
             [['fullname', 'identification', 'phone1', 'user_id', 'address_id'], 'required'],
             [['credit_limit', 'credit_use'], 'number'],
+            [['credit_limit', 'credit_use'], 'default', 'value' => 0],
             [['created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
             [['fullname'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],

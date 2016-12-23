@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-12-2016 a las 19:45:36
+-- Tiempo de generación: 23-12-2016 a las 07:23:02
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -40,7 +40,13 @@ CREATE TABLE `address` (
 INSERT INTO `address` (`id`, `name`, `lat`, `lng`) VALUES
 (1, 'Carialinda 1era Etapa, Naguanagua, Carabobo, Venezuela', 10.3024, -68.0386),
 (2, 'Conjunto Residencial Los Laureles, Valencia, Carabobo, Venezuela', 10.1508, -68.028),
-(3, 'Clínica IEQ Los Mangos, Avenida 110, Valencia, Carabobo, Venezuela', 10.1973, -68.0263);
+(3, 'Clínica IEQ Los Mangos, Avenida 110, Valencia, Carabobo, Venezuela', 10.1973, -68.0263),
+(4, 'Farmatodo C.C La Granja, Avenida 102 Universidad, Naguanagua, Carabobo, Venezuela', 10.2414, -68.0115),
+(7, 'Farmahorro, Naguanagua, Carabobo, Venezuela', 10.2444, -68.0083),
+(8, 'Centro Clínico Naguanagua, Naguanagua, Carabobo, Venezuela', 10.2787, -68.0184),
+(9, 'Farmatodo, Paseo Cuatricentenario, Valencia, Carabobo, Venezuela', 10.1938, -68.0267),
+(10, 'Locatel, Piazza, 4 Avenidas, Valencia, Carabobo, Venezuela', 10.2047, -68.0285),
+(11, 'Los Bucares, Flor Amarillo, Carabobo, Venezuela', 10.1395, -67.927);
 
 -- --------------------------------------------------------
 
@@ -62,6 +68,11 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('administrator', '1', 1480259031),
 ('client', '18', 1481511322),
 ('client', '26', 1482254756),
+('client', '27', 1482331562),
+('client', '28', 1482333469),
+('client', '29', 1482335643),
+('client', '30', 1482336048),
+('client', '31', 1482336295),
 ('vendor', '1', 1481508332),
 ('vendor', '17', 1481510739),
 ('vendor', '19', 1482068615),
@@ -70,7 +81,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('vendor', '22', 1482071345),
 ('vendor', '23', 1482121365),
 ('vendor', '24', 1482208219),
-('vendor', '25', 1482253197);
+('vendor', '25', 1482253197),
+('vendor', '32', 1482369034);
 
 -- --------------------------------------------------------
 
@@ -233,8 +245,7 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`id`, `name`, `description`) VALUES
-(1, 'Adidas', ''),
-(4, 'Test', NULL);
+(1, 'Addidas', '');
 
 -- --------------------------------------------------------
 
@@ -248,6 +259,13 @@ CREATE TABLE `category` (
   `description` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `description`) VALUES
+(1, 'Computadora', '');
+
 -- --------------------------------------------------------
 
 --
@@ -260,8 +278,8 @@ CREATE TABLE `client` (
   `identification` varchar(45) NOT NULL,
   `phone1` varchar(45) NOT NULL,
   `phone2` varchar(45) DEFAULT NULL,
-  `credit_limit` double DEFAULT '0',
-  `credit_use` double DEFAULT '0',
+  `credit_limit` double NOT NULL DEFAULT '0',
+  `credit_use` double NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -273,7 +291,12 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
-(1, 'Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 1482255082, 1482256033, 26, 3);
+(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 1482255082, 1482335763, 26, 3),
+(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 0, 0, 1482333126, 1482333126, 27, 4),
+(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 0, 0, 1482335127, 1482335127, 28, 7),
+(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 0, 0, 1482335701, 1482335701, 29, 8),
+(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 0, 0, 1482336123, 1482364531, 30, 9),
+(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 1482336412, 1482364556, 31, 10);
 
 -- --------------------------------------------------------
 
@@ -311,7 +334,8 @@ CREATE TABLE `employer` (
 
 INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`, `updated_at`, `zone_id`, `user_id`, `address_id`) VALUES
 (1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1482253119, 1, 24, 1),
-(2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2);
+(2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2),
+(3, 'Monse', 'Noguera', '20812115', 1482369588, 1482369892, 5, 32, 11);
 
 -- --------------------------------------------------------
 
@@ -491,7 +515,13 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$xtDsB1/aoohzjVTaHgG1LOdn7QtElQti605QLnkucWxiCoa0o85vi', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, NULL, 'cdhc28ff5634094d8e69h2164a864404', 0, 1480273544),
 (24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$1xgJD/Q6djUN68KapaE2p.oP36jhCeEk7jRwCkd7VyWpz0XOLK3Ae', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482252228),
 (25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, 'img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
-(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482255082);
+(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482255082),
+(27, 'farmatodogranja', 'QP7zmIQkTmMo94iXJeMHvpJrrF30KjHA', '$2y$13$d6DxmAFLiGtciOAYm7xlrexaRCBCrPQAZEIag6GvJEOWrGAW3ZJ/O', NULL, 'farmatodogranja@farmatodo.com.ve', 10, NULL, 'c6efb067dac6b0da2f966869e45a912a', 1482331562, 1482333126),
+(28, 'farmahorropaseo', '8bbAZ2T65zVue5_hAktjPK8iTmnzt5KK', '$2y$13$86sq4g5pJLJ1dwqCwT0wHe00ek1kymhQTVKmjq.ShCdZMF5RlXdA.', NULL, 'farmahorropase@farmaahorro.com.ve', 10, NULL, '71522fd84020bd5b24392f5bcd2239cc', 1482333469, 1482335127),
+(29, 'ccliniconaguanagua', 'JAR7m1WgETCzSyy3eT-URnqhZBj8KPMZ', '$2y$13$cT6VGcdPkAdSB6ova1Y6EOUy1LXSc.vCoHQmFxW7QeSMbAWweWKyC', NULL, 'admin@centrocliniconaguanagua.com.ve', 10, NULL, '715791888c8f4bc599c3e921263e7cd8', 1482335643, 1482335701),
+(30, 'farmatodoguataparo', 'MciIrR5Wyo2BlOcrEWYafwe8tHAzDlKN', '$2y$13$a/oQi0txoHm8EiBnZ08.fenv5Zwn/LYY.XLzm6omZSgME07RsExqC', NULL, 'farmatodoguataparo@farmatodo.com.ve', 10, NULL, '45bfe446a414ba92340b07a4f6d07e33', 1482336048, 1482336123),
+(31, 'locatelparral', 'zU6Gnxa8t8VVsf7lWEjWZY7rgJU4uyh5', '$2y$13$PiaMW1XtaVGP59KHH/BGV.kBkXu592/OXH1R2yAXieyJZLZdZfjvu', NULL, 'locatelparral@locatel.com.ve', 10, NULL, 'ae830f26dd35c7232c4113fb041e712e', 1482336294, 1482336412),
+(32, 'monsefoster@gmail.com', 'uxFOVmxHpLDO2apnmeSj2BVpiIRj6yv6', '$2y$13$QIvhKgDsaj8ONnciVDam8u0Q8Rmadqb46cbRzX3GBuu28o.NNLi.W', NULL, 'monsefoster@gmail.com', 10, 'img/zfGvxdOvSI9SK6tSD_s6TTMieax6tp8V.jpg', '9ec34b816c1bfdfb48b12f3d26e6ce98', 1482369034, 1482369587);
 
 -- --------------------------------------------------------
 
@@ -512,10 +542,11 @@ CREATE TABLE `zone` (
 --
 
 INSERT INTO `zone` (`id`, `name`, `description`, `lat`, `lng`) VALUES
-(1, 'Municipio Naguanagua', 'Municipio Naguanagua', 10.2683, -68.0179),
+(1, 'Naguanagua, Carabobo, Venezuela', 'Municipio Naguanagua', 10.2683, -68.0179),
 (2, 'Municipio San Diego, Carabobo, Venezuela', 'Municipio San Diego', 10.2536, -67.9583),
 (3, 'Bejuma, Carabobo, Venezuela', 'Municipio Bejuma', 10.1771, -68.2594),
-(4, 'Valencia, Libertador, Carabobo, Venezuela', 'Municipio Libertador', 10.1579, -67.9972);
+(4, 'Valencia, Libertador, Carabobo, Venezuela', 'Municipio Libertador', 10.1579, -67.9972),
+(5, 'Guacara, Carabobo, Venezuela', 'Municipio Guacara', 10.2647, -67.8927);
 
 --
 -- Índices para tablas volcadas
@@ -669,22 +700,22 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT de la tabla `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
@@ -694,7 +725,7 @@ ALTER TABLE `client_wallet`
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
@@ -709,17 +740,17 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT de la tabla `zone`
 --
 ALTER TABLE `zone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Restricciones para tablas volcadas
 --

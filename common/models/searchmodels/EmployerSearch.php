@@ -67,8 +67,7 @@ class EmployerSearch extends Employer
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'lastname', $this->lastname])
-            ->andFilterWhere(['like', 'identification', $this->identification])
-            ->andFilterWhere(['like', 'address', $this->address]);
+            ->andFilterWhere(['like', 'identification', $this->identification]);
 
         return $dataProvider;
     }

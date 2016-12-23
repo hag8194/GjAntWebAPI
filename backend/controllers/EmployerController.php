@@ -103,16 +103,19 @@ class EmployerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model_address = Address::findOne($model->address_id);
+        $model_address = $model->address;
+        $model_user = $model->user;
+        $model_user->scenario = User::SCENARIO_UPDATE;
 
-        if ($model->load(Yii::$app->request->post()) && $model_address->load(Yii::$app->request->post())
-            && $model->save() && $model_address->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model_address->load(Yii::$app->request->post()) && $model_user->load(Yii::$app->request->post())
+            && $model->save() && $model_address->save() && $model_user->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'model_address' => $model_address
+            'model_address' => $model_address,
+            'model_user' => $model_user
         ]);
     }
 

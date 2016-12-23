@@ -36,21 +36,23 @@ return [
                             'attribute' => 'updated_at',
                             'format' => 'dateTime'
                         ],
-                        [
-                            'attribute' => 'avatar',
+                        /*[
                             'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Html::img($model->avatar, ['class' => 'img-circle']);
+                                $path = $model->avatar ? Yii::$app->urlManager->createAbsoluteUrl($model->avatar)
+                                    : Yii::$app->urlManager->createAbsoluteUrl('img/default-avatar.gif');
+
+                                return Html::img($path, ['class' => 'img-circle', 'width' => 45]);
                             }
-                        ]
+                        ]*/
                     ],
                     'searchClass' => 'common\models\searchmodels\UserSearch'
-                ],
+                ]
             ],
             'menus' => [
-                'assignment' => [
+                /*'assignment' => [
                     'label' => 'Grand Access' // change label
-                ],
+                ],*/
                 //'route' => null, // disable menu
             ],
         ]
@@ -84,13 +86,6 @@ return [
             'bundles' => [
                 'dmstr\web\AdminLteAsset' => [
                     'skin' => 'skin-green-light',
-                ],
-                'dosamigos\google\maps\MapAsset' => [
-                    'options' => [
-                        'key' => 'AIzaSyAaa0EMcPKpjjZrVwbiPuRHJK_-2dh2zNM',
-                        'language' => 'id',
-                        'version' => '3.1.18'
-                    ]
                 ]
             ],
         ],

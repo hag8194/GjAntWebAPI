@@ -8,8 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 ?>
-
-<?php $form = ActiveForm::begin([
+<?php !empty($form) ? : $form = ActiveForm::begin([
     'id' => 'form-profile',
     'options' => ['enctype' => 'multipart/form-data']
 ]); ?>
@@ -24,8 +23,12 @@ use yii\bootstrap\ActiveForm;
 
 <?= $form->field($model, '_avatar')->widget('kartik\file\FileInput',[]) ?>
 
+<?php if($form->id !== 'employer-update' && $form->id !== 'client-update'): ?>
+
 <div class="form-group">
-    <?= Html::submitButton(Yii::t('backend', 'Register'), ['class' => 'btn btn-primary', 'name' => 'register-button']) ?>
+    <?= Html::submitButton(Yii::t('backend', $model->isNewRecord ? 'Register' : 'Update'), ['class' => 'btn btn-primary', 'name' => 'register-button']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>
+
+<?php endif; ?>

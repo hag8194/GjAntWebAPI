@@ -31,6 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
+                <?= $form->field($model, 'repeat_password')->passwordInput() ?>
+
                 <?= $form->field($model, 'role')->dropDownList($model::$ROLE_DATA, ['prompt' => Yii::t('backend', 'Please select a role')]) ?>
 
                 <?= $form->field($model, '_avatar')->widget('kartik\file\FileInput',[

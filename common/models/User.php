@@ -91,6 +91,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'username',
                 'email',
                 'password',
+                'repeat_password',
                 '_avatar',
                 'avatar',
                 'role'
@@ -116,6 +117,11 @@ class User extends ActiveRecord implements IdentityInterface
             $this->generateAuthKey();
             $this->setPassword($this->password);
         }
+
+        if($this->scenario == self::SCENARIO_UPDATE && $this->password){
+            $this->setPassword($this->password);
+        }
+
         if($path = $this->upload())
             $this->avatar = $path;
 
@@ -157,6 +163,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['password', 'compare', 'compareAttribute' => 'repeat_password', 'on' => [self::SCENARIO_UPDATE]],
             ['password', 'string', 'min' => 6],
 
+            ['repeat_password', 'required', 'on' => [self::SCENARIO_DEFAULT]],
             ['repeat_password', 'compare', 'compareAttribute' => 'password'],
 
             ['_avatar', 'image', 'extensions' => 'png, jpg', 'maxFiles' => 1],

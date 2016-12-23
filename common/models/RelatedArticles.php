@@ -31,6 +31,8 @@ class RelatedArticles extends \yii\db\ActiveRecord
         return [
             [['parent', 'child'], 'required'],
             [['parent', 'child'], 'integer'],
+            ['parent', 'compare', 'compareAttribute' => 'child', 'operator' => '!='],
+            ['child', 'compare', 'compareAttribute' => 'parent', 'operator' => '!='],
             [['parent'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['parent' => 'id']],
             [['child'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['child' => 'id']],
         ];

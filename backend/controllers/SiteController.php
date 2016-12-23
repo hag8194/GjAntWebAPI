@@ -137,27 +137,30 @@ class SiteController extends Controller
 
     public function actionProfile()
     {
-        $model_user = User::findOne(Yii::$app->user->id);
-        $model_employer = Employer::findOne(['user_id' => Yii::$app->user->id]);
-        $model_client = Client::findOne(['user_id' => Yii::$app->user->id]);
+        /* @var $model_user \common\models\User */
+        $model_user = Yii::$app->user->identity;
+        $model_employer = $model_user->employer;
+        $model_client = $model_user->client;
 
         $model_user->scenario = User::SCENARIO_UPDATE;
 
         if($model_user->load(Yii::$app->request->post()) && $model_user->save())
-            Yii::$app->session->addFlash('success', Yii::t('backend', 'User updated'));
+            Yii::$app->session->setFlash('success', Yii::t('backend', 'User updated'));
 
         if($model_employer)
         {
-           if($model_employer->load(Yii::$app->request->post()) && $model_employer->save()){
-               Yii::$app->session->addFlash('success', Yii::t('backend', 'Employer updated'));
-           }
+            $model_address = $model_employer->address;
+           if($model_employer->load(Yii::$app->request->post()) && $model_employer->save() &&
+                $model_address->load(Yii::$app->request->post()) && $model_address->save())
+               Yii::$app->session->setFlash('success', Yii::t('backend', 'Employer updated'));
         }
 
         if($model_client)
         {
-            if($model_client->load(Yii::$app->request->post()) && $model_client->save()){
-                Yii::$app->session->addFlash('success', Yii::t('backend', 'Client updated'));
-            }
+            $model_address = $model_client->address;
+            if($model_client->load(Yii::$app->request->post()) && $model_client->save() &&
+                    $model_address->load(Yii::$app->request->post()) && $model_address->save())
+                Yii::$app->session->setFlash('success', Yii::t('backend', 'Client updated'));
         }
 
         return $this->render('profile', [

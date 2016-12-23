@@ -5,22 +5,22 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "product_category".
+ * This is the model class for table "product_tag".
  *
  * @property integer $product_id
- * @property integer $category_id
+ * @property integer $tag_id
  *
- * @property Category $category
  * @property Product $product
+ * @property Tag $tag
  */
-class ProductCategory extends \yii\db\ActiveRecord
+class ProductTag extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'product_category';
+        return 'product_tag';
     }
 
     /**
@@ -29,10 +29,10 @@ class ProductCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'category_id'], 'required'],
-            [['product_id', 'category_id'], 'integer'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['product_id', 'tag_id'], 'required'],
+            [['product_id', 'tag_id'], 'integer'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
+            [['tag_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tag::className(), 'targetAttribute' => ['tag_id' => 'id']],
         ];
     }
 
@@ -43,16 +43,8 @@ class ProductCategory extends \yii\db\ActiveRecord
     {
         return [
             'product_id' => Yii::t('backend', 'Product ID'),
-            'category_id' => Yii::t('backend', 'Category ID'),
+            'tag_id' => Yii::t('backend', 'Tag ID'),
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
@@ -61,5 +53,13 @@ class ProductCategory extends \yii\db\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTag()
+    {
+        return $this->hasOne(Tag::className(), ['id' => 'tag_id']);
     }
 }

@@ -1,22 +1,21 @@
 <?php
 
-use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\widgets\Pjax;
-
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\searchmodels\ProductCategory */
+/* @var $searchModel common\models\searchmodels\TagSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('backend', 'Product Categories');
+$this->title = Yii::t('backend', 'Tags');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-category-index">
+<div class="tag-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('backend', 'Create Product Category'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('backend', 'Create Tag'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,14 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'label' => 'Producto',
-                'value' => 'product.name'
-            ],
-            [
-                'label' => 'Categoría',
-                'value' => 'category.name'
-            ],
+            'id',
+            'name',
+            'description',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

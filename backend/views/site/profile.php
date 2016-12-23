@@ -26,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
         if($model_employer)
         {
             echo $this->render('/employer/_form', [
-                'model' => $model_employer
+                'model' => $model_employer,
+                'model_address' => $model_employer->address
             ]);
         }
         else if($model_client)

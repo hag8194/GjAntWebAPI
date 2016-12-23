@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-12-2016 a las 08:53:30
+-- Tiempo de generación: 23-12-2016 a las 22:43:05
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -318,7 +318,7 @@ CREATE TABLE `employer` (
 INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`, `updated_at`, `zone_id`, `user_id`, `address_id`) VALUES
 (1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1482253119, 1, 24, 1),
 (2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2),
-(3, 'Monse', 'Noguera', '20812115', 1482369588, 1482369892, 5, 32, 11),
+(3, 'Victoria', 'Noguera', '20812115', 1482369588, 1482505913, 1, 32, 11),
 (4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12);
 
 -- --------------------------------------------------------
@@ -406,8 +406,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`) VALUES
-(1, '3141589', 'Cinturon', 15, 500, 0, 1481514759, 1481514759, 1),
-(2, '1234', 'Zapato', 40, 124456, 0, 1481514771, 1481514771, 1);
+(1, '3141589', 'Cinturon', 15, 50000, 0, 1481514759, 1482529205, 1),
+(2, '1234', 'Zapato', 40, 124456, 0, 1481514771, 1482529106, 1);
 
 -- --------------------------------------------------------
 
@@ -495,7 +495,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
-(1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$IiZPayfpjlo4k/wdpxHgw.Tz3WIRlR2FjQSOZNUYPxBH9GPPdwPSu', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, NULL, 'cdhc28ff5634094d8e69h2164a864404', 0, 1482476508),
+(1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$IiZPayfpjlo4k/wdpxHgw.Tz3WIRlR2FjQSOZNUYPxBH9GPPdwPSu', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, '', 'cdhc28ff5634094d8e69h2164a864404', 0, 1482528689),
 (24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$1xgJD/Q6djUN68KapaE2p.oP36jhCeEk7jRwCkd7VyWpz0XOLK3Ae', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482252228),
 (25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, 'img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
 (26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482255082),
@@ -712,7 +712,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --

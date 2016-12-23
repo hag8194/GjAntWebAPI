@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Address;
 use common\models\User;
+use mdm\admin\components\AccessControl;
 use Yii;
 use common\models\Client;
 use common\models\searchmodels\ClientSearch;
@@ -28,6 +29,9 @@ class ClientController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className()
+            ]
         ];
     }
 

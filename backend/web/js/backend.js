@@ -11,6 +11,7 @@ $(document).ready(function(){
 
     $('.available-client').on('ifClicked', function(){
         $.ajax({
+            method: "POST",
             url: 'http://localhost/GjAntWebAPI/backend/web/client-wallet/assign-client',
             data: {
                 'client_id': $(this).attr('id'),

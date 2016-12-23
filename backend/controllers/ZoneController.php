@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use mdm\admin\components\AccessControl;
 use Yii;
 use common\models\Zone;
 use common\models\searchmodels\ZoneSearch;
@@ -26,6 +27,9 @@ class ZoneController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className()
+            ]
         ];
     }
 

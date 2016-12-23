@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use mdm\admin\components\AccessControl;
 use Yii;
 use common\models\RelatedArticles;
 use common\models\searchmodels\RelatedArticlesSearch;
@@ -26,6 +27,9 @@ class RelatedArticlesController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className()
+            ]
         ];
     }
 

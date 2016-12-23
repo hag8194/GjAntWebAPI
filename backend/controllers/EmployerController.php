@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Address;
 use common\models\User;
+use mdm\admin\components\AccessControl;
 use Yii;
 use common\models\Employer;
 use common\models\searchmodels\EmployerSearch;
@@ -28,6 +29,9 @@ class EmployerController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className()
+            ]
         ];
     }
 

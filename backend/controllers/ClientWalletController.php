@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\ClientListViewSearch;
 use backend\models\EmployerListViewSearch;
 use common\models\Employer;
+use mdm\admin\components\AccessControl;
 use Yii;
 use common\models\ClientWallet;
 use yii\web\BadRequestHttpException;
@@ -25,9 +26,12 @@ class ClientWalletController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'assign-client' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className()
+            ]
         ];
     }
 
@@ -59,10 +63,13 @@ class ClientWalletController extends Controller
         ]);
     }
 
-    public function actionAssignClient($client_id, $employer_id)
+    public function actionAssignClient()
     {
         if(Yii::$app->request->isAjax)
         {
+            $client_id = Yii::$app->request->post('client_id');
+            $employer_id = Yii::$app->request->post('employer_id');
+
             $query = ClientWallet::find()->where(['client_id' => $client_id, 'employer_id' => $employer_id]);
 
             if(!$query->exists()){

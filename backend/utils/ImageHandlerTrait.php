@@ -9,6 +9,7 @@
 namespace backend\utils;
 
 use Yii;
+use yii\base\Model;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
 
@@ -41,15 +42,23 @@ trait ImageHandlerTrait
      */
     public function upload($resize = true)
     {
-        $this->setIAttribute(UploadedFile::getInstance($this->getIModel(), $this->getIAttributeName()));
+        /* @var $model Model*/
+        $model = $this->getIModel();
+        /* @var $attribute_name string*/
+        $attribute_name = $this->getIAttributeName();
+
+        $this->setIAttribute(UploadedFile::getInstance($model, $attribute_name));
         if($this->getIAttribute())
         {
-            $path = 'img/' . $this->generateFileName() . '.' . $this->getIAttribute()->extension;
-
-            if($this->getIAttribute()->saveAs($path))
+            if($model->validate())
             {
-                $resize ? $this->resizeImage($path) : null;
-                return $path;
+                $path = 'img/' . $this->generateFileName() . '.' . $this->getIAttribute()->extension;
+
+                if($this->getIAttribute()->saveAs($path))
+                {
+                    $resize ? $this->resizeImage($path) : null;
+                    return $path;
+                }
             }
             return null;
         }
@@ -63,19 +72,28 @@ trait ImageHandlerTrait
      */
     public function uploadAll($resize = true)
     {
-        $this->setIAttribute(UploadedFile::getInstances($this->getIModel(), $this->getIAttributeName()));
+        /* @var $model Model*/
+        $model = $this->getIModel();
+        /* @var $attribute_name string*/
+        $attribute_name = $this->getIAttributeName();
+
+        $this->setIAttribute(UploadedFile::getInstances($model, $attribute_name));
         if($this->getIAttribute())
         {
             $paths = [];
-            foreach ($this->getIAttribute() as $attribute)
-            {
-                $aux = 'img/' . $this->generateFileName() . '.' . $attribute->extension;
-                if($attribute->saveAs($aux))
+            if($model->validate()){
+                /* @var $attribute UploadedFile*/
+                foreach ($this->getIAttribute() as $attribute)
                 {
-                    $resize ? $this->resizeImage($aux) : null;
-                    array_push($paths, $aux) ;
+                    $aux = 'img/' . $this->generateFileName() . '.' . $attribute->extension;
+                    if($attribute->saveAs($aux))
+                    {
+                        $resize ? $this->resizeImage($aux) : null;
+                        array_push($paths, $aux) ;
+                    }
                 }
             }
+
             return $paths;
         }
         return null;
@@ -84,7 +102,7 @@ trait ImageHandlerTrait
     /**
      * @return String Random string
      */
-    public static function generateFileName() {
+    private function generateFileName() {
         return Yii::$app->security->generateRandomString();
     }
 
@@ -92,7 +110,7 @@ trait ImageHandlerTrait
      * @param String $path
      * @return void
      */
-    public static function resizeImage($path, $width = 120, $height = 120, $quality = 100) {
+    private function resizeImage($path, $width = 120, $height = 120, $quality = 100) {
         Image::thumbnail($path, $width, $height)->save($path, ['quality' => $quality]);
     }
 }

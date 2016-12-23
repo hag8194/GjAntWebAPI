@@ -97,6 +97,7 @@ class Product extends \yii\db\ActiveRecord
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'updated_by' => Yii::t('backend', 'Updated By'),
+            'productImages' => Yii::t('backend', 'Product Images'),
         ];
     }
 

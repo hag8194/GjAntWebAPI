@@ -56,9 +56,9 @@ class ClientListViewSearch extends ClientSearch
     public function search($params)
     {
         $query = Client::find()
-            ->joinWith(['address']);
-
-        $query->where(['like', 'address.name', $this->zone_name]);
+            ->joinWith(['address', 'clientWallet'])
+            ->where(['like', 'address.name', $this->zone_name]);
+            //->andWhere('client_wallet.client_id != client.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

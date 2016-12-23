@@ -9,6 +9,7 @@
 namespace backend\models;
 
 use backend\utils\ImageHandlerTrait;
+use common\models\ProductImage;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
@@ -42,14 +43,27 @@ class UploadProductImagesForm extends Model
         $this->imageFiles = $attribute;
     }
 
+    public function saveUploadedImages($product_id)
+    {
+        if($paths = $this->uploadAll())
+        {
+            foreach ($paths as $path)
+            {
+                $model = new ProductImage();
+                $model->setAttributes(['product_id' => $product_id, 'path' =>  '/' . $path]);
+
+                if(!$model->save())
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public function rules()
     {
         return [
-            [
-                ['imageFiles'], 'image',
-                'extensions' => 'png, jpg',
-                'maxFiles' => 6,
-                //'skipOnEmpty' => false
-            ]];
+            ['imageFiles', 'image', 'extensions' => 'png, jpg','maxFiles' => 6]
+        ];
     }
 }

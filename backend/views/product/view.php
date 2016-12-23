@@ -56,30 +56,38 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <div>
-        <?php
-            if(!empty($model->productImages))
-            {
-                foreach ($model->productImages as $productImage)
-                    echo Html::img(Yii::$app->urlManager->createAbsoluteUrl($productImage->path));
-            }
-            else
-            {
-                echo '
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        El producto no tiene imagenes
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title"><?= $model->getAttributeLabel("productImages") ?></h3>
+            <div class="box-tools pull-right">
+                <button id="<?= $model->productImages? $model->id : 0 ?>" class="btn btn-xs btn-danger delete-product-images"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+        <div id="product-images" class="box-body">
+        <?php if(!empty($model->productImages)): ?>
+            <div class="row">
+                <?php foreach ($model->productImages as $productImage): ?>
+                    <div class="col col-md-2">
+                        <button id="<?= $productImage->id ?>" type="button" class="close delete-product-image">×</button>
+                        <?= Html::img(Yii::$app->urlManager->createAbsoluteUrl($productImage->path), ['class' => 'img-responsive']) ?>
                     </div>
-                </div>';
-            }
-        ?>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p><?= Yii::t('backend', 'The product has not images') ?></p>
+        <?php endif; ?>
+        </div>
     </div>
 
     <?php Modal::begin([
-        'id' => 'upload-img',
+        'id' => 'upload-images',
         'header' => '<h2>' . Yii::t('backend', 'Upload Image') . '</h2>',
     ]) ?>
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?php $form = ActiveForm::begin([
+            'options' => ['enctype' => 'multipart/form-data']
+    ]) ?>
+
     <?= $form->field($upload_image_model, 'imageFiles[]')->widget(FileInput::classname(), [
         'options' => ['multiple' => true, 'accept' => 'image/*'],
         'pluginOptions' => [
@@ -87,7 +95,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'initialPreviewAsData' => true,
         ]
     ]); ?>
+
     <?= Html::submitButton(Yii::t('backend','Save changes'), ['class' => 'btn btn-primary']) ?>
+
     <?php $form = ActiveForm::end() ?>
+
     <?php Modal::end(); ?>
 </div>

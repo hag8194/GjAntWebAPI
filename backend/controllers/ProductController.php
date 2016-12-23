@@ -12,6 +12,7 @@ use yii\db\Exception;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -31,6 +32,7 @@ class ProductController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'delete-product-image' => ['POST'],
                 ],
             ],
             'access' => [
@@ -63,9 +65,10 @@ class ProductController extends Controller
     {
         $upload_image_model = new UploadProductImagesForm();
 
-        if($upload_image_model->load(Yii::$app->request->post()))
+        if($upload_image_model->load(Yii::$app->request->post()) && !$upload_image_model->saveUploadedImages($id))
         {
-            if(!empty($paths = $upload_image_model->uploadAll()) && !empty($upload_image_model->imageFiles))
+            print_r($upload_image_model->errors);
+            /*if(!empty($paths = $upload_image_model->uploadAll()) && !empty($upload_image_model->imageFiles))
             {
                 foreach ($paths as $path)
                 {
@@ -92,7 +95,7 @@ class ProductController extends Controller
                 }catch (Exception $e){
                     $transaction->rollBack();
                 }
-            }
+            }*/
         }
 
         return $this->render('view', [
@@ -151,6 +154,28 @@ class ProductController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Deletes an existing ProductImage model.
+     * @param integer $id
+     * @return false|int
+     * @throws BadRequestHttpException
+     */
+    public function actionDeleteProductImage()
+    {
+        if(Yii::$app->request->isAjax && $id = Yii::$app->request->post('id'))
+            return ProductImage::findOne($id)->delete();
+        else
+            throw new BadRequestHttpException('The request need to be an Ajax');
+    }
+
+    public function actionDeleteProductImages()
+    {
+        if(Yii::$app->request->isAjax && $id = Yii::$app->request->post('id'))
+            return ProductImage::deleteAll(['product_id' => $id]);
+        else
+            throw new BadRequestHttpException('The request need to be an Ajax');
     }
 
     /**

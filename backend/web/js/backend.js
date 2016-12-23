@@ -21,4 +21,43 @@ $(document).ready(function(){
             alert(textStatus + ': ' + JSON.stringify(jqXHR));
         });
     });
+
+    $('.delete-product-image').click(function(){
+        var container = $(this).parent();
+        $delete = confirm('Desea borrar la imagen?');
+        if($delete){
+            $.ajax({
+                method: "POST",
+                url: 'http://localhost/GjAntWebAPI/backend/web/product/delete-product-image',
+                data: {
+                    'id': $(this).attr('id')
+                }
+            }).done(function(data, status){
+                if(data)
+                    container.remove();
+
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                alert(textStatus + ': ' + JSON.stringify(jqXHR));
+            });
+        }
+    });
+
+    $('.delete-product-images').click(function(){
+        $delete = confirm('Seguro que desea borrar todas las imagenes?');
+        if($delete){
+            $.ajax({
+                method: "POST",
+                url: 'http://localhost/GjAntWebAPI/backend/web/product/delete-product-images',
+                data: {
+                    'id': $(this).attr('id')
+                }
+            }).done(function(data, status){
+                if(data)
+                    $('#product-images').html('<p>El producto no tiene imágenes</p>');
+
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                alert(textStatus + ': ' + JSON.stringify(jqXHR));
+            });
+        }
+    });
 });

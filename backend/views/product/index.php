@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'code',
             'name',
             'quantity',
@@ -47,13 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model){
                     return Yii::$app->formatter->asDatetime($model->updated_at, 'short');
                 }
-            ],
-            [
-                'label' => 'Usuario',
-                'value' => function($model){
-                    return $model->updatedBy->username;
-                },
-                //'attribute' => 'updated_by'
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

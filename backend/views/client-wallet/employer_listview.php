@@ -22,6 +22,7 @@ use yii\widgets\ListView;
 </div>
 
 <?= ListView::widget([
+    'id' => 'employer-list-view',
     'dataProvider' => $employerDataProvider,
     'itemView' => '_employer'
 ])?>

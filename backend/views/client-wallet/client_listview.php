@@ -23,12 +23,12 @@ use yii\widgets\ListView;
 </div>
 
 <?= ListView::widget([
-    'dataProvider' => $clientDataProvider,
-    'itemView' => '_client',
-    'viewParams' => [
-        'employer_id' => Yii::$app->request->getQueryParam('Employer')['id']
-    ]
-])?>
+        'id' => 'client-list-view',
+        'dataProvider' => $clientDataProvider,
+        'itemView' => '_client',
+        'viewParams' => [
+            'employer_id' => Yii::$app->request->getQueryParam('Employer')['id']
+        ]])?>
 
 <?php else: ?>
     <h4><?= Yii::t('backend', 'Select an Employee') ?></h4>

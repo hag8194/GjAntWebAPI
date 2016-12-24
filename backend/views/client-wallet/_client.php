@@ -28,7 +28,7 @@ $selected = ClientWallet::find()->where(['employer_id' => $employer_id, 'client_
     </div>
     <div class="col col-md-7">
         <h4><?= Html::encode($model->fullname) ?></h4>
-        <h5><?= Html::encode($model->identification) ?></h5>
+        <h5><?= Html::encode($model->address->name) ?></h5>
     </div>
     <div class="col col-md-1">
         <?= Html::checkbox('client-' . $model->id, $selected, ['class' => 'available-client',

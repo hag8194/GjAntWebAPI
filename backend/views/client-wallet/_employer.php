@@ -25,7 +25,7 @@ $avatar = $model->user->avatar;
     </div>
     <div class="col col-md-7">
         <h4><?= Html::encode($model->name . ' ' . $model->lastname) ?></h4>
-        <h5><?= Html::encode($model->identification) ?></h5>
+        <h5><?= Html::encode($model->zone->name) ?></h5>
     </div>
     <div class="col col-md-1">
         <?php $form = ActiveForm::begin(['id' => 'employer-' . $index, 'method' => 'get']); ?>

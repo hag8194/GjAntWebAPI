@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-12-2016 a las 22:43:05
+-- Tiempo de generación: 24-12-2016 a las 01:12:18
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -47,7 +47,11 @@ INSERT INTO `address` (`id`, `name`, `lat`, `lng`) VALUES
 (9, 'Farmatodo, Paseo Cuatricentenario, Valencia, Carabobo, Venezuela', 10.1938, -68.0267),
 (10, 'Locatel, Piazza, 4 Avenidas, Valencia, Carabobo, Venezuela', 10.2047, -68.0285),
 (11, 'Los Bucares, Flor Amarillo, Carabobo, Venezuela', 10.1395, -67.927),
-(12, 'Los Sauces, Avenida 134, Valencia, Carabobo, Venezuela', 10.2069, -68.0059);
+(12, 'Los Sauces, Avenida 134, Valencia, Carabobo, Venezuela', 10.2069, -68.0059),
+(13, 'Conjunto Residencial Los Laureles, Valencia, Carabobo, Venezuela', 10.1508, -68.028),
+(14, 'Farmacia "La Torre", Valencia, Carabobo, Venezuela', 10.1823, -68.0027),
+(15, 'Farmacia Nuevo Siglo, Valencia, Carabobo, Venezuela', 10.1777, -68.0048),
+(16, 'Clinica Los Colorados, Valencia, Carabobo, Venezuela', 10.1932, -68.0097);
 
 -- --------------------------------------------------------
 
@@ -74,6 +78,9 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('client', '29', 1482335643),
 ('client', '30', 1482336048),
 ('client', '31', 1482336295),
+('client', '35', 1482536649),
+('client', '36', 1482536762),
+('client', '37', 1482536892),
 ('vendor', '1', 1481508332),
 ('vendor', '17', 1481510739),
 ('vendor', '19', 1482068615),
@@ -84,7 +91,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('vendor', '24', 1482208219),
 ('vendor', '25', 1482253197),
 ('vendor', '32', 1482369034),
-('vendor', '33', 1482475791);
+('vendor', '33', 1482475791),
+('vendor', '34', 1482536479);
 
 -- --------------------------------------------------------
 
@@ -266,12 +274,15 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
-(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 1482255082, 1482335763, 26, 3),
+(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 1482255082, 1482536161, 26, 3),
 (2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 0, 0, 1482333126, 1482333126, 27, 4),
 (3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 0, 0, 1482335127, 1482335127, 28, 7),
 (4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 0, 0, 1482335701, 1482335701, 29, 8),
 (5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 0, 0, 1482336123, 1482364531, 30, 9),
-(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 1482336412, 1482364556, 31, 10);
+(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 1482336412, 1482364556, 31, 10),
+(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 0, 0, 1482536695, 1482536695, 35, 14),
+(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 0, 0, 1482536836, 1482536836, 36, 15),
+(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 1482536936, 1482536936, 37, 16);
 
 -- --------------------------------------------------------
 
@@ -291,7 +302,8 @@ CREATE TABLE `client_wallet` (
 
 INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
 (3, 1, 2),
-(4, 4, 1);
+(4, 4, 1),
+(5, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -316,10 +328,11 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`, `updated_at`, `zone_id`, `user_id`, `address_id`) VALUES
-(1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1482253119, 1, 24, 1),
+(1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1482535567, 1, 24, 1),
 (2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2),
 (3, 'Victoria', 'Noguera', '20812115', 1482369588, 1482505913, 1, 32, 11),
-(4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12);
+(4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12),
+(5, 'Marjoire Susana', 'Navas Martines', '7111654', 1482536520, 1482536520, 6, 34, 13);
 
 -- --------------------------------------------------------
 
@@ -496,16 +509,20 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$IiZPayfpjlo4k/wdpxHgw.Tz3WIRlR2FjQSOZNUYPxBH9GPPdwPSu', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, '', 'cdhc28ff5634094d8e69h2164a864404', 0, 1482528689),
-(24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$1xgJD/Q6djUN68KapaE2p.oP36jhCeEk7jRwCkd7VyWpz0XOLK3Ae', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482252228),
+(24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$eNfzQiD73X8z9gBr8C1KLejeViiBQTCA/pYva3x7G19hvhvc5kNfC', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482535568),
 (25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, 'img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
-(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482255082),
+(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482536161),
 (27, 'farmatodogranja', 'QP7zmIQkTmMo94iXJeMHvpJrrF30KjHA', '$2y$13$d6DxmAFLiGtciOAYm7xlrexaRCBCrPQAZEIag6GvJEOWrGAW3ZJ/O', NULL, 'farmatodogranja@farmatodo.com.ve', 10, NULL, 'c6efb067dac6b0da2f966869e45a912a', 1482331562, 1482333126),
 (28, 'farmahorropaseo', '8bbAZ2T65zVue5_hAktjPK8iTmnzt5KK', '$2y$13$86sq4g5pJLJ1dwqCwT0wHe00ek1kymhQTVKmjq.ShCdZMF5RlXdA.', NULL, 'farmahorropase@farmaahorro.com.ve', 10, NULL, '71522fd84020bd5b24392f5bcd2239cc', 1482333469, 1482335127),
 (29, 'ccliniconaguanagua', 'JAR7m1WgETCzSyy3eT-URnqhZBj8KPMZ', '$2y$13$cT6VGcdPkAdSB6ova1Y6EOUy1LXSc.vCoHQmFxW7QeSMbAWweWKyC', NULL, 'admin@centrocliniconaguanagua.com.ve', 10, NULL, '715791888c8f4bc599c3e921263e7cd8', 1482335643, 1482335701),
 (30, 'farmatodoguataparo', 'MciIrR5Wyo2BlOcrEWYafwe8tHAzDlKN', '$2y$13$a/oQi0txoHm8EiBnZ08.fenv5Zwn/LYY.XLzm6omZSgME07RsExqC', NULL, 'farmatodoguataparo@farmatodo.com.ve', 10, NULL, '45bfe446a414ba92340b07a4f6d07e33', 1482336048, 1482336123),
 (31, 'locatelparral', 'zU6Gnxa8t8VVsf7lWEjWZY7rgJU4uyh5', '$2y$13$PiaMW1XtaVGP59KHH/BGV.kBkXu592/OXH1R2yAXieyJZLZdZfjvu', NULL, 'locatelparral@locatel.com.ve', 10, NULL, 'ae830f26dd35c7232c4113fb041e712e', 1482336294, 1482336412),
 (32, 'monsefoster@gmail.com', 'uxFOVmxHpLDO2apnmeSj2BVpiIRj6yv6', '$2y$13$QIvhKgDsaj8ONnciVDam8u0Q8Rmadqb46cbRzX3GBuu28o.NNLi.W', NULL, 'monsefoster@gmail.com', 10, 'img/zfGvxdOvSI9SK6tSD_s6TTMieax6tp8V.jpg', '9ec34b816c1bfdfb48b12f3d26e6ce98', 1482369034, 1482369587),
-(33, 'noromero1', 'Ww0a3F15NaKsrN2LGLFEVUsh03F16tab', '$2y$13$sAmSRjRkeLY46cyftrDXKOsyc.PKE7hymRsRbcTraDzcFp84gDGvK', NULL, 'johanaromero@gmail.com', 10, NULL, '13e4b1187ff240a02c22cd9d7015130c', 1482475791, 1482475902);
+(33, 'noromero1', 'Ww0a3F15NaKsrN2LGLFEVUsh03F16tab', '$2y$13$sAmSRjRkeLY46cyftrDXKOsyc.PKE7hymRsRbcTraDzcFp84gDGvK', NULL, 'johanaromero@gmail.com', 10, NULL, '13e4b1187ff240a02c22cd9d7015130c', 1482475791, 1482475902),
+(34, 'cuarzoplata', 'HRGtBhMx6MhOfoafjdnFh27xAMZmmfnT', '$2y$13$KKAaNDbusx80Q8ZdUjUK..odKCvg7FMHrbW1Yyfj3rYcE2E1zU8Zm', NULL, 'cuarzoplata@hotmail.com', 10, NULL, 'effa3d8e4c9ff8e8aa94f336bfcc4348', 1482536479, 1482536520),
+(35, 'farmacialatorre', 'bo08JkuWomifGFboBLmxQ7QZ4IgoVbtz', '$2y$13$Z2ZU3MjIwo7xtmWVRT7mceW09XNiM7A4ZaOboxZQ86XWDOnBKMqQ2', NULL, 'admin@farmacialatorre.com.ve', 10, NULL, '27319a800fcf460d041ff9760562e244', 1482536649, 1482536695),
+(36, 'farmacianuevosiglo', '4b1keTlyF5rzOTG1Suq-bu_JciptGcRK', '$2y$13$ZFGmmKT9kWuvAJfpp3F6q.kW3JaLQTsbzXU2gNqCmC6GQSUEpjDW.', NULL, 'admin@farmacias.nuevosiglo.com.ve', 10, NULL, '814739fe9e9e327cef3477a5b57717ae', 1482536762, 1482536836),
+(37, 'clinicaloscolorados', 'C7ccO0BgknTP4TKhnK9hHsZE_ppQOIcS', '$2y$13$yWvCi1F03d3mvVCKuGM8SeQ9NeV9cu4yomAmOgPTDeTVNgHf8sq06', NULL, 'admin@clinicaloscolorados.com.ve', 10, NULL, '004747631764f1fa719dba93bb3f550a', 1482536892, 1482536936);
 
 -- --------------------------------------------------------
 
@@ -677,7 +694,7 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT de la tabla `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `brand`
 --
@@ -687,17 +704,17 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
@@ -722,7 +739,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT de la tabla `zone`
 --

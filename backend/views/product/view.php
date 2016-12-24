@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-img">Upload Image</button>
+        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-images">Upload Image</button>
         <?= Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= Html::submitButton(Yii::t('backend','Save changes'), ['class' => 'btn btn-primary']) ?>
 
-    <?php $form = ActiveForm::end() ?>
+    <?php ActiveForm::end() ?>
 
     <?php Modal::end(); ?>
 </div>

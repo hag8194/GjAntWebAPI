@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => $model->getAttributeLabel('zone_id'),
                 'value' => $model->zone->name
             ],
-            'user_id',
+            'user.username',
             [
                 'label' => $model->getAttributeLabel('address_id'),
                 'value' => $model->address->name

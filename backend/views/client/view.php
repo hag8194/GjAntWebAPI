@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => $model->getAttributeLabel('address_id'),
                 'value' => $model->address->name
             ],
-            'user_id',
+            'user.username',
 
         ],
     ]) ?>

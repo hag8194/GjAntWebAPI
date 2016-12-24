@@ -1,19 +1,23 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Hugo
+ * Date: 24/12/2016
+ * Time: 12:51 PM
+ */
 
 namespace api\modules\v1\controllers;
 
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 
-/**
- * Country Controller API
- *
- * @author Budi Irawan <deerawan@gmail.com>
- */
-class BrandController extends ActiveController
+class OrderController extends ActiveController
 {
-    public $modelClass = 'common\models\Brand';
+    public $modelClass = 'api\modules\v1\models\OrderAPI';
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         $behaviors =  parent::behaviors();
@@ -24,5 +28,3 @@ class BrandController extends ActiveController
         return $behaviors;
     }
 }
-
-

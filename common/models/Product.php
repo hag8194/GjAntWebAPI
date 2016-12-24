@@ -35,6 +35,7 @@ use yii\helpers\ArrayHelper;
 class Product extends \yii\db\ActiveRecord
 {
     public static $STATUS_LABEL = ['No mostrar', 'Mostrar'];
+
     /**
      * @inheritdoc
      */
@@ -66,22 +67,6 @@ class Product extends \yii\db\ActiveRecord
             [['code'], 'unique'],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
-        ];
-    }
-
-    public function fields()
-    {
-        return ArrayHelper::merge(parent::fields(), [
-            'productImages'
-        ]);
-    }
-
-    public function extraFields()
-    {
-        return [
-            'brands',
-            'categories',
-            'children'
         ];
     }
 

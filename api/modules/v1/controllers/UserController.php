@@ -8,24 +8,19 @@
 
 namespace api\modules\v1\controllers;
 
-
-use common\models\User;
+use api\modules\v1\models\UserAPI;
 use Yii;
-use yii\rest\ActiveController;
+use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
-class UserController extends ActiveController
+class UserController extends Controller
 {
-    public $modelClass = 'common\models\User';
-
-    public function actions(){}
-
     public function actionLogin()
     {
         if(!empty($username = Yii::$app->request->getBodyParam('username')) &&
             !empty($password = Yii::$app->request->getBodyParam('password')))
         {
-            $user = User::findByUsername($username);
+            $user = UserAPI::findByUsername($username);
 
             if ($user && $user->validatePassword($password))
                 return $user;

@@ -19,7 +19,7 @@ return [
     ],
     'components' => [        
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'api\modules\v1\models\UserAPI',
             'enableAutoLogin' => false,
             'loginUrl' => null
         ],
@@ -39,8 +39,8 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => ['v1/brand', 'v1/product', 'v1/product-image', 'v1/related-articles', 'v1/user'],
-                    'extraPatterns' => ['POST login' => 'login'],
+                    'controller' => ['v1/client-wallet', 'v1/order', 'v1/product', 'v1/user'],
+                    'extraPatterns' => ['POST login' => 'login', 'GET search' => 'search'],
                     'except' => ['delete'],
                     'tokens' => [
                         '{id}' => '<id:\\w+>'

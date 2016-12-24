@@ -30,7 +30,8 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description'], 'string', 'max' => 45],
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 45],
         ];
     }
 

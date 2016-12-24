@@ -1,6 +1,8 @@
 <?php
 
+use common\models\Brand;
 use common\models\Product;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -20,6 +22,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'quantity')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
+
+    <?= $form->field($model, 'brand_id')->dropDownList(ArrayHelper::map(Brand::find()->all(), 'id', 'name'), ['prompt' => Yii::t('backend', 'Select a brand')]) ?>
 
     <?= $form->field($model, 'status')->dropDownList(Product::$STATUS_LABEL)?>
 

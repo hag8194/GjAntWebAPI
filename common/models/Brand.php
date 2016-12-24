@@ -11,7 +11,6 @@ use Yii;
  * @property string $name
  * @property string $description
  *
- * @property ProductBrand[] $productBrands
  * @property Product[] $products
  */
 class Brand extends \yii\db\ActiveRecord
@@ -30,7 +29,8 @@ class Brand extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description'], 'string', 'max' => 45],
+            [['description'], 'string'],
+            [['name'], 'string', 'max' => 45],
         ];
     }
 
@@ -49,16 +49,8 @@ class Brand extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductBrands()
-    {
-        return $this->hasMany(ProductBrand::className(), ['brand_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['id' => 'product_id'])->viaTable('product_brand', ['brand_id' => 'id']);
+        return $this->hasMany(Product::className(), ['brand_id' => 'id']);
     }
 }

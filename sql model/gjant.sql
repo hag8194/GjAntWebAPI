@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-12-2016 a las 01:12:18
+-- Tiempo de generación: 24-12-2016 a las 08:11:43
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -51,7 +51,8 @@ INSERT INTO `address` (`id`, `name`, `lat`, `lng`) VALUES
 (13, 'Conjunto Residencial Los Laureles, Valencia, Carabobo, Venezuela', 10.1508, -68.028),
 (14, 'Farmacia "La Torre", Valencia, Carabobo, Venezuela', 10.1823, -68.0027),
 (15, 'Farmacia Nuevo Siglo, Valencia, Carabobo, Venezuela', 10.1777, -68.0048),
-(16, 'Clinica Los Colorados, Valencia, Carabobo, Venezuela', 10.1932, -68.0097);
+(16, 'Clinica Los Colorados, Valencia, Carabobo, Venezuela', 10.1932, -68.0097),
+(17, 'Los Caobos, Av 112 San Juan María Vianney, Valencia, Carabobo, Venezuela', 10.1572, -68.0213);
 
 -- --------------------------------------------------------
 
@@ -92,7 +93,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('vendor', '25', 1482253197),
 ('vendor', '32', 1482369034),
 ('vendor', '33', 1482475791),
-('vendor', '34', 1482536479);
+('vendor', '34', 1482536479),
+('vendor', '38', 1482561399);
 
 -- --------------------------------------------------------
 
@@ -239,7 +241,7 @@ CREATE TABLE `auth_rule` (
 CREATE TABLE `brand` (
   `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL
+  `description` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -332,7 +334,8 @@ INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`
 (2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2),
 (3, 'Victoria', 'Noguera', '20812115', 1482369588, 1482505913, 1, 32, 11),
 (4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12),
-(5, 'Marjoire Susana', 'Navas Martines', '7111654', 1482536520, 1482536520, 6, 34, 13);
+(5, 'Marjoire Susana', 'Navas Martines', '7111654', 1482536520, 1482536520, 6, 34, 13),
+(6, 'Pedro', 'Palma', '19221152', 1482561821, 1482561821, 4, 38, 17);
 
 -- --------------------------------------------------------
 
@@ -399,6 +402,35 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `order`
+--
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `status` smallint(6) DEFAULT '10',
+  `description` tinytext,
+  `type` smallint(6) DEFAULT '0' COMMENT '0: Buy Order or Cotization 1: Sales Order',
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  `client_wallet_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `order_detail`
+--
+
+CREATE TABLE `order_detail` (
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `product`
 --
 
@@ -411,16 +443,16 @@ CREATE TABLE `product` (
   `status` tinyint(1) DEFAULT '1' COMMENT 'True: The product will appear in the catalog; False: The product will not appear in the catalog',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `updated_by` int(11) NOT NULL
+  `updated_by` int(11) NOT NULL,
+  `brand_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `product`
 --
 
-INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`) VALUES
-(1, '3141589', 'Cinturon', 15, 50000, 0, 1481514759, 1482529205, 1),
-(2, '1234', 'Zapato', 40, 124456, 0, 1481514771, 1482529106, 1);
+INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
+(3, 'zapatochu', 'Zapato Chu', 200, 50000, 0, 1482560950, 1482560950, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -522,7 +554,8 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (34, 'cuarzoplata', 'HRGtBhMx6MhOfoafjdnFh27xAMZmmfnT', '$2y$13$KKAaNDbusx80Q8ZdUjUK..odKCvg7FMHrbW1Yyfj3rYcE2E1zU8Zm', NULL, 'cuarzoplata@hotmail.com', 10, NULL, 'effa3d8e4c9ff8e8aa94f336bfcc4348', 1482536479, 1482536520),
 (35, 'farmacialatorre', 'bo08JkuWomifGFboBLmxQ7QZ4IgoVbtz', '$2y$13$Z2ZU3MjIwo7xtmWVRT7mceW09XNiM7A4ZaOboxZQ86XWDOnBKMqQ2', NULL, 'admin@farmacialatorre.com.ve', 10, NULL, '27319a800fcf460d041ff9760562e244', 1482536649, 1482536695),
 (36, 'farmacianuevosiglo', '4b1keTlyF5rzOTG1Suq-bu_JciptGcRK', '$2y$13$ZFGmmKT9kWuvAJfpp3F6q.kW3JaLQTsbzXU2gNqCmC6GQSUEpjDW.', NULL, 'admin@farmacias.nuevosiglo.com.ve', 10, NULL, '814739fe9e9e327cef3477a5b57717ae', 1482536762, 1482536836),
-(37, 'clinicaloscolorados', 'C7ccO0BgknTP4TKhnK9hHsZE_ppQOIcS', '$2y$13$yWvCi1F03d3mvVCKuGM8SeQ9NeV9cu4yomAmOgPTDeTVNgHf8sq06', NULL, 'admin@clinicaloscolorados.com.ve', 10, NULL, '004747631764f1fa719dba93bb3f550a', 1482536892, 1482536936);
+(37, 'clinicaloscolorados', 'C7ccO0BgknTP4TKhnK9hHsZE_ppQOIcS', '$2y$13$yWvCi1F03d3mvVCKuGM8SeQ9NeV9cu4yomAmOgPTDeTVNgHf8sq06', NULL, 'admin@clinicaloscolorados.com.ve', 10, NULL, '004747631764f1fa719dba93bb3f550a', 1482536892, 1482536936),
+(38, 'ppalma', 'FiTAVeiX2yuH2jqfH02nrxA9BOKnbLB3', '$2y$13$GSCnSXml8.NhnLBLD1ZBceDJiUwUvJz.Z.ip9QBXNpecVkZyZ6246', NULL, 'pedropalma@gmail.com', 10, NULL, '7ac2ec27dadf7e16a3440ca5a0748cf7', 1482561399, 1482561821);
 
 -- --------------------------------------------------------
 
@@ -635,12 +668,29 @@ ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
 
 --
+-- Indices de la tabla `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code_UNIQUE` (`code`),
+  ADD KEY `fk_order_client_wallet1_idx` (`client_wallet_id`);
+
+--
+-- Indices de la tabla `order_detail`
+--
+ALTER TABLE `order_detail`
+  ADD PRIMARY KEY (`order_id`,`product_id`),
+  ADD KEY `fk_order_detail_order1_idx` (`order_id`),
+  ADD KEY `fk_order_detail_product1_idx` (`product_id`);
+
+--
 -- Indices de la tabla `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `code_UNIQUE` (`code`),
-  ADD KEY `fk_product_user1_idx` (`updated_by`);
+  ADD KEY `fk_product_user1_idx` (`updated_by`),
+  ADD KEY `fk_product_brand1_idx` (`brand_id`);
 
 --
 -- Indices de la tabla `product_image`
@@ -694,7 +744,7 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT de la tabla `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `brand`
 --
@@ -714,22 +764,27 @@ ALTER TABLE `client_wallet`
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
+-- AUTO_INCREMENT de la tabla `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --
@@ -739,7 +794,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT de la tabla `zone`
 --
@@ -797,9 +852,23 @@ ALTER TABLE `menu`
   ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `fk_order_client_wallet1` FOREIGN KEY (`client_wallet_id`) REFERENCES `client_wallet` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `order_detail`
+--
+ALTER TABLE `order_detail`
+  ADD CONSTRAINT `fk_order_detail_order1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_order_detail_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Filtros para la tabla `product`
 --
 ALTER TABLE `product`
+  ADD CONSTRAINT `fk_product_brand1` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_product_user1` FOREIGN KEY (`updated_by`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

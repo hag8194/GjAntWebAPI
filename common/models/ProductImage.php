@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "product_image".
@@ -54,5 +56,17 @@ class ProductImage extends \yii\db\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        return ArrayHelper::merge(parent::fields(),[
+            'path' => function($model){
+                return Url::to('GjAntWebAPI/backend/web' . $model->path, true);
+            }
+        ]);
     }
 }

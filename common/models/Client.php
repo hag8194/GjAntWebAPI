@@ -121,4 +121,16 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ClientWallet::className(), ['client_id' => 'id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['user_id'], $fields['address_id']);
+        array_push($fields, 'address');
+
+        return $fields;
+    }
 }

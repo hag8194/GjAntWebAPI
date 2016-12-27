@@ -5,6 +5,8 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\web\Linkable;
 
 /**
  * This is the model class for table "product".
@@ -32,7 +34,7 @@ use yii\helpers\ArrayHelper;
  * @property Product[] $children
  * @property Product[] $parents
  */
-class Product extends \yii\db\ActiveRecord
+class Product extends \yii\db\ActiveRecord implements Linkable
 {
     public static $STATUS_LABEL = ['No mostrar', 'Mostrar'];
 
@@ -176,5 +178,39 @@ class Product extends \yii\db\ActiveRecord
     public function getParents()
     {
         return $this->hasMany(Product::className(), ['id' => 'parent'])->viaTable('related_articles', ['child' => 'id']);
+    }
+
+    public function getLinks()
+    {
+        $images = $this->productImages;
+        $url = $images ? Url::to('GjAntWebAPI/backend/web' . $images[0]->path, true) : null;
+        return [
+            'poster' => $url
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['brand_id']);
+
+        return ArrayHelper::merge($fields, [
+            'brand'
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function extraFields()
+    {
+        return [
+            'tags',
+            'children',
+            'productImages'
+        ];
     }
 }

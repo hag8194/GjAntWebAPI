@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-12-2016 a las 08:11:43
+-- Tiempo de generación: 27-12-2016 a las 04:16:08
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -294,6 +294,7 @@ INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `c
 
 CREATE TABLE `client_wallet` (
   `id` int(11) NOT NULL,
+  `assigned` tinyint(1) DEFAULT '1' COMMENT '1: The client is assigned to the employer',
   `employer_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -302,10 +303,9 @@ CREATE TABLE `client_wallet` (
 -- Volcado de datos para la tabla `client_wallet`
 --
 
-INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
-(3, 1, 2),
-(4, 4, 1),
-(5, 1, 4);
+INSERT INTO `client_wallet` (`id`, `assigned`, `employer_id`, `client_id`) VALUES
+(1, 1, 1, 2),
+(2, 1, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -466,6 +466,15 @@ CREATE TABLE `product_image` (
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `product_image`
+--
+
+INSERT INTO `product_image` (`id`, `path`, `product_id`) VALUES
+(1, '/img/NN-TG7bN2wdVF53gvExAr-RH6mQTQJQm.png', 3),
+(2, '/img/Qrh5NvZuA5uGym0oRFgc8ZXkTE0qb0rf.png', 3),
+(3, '/img/k9e00i5tFero-mvHHr4UhFv8l1CDK-6k.jpg', 3);
+
 -- --------------------------------------------------------
 
 --
@@ -487,14 +496,6 @@ CREATE TABLE `related_articles` (
   `parent` int(11) NOT NULL,
   `child` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `related_articles`
---
-
-INSERT INTO `related_articles` (`parent`, `child`) VALUES
-(1, 2),
-(2, 1);
 
 -- --------------------------------------------------------
 
@@ -640,7 +641,6 @@ ALTER TABLE `client`
 --
 ALTER TABLE `client_wallet`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `client_id_UNIQUE` (`client_id`),
   ADD KEY `fk_client_wallet_client1_idx` (`client_id`),
   ADD KEY `fk_client_wallet_employer1_idx` (`employer_id`);
 
@@ -759,7 +759,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
@@ -784,7 +784,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --

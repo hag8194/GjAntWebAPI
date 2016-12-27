@@ -123,4 +123,18 @@ class Employer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Zone::className(), ['id' => 'zone_id']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['user_id'], $fields['address_id'], $fields['zone_id']);
+
+        array_push($fields, 'address');
+        array_push($fields, 'zone');
+
+        return $fields;
+    }
 }

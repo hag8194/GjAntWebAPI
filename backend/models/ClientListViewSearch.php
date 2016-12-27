@@ -76,7 +76,7 @@ class ClientListViewSearch extends ClientSearch
         }
 
         $query->andFilterWhere(['like', 'fullname', $this->query])
-            ->orFilterWhere(['like', 'identification', $this->query]);
+              ->orFilterWhere(['like', 'identification', $this->query]);
 
         return $dataProvider;
     }

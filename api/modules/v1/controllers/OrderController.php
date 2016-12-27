@@ -13,7 +13,22 @@ use yii\rest\ActiveController;
 
 class OrderController extends ActiveController
 {
-    public $modelClass = 'api\modules\v1\models\OrderAPI';
+    public $modelClass = 'common\models\Order';
+
+    public function actions()
+    {
+        $actions = parent::actions();
+
+        $actions['create'] = [
+            'class' => 'api\modules\v1\actions\CreateOrderAction',
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+            'scenario' => $this->createScenario,
+        ];
+
+        return $actions;
+    }
+
 
     /**
      * @inheritdoc

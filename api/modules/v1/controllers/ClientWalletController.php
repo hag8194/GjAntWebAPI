@@ -8,13 +8,13 @@
 
 namespace api\modules\v1\controllers;
 
-use api\modules\v1\models\ClientWalletAPI;
+use common\models\ClientWallet;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 
 class ClientWalletController extends ActiveController
 {
-    public $modelClass = 'api\modules\v1\models\ClientWalletAPI';
+    public $modelClass = 'common\models\ClientWallet';
 
     /**
      * @inheritdoc
@@ -31,6 +31,6 @@ class ClientWalletController extends ActiveController
 
     public function actionSearch($employer_id)
     {
-       return ClientWalletAPI::findAll(['employer_id' => $employer_id]);
+       return ClientWallet::findAll(['employer_id' => $employer_id]);
     }
 }

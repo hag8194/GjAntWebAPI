@@ -8,10 +8,11 @@
 
 namespace api\modules\v1\controllers;
 
-use api\modules\v1\models\UserAPI;
+use common\models\User;
 use Yii;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -20,10 +21,12 @@ class UserController extends Controller
         if(!empty($username = Yii::$app->request->getBodyParam('username')) &&
             !empty($password = Yii::$app->request->getBodyParam('password')))
         {
-            $user = UserAPI::findByUsername($username);
+            $user = User::findByUsername($username);
 
             if ($user && $user->validatePassword($password))
                 return $user;
+            else
+                throw new NotFoundHttpException(Yii::t('backend', 'Invalid username or password'));
         }
         throw new BadRequestHttpException('Missing Body Params');
     }

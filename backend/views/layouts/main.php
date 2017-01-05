@@ -4,29 +4,22 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+if (class_exists('backend\assets\AppAsset') && class_exists('backend\assets\PluginsAssets')) {
+    backend\assets\AppAsset::register($this);
+    backend\assets\PluginsAssets::register($this);
+}
 
-if (Yii::$app->controller->action->id === 'login') {
-    /**
-     * Do not use this code in your template. Remove it.
-     * Instead, use the code  $this->layout = '//main-login'; in your controller.
-     */
-    echo $this->render(
-        'main-login',
-        ['content' => $content]
-    );
-} else {
+dmstr\web\AdminLteAsset::register($this);
 
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
-    } else {
-        app\assets\AppAsset::register($this);
-    }
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
-    dmstr\web\AdminLteAsset::register($this);
+if($avatar = Yii::$app->user->identity->avatar)
+    $avatar = Yii::$app->urlManager->createAbsoluteUrl($avatar);
+else
+    $avatar = Yii::$app->urlManager->createAbsoluteUrl("img/default-avatar.gif");
 
-    $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
-    ?>
-    <?php $this->beginPage() ?>
+?>
+<?php $this->beginPage() ?>
     <!DOCTYPE html>
     <html lang="<?= Yii::$app->language ?>">
     <head>
@@ -36,18 +29,18 @@ if (Yii::$app->controller->action->id === 'login') {
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="sidebar-mini fixed <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-collapse">
+    <body class="fixed <?= \dmstr\helpers\AdminLteHelper::skinClass() ?>">
     <?php $this->beginBody() ?>
     <div class="wrapper">
 
         <?= $this->render(
             'header.php',
-            ['directoryAsset' => $directoryAsset]
+            ['directoryAsset' => $directoryAsset, 'avatar' => $avatar]
         ) ?>
 
         <?= $this->render(
             'left.php',
-            ['directoryAsset' => $directoryAsset]
+            ['directoryAsset' => $directoryAsset, 'avatar' => $avatar]
         )
         ?>
 
@@ -61,5 +54,4 @@ if (Yii::$app->controller->action->id === 'login') {
     <?php $this->endBody() ?>
     </body>
     </html>
-    <?php $this->endPage() ?>
-<?php } ?>
+<?php $this->endPage() ?>

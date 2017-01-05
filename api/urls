@@ -1,0 +1,11 @@
+http://localhost/GjAntWebAPI/api/web/v1/users/login?expand=employer
+Se debe agregar en el body: 'x-www-form-urlencoded'
+    username: ivangn
+    password: alejandro24
+
+**Retrieve all products**
+http://localhost/GjAntWebAPI/api/web/v1/products?access-token=9a0bc0b105c9ceed3a498763846df63d&expand=categories,brands
+
+**Retrieve a product**
+http://localhost/GjAntWebAPI/api/web/v1/products/1?access-token=9a0bc0b105c9ceed3a498763846df63d&expand=children
+

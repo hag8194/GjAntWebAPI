@@ -1,10 +1,12 @@
 <?php
 namespace common\models;
 
+use backend\utils\ImageHandlerTrait;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -17,15 +19,53 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property string $avatar
+ * @property string $access_token
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ *
+ * @property Client $client
+ * @property Employer $employer
+ * @property Product[] $products
  */
+
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 10;
 
+    const SCENARIO_UPDATE = 'update';
+
+    public $password;
+    public $repeat_password;
+    public $_avatar;
+
+    public $role;
+    public static $ROLE_DATA  = ['Vendedor', 'Cliente'];
+
+    use ImageHandlerTrait;
+
+    /** Trait Implementation **/
+    protected  function getIModel()
+    {
+        return $this;
+    }
+
+    protected  function getIAttributeName()
+    {
+        return '_avatar';
+    }
+
+    protected function getIAttribute()
+    {
+        return $this->_avatar;
+    }
+
+    protected  function setIAttribute($attribute)
+    {
+        $this->_avatar = $attribute;
+    }
 
     /**
      * @inheritdoc
@@ -45,14 +85,106 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_DEFAULT =>[
+                'username',
+                'email',
+                'password',
+                'repeat_password',
+                '_avatar',
+                'avatar',
+                'role'
+            ],
+            self::SCENARIO_UPDATE => [
+                'username',
+                'email',
+                'password',
+                'repeat_password',
+                '_avatar',
+                'avatar'
+            ]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord) {
+            $this->access_token = $this->getUniqueAccessToken();
+            $this->generateAuthKey();
+            $this->setPassword($this->password);
+        }
+
+        if($this->scenario == self::SCENARIO_UPDATE && $this->password){
+            $this->setPassword($this->password);
+        }
+
+        if($path = $this->upload())
+            $this->avatar = $path;
+
+        return parent::beforeSave($insert);
+
+    }
+
+    public function beforeDelete()
+    {
+        Yii::$app->authManager->revokeAll($this->id);
+        return parent::beforeDelete();
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['username', 'trim'],
+            ['username', 'required'],
+            ['username', 'unique', 'message' => Yii::t('backend', 'This username has already been taken.')],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'unique', 'message' => Yii::t('backend','This email address has already been taken.')],
+            ['email', 'string', 'max' => 255],
+
+            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+
+            [['password_hash', 'password_reset_token'], 'string', 'max' => 255],
+
+            [['avatar', 'access_token'], 'string', 'max' => 45],
+
+            ['password', 'required', 'on' => [self::SCENARIO_DEFAULT]],
+            ['password', 'compare', 'compareAttribute' => 'repeat_password', 'on' => [self::SCENARIO_UPDATE]],
+            ['password', 'string', 'min' => 6],
+
+            ['repeat_password', 'required', 'on' => [self::SCENARIO_DEFAULT]],
+            ['repeat_password', 'compare', 'compareAttribute' => 'password'],
+
+            ['_avatar', 'image', 'extensions' => 'png, jpg', 'maxFiles' => 1],
+
+            ['role', 'required', 'on' => [self::SCENARIO_DEFAULT]]
+
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('backend', 'Username'),
+            'email' => Yii::t('backend', 'Email'),
+            'password' => Yii::t('backend', 'Password'),
+            'avatar' => Yii::t('backend', 'Avatar'),
+            'role' => Yii::t('backend', 'Rol')
         ];
     }
 
@@ -69,7 +201,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
@@ -185,5 +317,66 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    private function getUniqueAccessToken() {
+        $result = md5(Yii::$app->security->generateRandomString() . '_' . time());
+        $identity = $this->findIdentityByAccessToken($result);
+        if ($identity) {
+            $result = $this->getUniqueAccessToken();
+        }
+        return $result;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClient()
+    {
+        return $this->hasOne(Client::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEmployer()
+    {
+        return $this->hasOne(Employer::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['updated_by' => 'id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        $fields = parent::fields(); // TODO: Change the autogenerated stub
+        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
+
+        return ArrayHelper::merge($fields,[
+            'status' => function($model){
+                return $model->status === self::STATUS_ACTIVE ? Yii::t('backend', 'active') : Yii::t('backend', 'inactive');
+            },
+            'avatar' => function($model){
+                return Url::to('GjAntWebAPI/backend/web' . $model->avatar, true);
+            }
+        ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function extraFields()
+    {
+        return [
+            'employer'
+        ];
     }
 }

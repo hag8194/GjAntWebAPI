@@ -57,7 +57,7 @@ trait ImageHandlerTrait
                 if($this->getIAttribute()->saveAs($path))
                 {
                     $resize ? $this->resizeImage($path) : null;
-                    return $path;
+                    return '/' . $path;
                 }
             }
             return null;
@@ -89,7 +89,7 @@ trait ImageHandlerTrait
                     if($attribute->saveAs($aux))
                     {
                         $resize ? $this->resizeImage($aux) : null;
-                        array_push($paths, $aux) ;
+                        array_push($paths, '/' . $aux) ;
                     }
                 }
             }

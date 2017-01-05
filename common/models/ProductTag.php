@@ -42,8 +42,8 @@ class ProductTag extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'product_id' => Yii::t('backend', 'Product ID'),
-            'tag_id' => Yii::t('backend', 'Tag ID'),
+            'product_id' => Yii::t('backend', 'Product'),
+            'tag_id' => Yii::t('backend', 'Tag'),
         ];
     }
 

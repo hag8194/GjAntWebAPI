@@ -50,7 +50,7 @@ class UploadProductImagesForm extends Model
             foreach ($paths as $path)
             {
                 $model = new ProductImage();
-                $model->setAttributes(['product_id' => $product_id, 'path' =>  '/' . $path]);
+                $model->setAttributes(['product_id' => $product_id, 'path' =>  $path]);
 
                 if(!$model->save())
                     return false;

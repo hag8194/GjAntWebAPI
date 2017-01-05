@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-12-2016 a las 04:16:08
--- Versión del servidor: 10.1.9-MariaDB
--- Versión de PHP: 5.6.15
+-- Tiempo de generación: 05-01-2017 a las 01:28:47
+-- Versión del servidor: 10.1.19-MariaDB
+-- Versión de PHP: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -304,8 +304,7 @@ CREATE TABLE `client_wallet` (
 --
 
 INSERT INTO `client_wallet` (`id`, `assigned`, `employer_id`, `client_id`) VALUES
-(1, 1, 1, 2),
-(2, 1, 1, 3);
+(4, 1, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -365,7 +364,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (7, 'Etiqueta', 13, NULL, NULL, NULL),
 (8, 'Crear', 7, '/tag/create', 1, NULL),
 (9, 'Principal', 7, '/tag/index', 0, NULL),
-(11, 'Asignar categorías', NULL, '/product-category/index', 8, NULL),
+(11, 'Asignar etiquetas', NULL, '/product-tag/index', 7, NULL),
 (12, 'Zonas', 13, NULL, 3, NULL),
 (13, 'Maestros', NULL, NULL, 5, NULL),
 (14, 'Administrar', NULL, '/admin/user/index', 1, NULL),
@@ -377,7 +376,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (21, 'Empleados', 22, '/employer/index', 0, NULL),
 (22, 'Datos Personales', NULL, NULL, 3, NULL),
 (23, 'Cartera de cliente', NULL, '/client-wallet/index', 4, NULL),
-(26, 'Articulos Relacionados', NULL, '/related-articles/index', 7, NULL),
+(26, 'Articulos Relacionados', NULL, '/related-articles/index', 8, NULL),
 (27, 'Principal', 12, '/zone/index', NULL, NULL),
 (28, 'Crear', 12, '/zone/create', 1, NULL);
 
@@ -452,7 +451,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'zapatochu', 'Zapato Chu', 200, 50000, 0, 1482560950, 1482560950, 1, 1);
+(3, 'producprueba1', 'Producto 1', 200, 100000, 1, 1482560950, 1483457178, 1, 1),
+(4, 'producprueba2', 'Producto 2', 50, 500000, 1, 1483456818, 1483456818, 1, 1),
+(5, 'producprueba3', 'Producto 3', 33350, 150, 0, 1483457199, 1483457199, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -473,7 +474,10 @@ CREATE TABLE `product_image` (
 INSERT INTO `product_image` (`id`, `path`, `product_id`) VALUES
 (1, '/img/NN-TG7bN2wdVF53gvExAr-RH6mQTQJQm.png', 3),
 (2, '/img/Qrh5NvZuA5uGym0oRFgc8ZXkTE0qb0rf.png', 3),
-(3, '/img/k9e00i5tFero-mvHHr4UhFv8l1CDK-6k.jpg', 3);
+(3, '/img/k9e00i5tFero-mvHHr4UhFv8l1CDK-6k.jpg', 3),
+(5, '/img/B16sPWpjMxSGlF7oO6fXfknojIqTPz0A.jpg', 4),
+(6, '/img/tW7qQL8QkzKG5L_fqfSzicQWdRogaR-g.jpg', 4),
+(7, '/img/8p_IqpevDE2AQvZ1OknbbzmK3kPf-oGA.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -486,6 +490,19 @@ CREATE TABLE `product_tag` (
   `tag_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `product_tag`
+--
+
+INSERT INTO `product_tag` (`product_id`, `tag_id`) VALUES
+(3, 1),
+(3, 3),
+(3, 4),
+(3, 6),
+(3, 8),
+(4, 6),
+(4, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -496,6 +513,15 @@ CREATE TABLE `related_articles` (
   `parent` int(11) NOT NULL,
   `child` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `related_articles`
+--
+
+INSERT INTO `related_articles` (`parent`, `child`) VALUES
+(3, 4),
+(3, 5),
+(4, 3);
 
 -- --------------------------------------------------------
 
@@ -514,7 +540,14 @@ CREATE TABLE `tag` (
 --
 
 INSERT INTO `tag` (`id`, `name`, `description`) VALUES
-(1, 'Disponible', '');
+(1, 'Etiqueta1', ''),
+(2, 'Etiqueta3', 'Esta es la etiqueta 3'),
+(3, 'Etiqueta2', 'Esta es la etiqueta2'),
+(4, 'Etiqueta4', 'Esta es la etiqueta4'),
+(5, 'Etiqueta5', 'Esta es la etiqueta5'),
+(6, 'Etiqueta6', 'Etiqueta6!!!'),
+(7, 'Etiqueta7', 'Etiqueta7'),
+(8, 'Etiqueta8', 'Esta es la etiqueta8');
 
 -- --------------------------------------------------------
 
@@ -543,14 +576,14 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$IiZPayfpjlo4k/wdpxHgw.Tz3WIRlR2FjQSOZNUYPxBH9GPPdwPSu', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, '', 'cdhc28ff5634094d8e69h2164a864404', 0, 1482528689),
 (24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$eNfzQiD73X8z9gBr8C1KLejeViiBQTCA/pYva3x7G19hvhvc5kNfC', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482535568),
-(25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, 'img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
-(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, 'img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482536161),
+(25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, '/img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
+(26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, '/img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482536161),
 (27, 'farmatodogranja', 'QP7zmIQkTmMo94iXJeMHvpJrrF30KjHA', '$2y$13$d6DxmAFLiGtciOAYm7xlrexaRCBCrPQAZEIag6GvJEOWrGAW3ZJ/O', NULL, 'farmatodogranja@farmatodo.com.ve', 10, NULL, 'c6efb067dac6b0da2f966869e45a912a', 1482331562, 1482333126),
 (28, 'farmahorropaseo', '8bbAZ2T65zVue5_hAktjPK8iTmnzt5KK', '$2y$13$86sq4g5pJLJ1dwqCwT0wHe00ek1kymhQTVKmjq.ShCdZMF5RlXdA.', NULL, 'farmahorropase@farmaahorro.com.ve', 10, NULL, '71522fd84020bd5b24392f5bcd2239cc', 1482333469, 1482335127),
 (29, 'ccliniconaguanagua', 'JAR7m1WgETCzSyy3eT-URnqhZBj8KPMZ', '$2y$13$cT6VGcdPkAdSB6ova1Y6EOUy1LXSc.vCoHQmFxW7QeSMbAWweWKyC', NULL, 'admin@centrocliniconaguanagua.com.ve', 10, NULL, '715791888c8f4bc599c3e921263e7cd8', 1482335643, 1482335701),
 (30, 'farmatodoguataparo', 'MciIrR5Wyo2BlOcrEWYafwe8tHAzDlKN', '$2y$13$a/oQi0txoHm8EiBnZ08.fenv5Zwn/LYY.XLzm6omZSgME07RsExqC', NULL, 'farmatodoguataparo@farmatodo.com.ve', 10, NULL, '45bfe446a414ba92340b07a4f6d07e33', 1482336048, 1482336123),
 (31, 'locatelparral', 'zU6Gnxa8t8VVsf7lWEjWZY7rgJU4uyh5', '$2y$13$PiaMW1XtaVGP59KHH/BGV.kBkXu592/OXH1R2yAXieyJZLZdZfjvu', NULL, 'locatelparral@locatel.com.ve', 10, NULL, 'ae830f26dd35c7232c4113fb041e712e', 1482336294, 1482336412),
-(32, 'monsefoster@gmail.com', 'uxFOVmxHpLDO2apnmeSj2BVpiIRj6yv6', '$2y$13$QIvhKgDsaj8ONnciVDam8u0Q8Rmadqb46cbRzX3GBuu28o.NNLi.W', NULL, 'monsefoster@gmail.com', 10, 'img/zfGvxdOvSI9SK6tSD_s6TTMieax6tp8V.jpg', '9ec34b816c1bfdfb48b12f3d26e6ce98', 1482369034, 1482369587),
+(32, 'monsefoster@gmail.com', 'uxFOVmxHpLDO2apnmeSj2BVpiIRj6yv6', '$2y$13$QIvhKgDsaj8ONnciVDam8u0Q8Rmadqb46cbRzX3GBuu28o.NNLi.W', NULL, 'monsefoster@gmail.com', 10, '/img/mJMNyOFaJKZy2k9_NOY8QH97LDonAvRR.jpg', '9ec34b816c1bfdfb48b12f3d26e6ce98', 1482369034, 1482369587),
 (33, 'noromero1', 'Ww0a3F15NaKsrN2LGLFEVUsh03F16tab', '$2y$13$sAmSRjRkeLY46cyftrDXKOsyc.PKE7hymRsRbcTraDzcFp84gDGvK', NULL, 'johanaromero@gmail.com', 10, NULL, '13e4b1187ff240a02c22cd9d7015130c', 1482475791, 1482475902),
 (34, 'cuarzoplata', 'HRGtBhMx6MhOfoafjdnFh27xAMZmmfnT', '$2y$13$KKAaNDbusx80Q8ZdUjUK..odKCvg7FMHrbW1Yyfj3rYcE2E1zU8Zm', NULL, 'cuarzoplata@hotmail.com', 10, NULL, 'effa3d8e4c9ff8e8aa94f336bfcc4348', 1482536479, 1482536520),
 (35, 'farmacialatorre', 'bo08JkuWomifGFboBLmxQ7QZ4IgoVbtz', '$2y$13$Z2ZU3MjIwo7xtmWVRT7mceW09XNiM7A4ZaOboxZQ86XWDOnBKMqQ2', NULL, 'admin@farmacialatorre.com.ve', 10, NULL, '27319a800fcf460d041ff9760562e244', 1482536649, 1482536695),
@@ -759,7 +792,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
@@ -779,17 +812,17 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `user`
 --

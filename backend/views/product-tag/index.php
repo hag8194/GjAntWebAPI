@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-tag-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -24,8 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'product_id',
-            'tag_id',
+            [
+                'attribute' => 'product_id',
+                'value' => function($model){ return $model->product->name; }
+            ],
+            [
+                'attribute' => 'tag_id',
+                'value' => function($model){ return $model->tag->name; }
+            ],
+
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

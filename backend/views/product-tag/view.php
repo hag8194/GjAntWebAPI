@@ -6,13 +6,11 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\ProductTag */
 
-$this->title = $model->product_id;
+$this->title = Yii::t('backend', 'Assigned detail');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Product Tags'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-tag-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'product_id' => $model->product_id, 'tag_id' => $model->tag_id], ['class' => 'btn btn-primary']) ?>
@@ -28,8 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'product_id',
-            'tag_id',
+            [
+                'label' => $model->getAttributeLabel('product_id'),
+                'value' => $model->product->name
+            ],
+            [
+                'label' => $model->getAttributeLabel('tag_id'),
+                'value' => $model->tag->name
+            ]
         ],
     ]) ?>
 

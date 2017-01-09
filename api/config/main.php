@@ -19,7 +19,7 @@ return [
     ],
     'components' => [        
         'user' => [
-            'identityClass' => 'api\modules\v1\models\UserAPI',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
             'loginUrl' => null
         ],

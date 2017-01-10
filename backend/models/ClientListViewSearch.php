@@ -58,13 +58,12 @@ class ClientListViewSearch extends ClientSearch
         $query = Client::find()
             ->joinWith(['address', 'clientWallet'])
             ->where(['like', 'address.name', $this->zone_name]);
+
             //->andWhere('client_wallet.client_id != client.id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => 3,
-            ],
+            'pagination' => false,
         ]);
 
         $this->load($params);

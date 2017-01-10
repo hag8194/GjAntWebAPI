@@ -151,7 +151,6 @@ a.desc:after {
 
 .login-page .login-box .login-logo > h1 {
     color: white;
-
 }
 
  .login-page .login-box {
@@ -161,4 +160,11 @@ a.desc:after {
 
  .radio label, .checkbox label {
     padding-left: 0;
+}
+
+/*---Client-Wallet ClientListView---*/
+#client-list-view{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 414px;
 }

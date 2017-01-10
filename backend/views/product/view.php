@@ -5,7 +5,6 @@ use kartik\file\FileInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use yii\web\UploadedFile;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -20,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-images">Upload Image</button>
+        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-images"><?= Yii::t('backend', 'Upload Image') ?></button>
         <?= Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -38,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'quantity',
             'price',
             [
-              'attribute' => 'state',
+              'attribute' => 'status',
               'value' => Product::$STATUS_LABEL[$model->status]
             ],
             [

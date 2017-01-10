@@ -1,5 +1,4 @@
 <?php
-use yii\bootstrap\Html;
 
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
@@ -10,6 +9,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name' => 'GjAnt',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'language'=>'es',

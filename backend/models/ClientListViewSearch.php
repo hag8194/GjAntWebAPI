@@ -19,6 +19,7 @@ class ClientListViewSearch extends ClientSearch
 {
     public $query;
     public $zone_name;
+    public $employer_id;
 
     /**
      * @inheritdoc
@@ -27,7 +28,8 @@ class ClientListViewSearch extends ClientSearch
     {
         return [
             [['query'], 'safe'],
-            ['zone_name', 'string']
+            ['zone_name', 'string'],
+            ['employer_id', 'integer']
         ];
     }
 
@@ -57,9 +59,9 @@ class ClientListViewSearch extends ClientSearch
     {
         $query = Client::find()
             ->joinWith(['address', 'clientWallet'])
-            ->where(['like', 'address.name', $this->zone_name]);
-
-            //->andWhere('client_wallet.client_id != client.id');
+            ->where('assigned = :assigned OR client_wallet.employer_id = :employer_id',
+                [':assigned' => 0, ':employer_id' => $this->employer_id])
+            ->andwhere(['like', 'address.name', $this->zone_name]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

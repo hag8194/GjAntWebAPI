@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-01-2017 a las 01:28:47
+-- Tiempo de generación: 13-01-2017 a las 02:03:53
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -265,6 +265,7 @@ CREATE TABLE `client` (
   `phone2` varchar(45) DEFAULT NULL,
   `credit_limit` double NOT NULL DEFAULT '0',
   `credit_use` double NOT NULL DEFAULT '0',
+  `assigned` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -275,16 +276,16 @@ CREATE TABLE `client` (
 -- Volcado de datos para la tabla `client`
 --
 
-INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
-(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 1482255082, 1482536161, 26, 3),
-(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 0, 0, 1482333126, 1482333126, 27, 4),
-(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 0, 0, 1482335127, 1482335127, 28, 7),
-(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 0, 0, 1482335701, 1482335701, 29, 8),
-(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 0, 0, 1482336123, 1482364531, 30, 9),
-(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 1482336412, 1482364556, 31, 10),
-(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 0, 0, 1482536695, 1482536695, 35, 14),
-(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 0, 0, 1482536836, 1482536836, 36, 15),
-(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 1482536936, 1482536936, 37, 16);
+INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
+(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 0, 1482255082, 1484264263, 26, 3),
+(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 0, 0, 0, 1482333126, 1484264309, 27, 4),
+(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 0, 0, 1, 1482335127, 1482335127, 28, 7),
+(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 0, 0, 1, 1482335701, 1484264248, 29, 8),
+(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 0, 0, 0, 1482336123, 1484264264, 30, 9),
+(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 0, 1482336412, 1484264264, 31, 10),
+(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 0, 0, 0, 1482536695, 1484264265, 35, 14),
+(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 0, 0, 0, 1482536836, 1484264266, 36, 15),
+(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 0, 1482536936, 1482536936, 37, 16);
 
 -- --------------------------------------------------------
 
@@ -294,7 +295,6 @@ INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `c
 
 CREATE TABLE `client_wallet` (
   `id` int(11) NOT NULL,
-  `assigned` tinyint(1) DEFAULT '1' COMMENT '1: The client is assigned to the employer',
   `employer_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -303,8 +303,9 @@ CREATE TABLE `client_wallet` (
 -- Volcado de datos para la tabla `client_wallet`
 --
 
-INSERT INTO `client_wallet` (`id`, `assigned`, `employer_id`, `client_id`) VALUES
-(4, 1, 1, 3);
+INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
+(6, 3, 3),
+(10, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -477,7 +478,10 @@ INSERT INTO `product_image` (`id`, `path`, `product_id`) VALUES
 (3, '/img/k9e00i5tFero-mvHHr4UhFv8l1CDK-6k.jpg', 3),
 (5, '/img/B16sPWpjMxSGlF7oO6fXfknojIqTPz0A.jpg', 4),
 (6, '/img/tW7qQL8QkzKG5L_fqfSzicQWdRogaR-g.jpg', 4),
-(7, '/img/8p_IqpevDE2AQvZ1OknbbzmK3kPf-oGA.jpg', 4);
+(7, '/img/8p_IqpevDE2AQvZ1OknbbzmK3kPf-oGA.jpg', 4),
+(13, '/img/83gEU8WEYMOlC1u1_Z-5qHn8hIRRnOKp.jpg', 3),
+(14, '/img/ZRWWeH4QCcXbC2efzjEorN1BbWAoJ130.jpg', 3),
+(15, '/img/ogHLTV1yyKtgFrR_0OIwlrRIpK7-VJGP.jpg', 3);
 
 -- --------------------------------------------------------
 
@@ -792,7 +796,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
@@ -817,7 +821,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --

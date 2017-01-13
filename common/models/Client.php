@@ -16,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $phone2
  * @property double $credit_limit
  * @property double $credit_use
+ * @property integer $assigned
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $user_id
@@ -27,7 +28,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Client extends \yii\db\ActiveRecord
 {
-    use MapTrait;
+    const UNASSIGNED = 0;
+    const ASSIGNED = 1;
 
     /**
      * @inheritdoc
@@ -68,7 +70,7 @@ class Client extends \yii\db\ActiveRecord
             [['fullname', 'identification', 'phone1', 'user_id', 'address_id'], 'required'],
             [['credit_limit', 'credit_use'], 'number'],
             [['credit_limit', 'credit_use'], 'default', 'value' => 0],
-            [['created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
+            [['assigned', 'created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
             [['fullname'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],
             [['identification'], 'unique'],
@@ -90,6 +92,7 @@ class Client extends \yii\db\ActiveRecord
             'phone2' => Yii::t('backend', 'Phone2'),
             'credit_limit' => Yii::t('backend', 'Credit Limit'),
             'credit_use' => Yii::t('backend', 'Credit Use'),
+            'assigned' => Yii::t('backend', 'Assigned'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),

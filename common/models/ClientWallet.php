@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "client_wallet".
  *
  * @property integer $id
- * @property integer $assigned
  * @property integer $employer_id
  * @property integer $client_id
  *
@@ -32,7 +31,7 @@ class ClientWallet extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['assigned', 'employer_id', 'client_id'], 'integer'],
+            [['employer_id', 'client_id'], 'integer'],
             [['employer_id', 'client_id'], 'required'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['employer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employer::className(), 'targetAttribute' => ['employer_id' => 'id']],
@@ -46,7 +45,6 @@ class ClientWallet extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('backend', 'ID'),
-            'assigned' => Yii::t('backend', 'Assigned'),
             'employer_id' => Yii::t('backend', 'Employer ID'),
             'client_id' => Yii::t('backend', 'Client ID'),
         ];

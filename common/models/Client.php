@@ -2,9 +2,10 @@
 
 namespace common\models;
 
-use backend\utils\MapTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
+use yii\web\Linkable;
 
 /**
  * This is the model class for table "client".
@@ -26,7 +27,7 @@ use yii\behaviors\TimestampBehavior;
  * @property User $user
  * @property ClientWallet $clientWallet
  */
-class Client extends \yii\db\ActiveRecord
+class Client extends \yii\db\ActiveRecord implements Linkable
 {
     const UNASSIGNED = 0;
     const ASSIGNED = 1;
@@ -124,6 +125,16 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ClientWallet::className(), ['client_id' => 'id']);
     }
+
+    public function getLinks()
+    {
+        $avatar = $this->user->avatar ? :'/img/default-avatar.jpg';
+        $url = Url::to('GjAntWebAPI/backend/web' . $avatar, true);
+        return [
+            'poster' => $url
+        ];
+    }
+
 
     /**
      * @inheritdoc

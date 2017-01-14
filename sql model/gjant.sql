@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-01-2017 a las 02:03:53
+-- Tiempo de generación: 14-01-2017 a las 22:19:06
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -52,7 +52,9 @@ INSERT INTO `address` (`id`, `name`, `lat`, `lng`) VALUES
 (14, 'Farmacia "La Torre", Valencia, Carabobo, Venezuela', 10.1823, -68.0027),
 (15, 'Farmacia Nuevo Siglo, Valencia, Carabobo, Venezuela', 10.1777, -68.0048),
 (16, 'Clinica Los Colorados, Valencia, Carabobo, Venezuela', 10.1932, -68.0097),
-(17, 'Los Caobos, Av 112 San Juan María Vianney, Valencia, Carabobo, Venezuela', 10.1572, -68.0213);
+(17, 'Los Caobos, Av 112 San Juan María Vianney, Valencia, Carabobo, Venezuela', 10.1572, -68.0213),
+(18, 'hospital carabobo, Calle Carabobo, Naguanagua, Carabobo, Venezuela', 10.2839, -68.0141),
+(19, 'Hospital Psiquiátrico "Dr. José Ortega Durán", Naguanagua, Carabobo, Venezuela', 10.282, -68.009);
 
 -- --------------------------------------------------------
 
@@ -82,6 +84,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('client', '35', 1482536649),
 ('client', '36', 1482536762),
 ('client', '37', 1482536892),
+('client', '39', 1484425007),
+('client', '40', 1484425338),
 ('vendor', '1', 1481508332),
 ('vendor', '17', 1481510739),
 ('vendor', '19', 1482068615),
@@ -278,14 +282,16 @@ CREATE TABLE `client` (
 
 INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
 (1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 0, 1482255082, 1484264263, 26, 3),
-(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 0, 0, 0, 1482333126, 1484264309, 27, 4),
+(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 600000, 0, 1, 1482333126, 1484425148, 27, 4),
 (3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 0, 0, 1, 1482335127, 1482335127, 28, 7),
-(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 0, 0, 1, 1482335701, 1484264248, 29, 8),
+(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 100000, 0, 1, 1482335701, 1484425130, 29, 8),
 (5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 0, 0, 0, 1482336123, 1484264264, 30, 9),
 (6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 0, 1482336412, 1484264264, 31, 10),
 (7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 0, 0, 0, 1482536695, 1484264265, 35, 14),
 (8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 0, 0, 0, 1482536836, 1484264266, 36, 15),
-(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 0, 1482536936, 1482536936, 37, 16);
+(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 0, 1482536936, 1482536936, 37, 16),
+(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '', 50000, 0, 1, 1484425076, 1484425088, 39, 18),
+(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 10000000, 0, 1, 1484425522, 1484425536, 40, 19);
 
 -- --------------------------------------------------------
 
@@ -305,7 +311,10 @@ CREATE TABLE `client_wallet` (
 
 INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
 (6, 3, 3),
-(10, 3, 4);
+(10, 3, 4),
+(11, 3, 2),
+(12, 3, 10),
+(13, 3, 11);
 
 -- --------------------------------------------------------
 
@@ -582,7 +591,7 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$eNfzQiD73X8z9gBr8C1KLejeViiBQTCA/pYva3x7G19hvhvc5kNfC', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482535568),
 (25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, '/img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
 (26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, '/img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482536161),
-(27, 'farmatodogranja', 'QP7zmIQkTmMo94iXJeMHvpJrrF30KjHA', '$2y$13$d6DxmAFLiGtciOAYm7xlrexaRCBCrPQAZEIag6GvJEOWrGAW3ZJ/O', NULL, 'farmatodogranja@farmatodo.com.ve', 10, NULL, 'c6efb067dac6b0da2f966869e45a912a', 1482331562, 1482333126),
+(27, 'farmatodogranja', 'QP7zmIQkTmMo94iXJeMHvpJrrF30KjHA', '$2y$13$d6DxmAFLiGtciOAYm7xlrexaRCBCrPQAZEIag6GvJEOWrGAW3ZJ/O', NULL, 'farmatodogranja@farmatodo.com.ve', 10, '/img/I-pi0sY1A-6OjFO_l-ooGUS9kyBaImYe.jpg', 'c6efb067dac6b0da2f966869e45a912a', 1482331562, 1484417922),
 (28, 'farmahorropaseo', '8bbAZ2T65zVue5_hAktjPK8iTmnzt5KK', '$2y$13$86sq4g5pJLJ1dwqCwT0wHe00ek1kymhQTVKmjq.ShCdZMF5RlXdA.', NULL, 'farmahorropase@farmaahorro.com.ve', 10, NULL, '71522fd84020bd5b24392f5bcd2239cc', 1482333469, 1482335127),
 (29, 'ccliniconaguanagua', 'JAR7m1WgETCzSyy3eT-URnqhZBj8KPMZ', '$2y$13$cT6VGcdPkAdSB6ova1Y6EOUy1LXSc.vCoHQmFxW7QeSMbAWweWKyC', NULL, 'admin@centrocliniconaguanagua.com.ve', 10, NULL, '715791888c8f4bc599c3e921263e7cd8', 1482335643, 1482335701),
 (30, 'farmatodoguataparo', 'MciIrR5Wyo2BlOcrEWYafwe8tHAzDlKN', '$2y$13$a/oQi0txoHm8EiBnZ08.fenv5Zwn/LYY.XLzm6omZSgME07RsExqC', NULL, 'farmatodoguataparo@farmatodo.com.ve', 10, NULL, '45bfe446a414ba92340b07a4f6d07e33', 1482336048, 1482336123),
@@ -593,7 +602,9 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (35, 'farmacialatorre', 'bo08JkuWomifGFboBLmxQ7QZ4IgoVbtz', '$2y$13$Z2ZU3MjIwo7xtmWVRT7mceW09XNiM7A4ZaOboxZQ86XWDOnBKMqQ2', NULL, 'admin@farmacialatorre.com.ve', 10, NULL, '27319a800fcf460d041ff9760562e244', 1482536649, 1482536695),
 (36, 'farmacianuevosiglo', '4b1keTlyF5rzOTG1Suq-bu_JciptGcRK', '$2y$13$ZFGmmKT9kWuvAJfpp3F6q.kW3JaLQTsbzXU2gNqCmC6GQSUEpjDW.', NULL, 'admin@farmacias.nuevosiglo.com.ve', 10, NULL, '814739fe9e9e327cef3477a5b57717ae', 1482536762, 1482536836),
 (37, 'clinicaloscolorados', 'C7ccO0BgknTP4TKhnK9hHsZE_ppQOIcS', '$2y$13$yWvCi1F03d3mvVCKuGM8SeQ9NeV9cu4yomAmOgPTDeTVNgHf8sq06', NULL, 'admin@clinicaloscolorados.com.ve', 10, NULL, '004747631764f1fa719dba93bb3f550a', 1482536892, 1482536936),
-(38, 'ppalma', 'FiTAVeiX2yuH2jqfH02nrxA9BOKnbLB3', '$2y$13$GSCnSXml8.NhnLBLD1ZBceDJiUwUvJz.Z.ip9QBXNpecVkZyZ6246', NULL, 'pedropalma@gmail.com', 10, NULL, '7ac2ec27dadf7e16a3440ca5a0748cf7', 1482561399, 1482561821);
+(38, 'ppalma', 'FiTAVeiX2yuH2jqfH02nrxA9BOKnbLB3', '$2y$13$GSCnSXml8.NhnLBLD1ZBceDJiUwUvJz.Z.ip9QBXNpecVkZyZ6246', NULL, 'pedropalma@gmail.com', 10, NULL, '7ac2ec27dadf7e16a3440ca5a0748cf7', 1482561399, 1482561821),
+(39, 'hospitalcarabobo', 'DJrBRJaqcMEZb25VDTyn1Ci0tgFpP-pl', '$2y$13$/yj0lbCcLeyeSTNgpUEJU.Yfx.ZT4FHDQRMWEzduEKwE3ALuJokp.', NULL, 'admin@hospitalcarabobo.com', 10, NULL, '5d8885d98c3e045ffe568d22d41d2acb', 1484425007, 1484425076),
+(40, 'hospitalpsiquiatriconaguanagua', '6f4ttileEBeYKSkr0XPbwZXkaMajwqG1', '$2y$13$gUTrdBaxs.HSPUHkBzCIq.OYWBhMriePW5ueKbB/ViN1t4MOVkehu', NULL, 'admin@hospitalpsiquiatriconaguanagua.com', 10, '/img/k7f2-UKsEYKoTBSJ4TT3GHFyDxK-ndvE.jpg', '2ca2138cbc43df8d862e795e20ca8893', 1484425338, 1484425522);
 
 -- --------------------------------------------------------
 
@@ -781,7 +792,7 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT de la tabla `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT de la tabla `brand`
 --
@@ -791,12 +802,12 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
@@ -831,7 +842,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT de la tabla `zone`
 --

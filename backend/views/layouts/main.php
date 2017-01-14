@@ -16,7 +16,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
 if($avatar = Yii::$app->user->identity->avatar)
     $avatar = Yii::$app->urlManager->createAbsoluteUrl($avatar);
 else
-    $avatar = Yii::$app->urlManager->createAbsoluteUrl("img/default-avatar.gif");
+    $avatar = Yii::$app->urlManager->createAbsoluteUrl("img/default-avatar.jpg");
 
 ?>
 <?php $this->beginPage() ?>

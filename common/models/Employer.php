@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use backend\utils\MapTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -26,7 +25,6 @@ use yii\behaviors\TimestampBehavior;
  */
 class Employer extends \yii\db\ActiveRecord
 {
-    use MapTrait;
 
     /**
      * @inheritdoc

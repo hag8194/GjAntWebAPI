@@ -46,7 +46,7 @@ else
 
         <?= $this->render(
             'content.php',
-            ['content' => $content, 'directoryAsset' => $directoryAsset]
+            ['content' => $content, 'directoryAsset' => $directoryAsset, 'model_enterprise' => \common\models\Enterprise::findOne(1)]
         ) ?>
 
     </div>

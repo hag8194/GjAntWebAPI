@@ -28,6 +28,6 @@ class UserController extends Controller
             else
                 throw new NotFoundHttpException(Yii::t('backend', 'Invalid username or password'));
         }
-        throw new BadRequestHttpException('Missing Body Params');
+        throw new BadRequestHttpException(Yii::t('backend','Missing Body Params'));
     }
 }

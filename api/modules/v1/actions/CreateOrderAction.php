@@ -43,7 +43,7 @@ class CreateOrderAction extends Action
             'scenario' => $this->scenario,
         ]);
 
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        /*$model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($model->save()) {
             $response = Yii::$app->getResponse();
             $response->setStatusCode(201);
@@ -51,8 +51,11 @@ class CreateOrderAction extends Action
             $response->getHeaders()->set('Location', Url::toRoute([$this->viewAction, 'id' => $id], true));
         } elseif (!$model->hasErrors()) {
             throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
-        }
+        }*/
 
-        return $model;
+        //return $model;
+        $response = Yii::$app->getResponse();
+        $response->setStatusCode(201);
+        return ['message' => Yii::$app->getRequest()->getBodyParam('products')];
     }
 }

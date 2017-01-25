@@ -40,7 +40,7 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule', 
                     'controller' => ['v1/client-wallet', 'v1/order', 'v1/product', 'v1/user'],
-                    'extraPatterns' => ['POST login' => 'login', 'GET search' => 'search'],
+                    'extraPatterns' => ['POST login' => 'login', 'GET search' => 'search', 'POST create' => 'create-order'],
                     'except' => ['delete'],
                     'tokens' => [
                         '{id}' => '<id:\\w+>'

@@ -8,27 +8,22 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\Order;
+use common\models\OrderDetail;
+use Yii;
+use yii\db\Exception;
 use yii\filters\auth\QueryParamAuth;
-use yii\rest\ActiveController;
+use yii\rest\Controller;
+use yii\web\BadRequestHttpException;
 
-class OrderController extends ActiveController
+class OrderController extends Controller
 {
-    public $modelClass = 'common\models\Order';
-
-    public function actions()
+    protected function verbs()
     {
-        $actions = parent::actions();
-
-        $actions['create'] = [
-            'class' => 'api\modules\v1\actions\CreateOrderAction',
-            'modelClass' => $this->modelClass,
-            'checkAccess' => [$this, 'checkAccess'],
-            'scenario' => $this->createScenario,
+        return [
+            'create-order' => ['POST']
         ];
-
-        return $actions;
     }
-
 
     /**
      * @inheritdoc
@@ -41,5 +36,66 @@ class OrderController extends ActiveController
             'class' => QueryParamAuth::className(),
         ];
         return $behaviors;
+    }
+
+    public function actionCreateOrder()
+    {
+        $bodyParams = Yii::$app->request->bodyParams;
+
+        if(isset($bodyParams['code'], $bodyParams['description'], $bodyParams['type'],
+            $bodyParams['clientwallet_id'], $bodyParams['products']))
+        {
+            $model = new Order();
+            $model->setAttributes([
+                'code' => $bodyParams['code'],
+                'description' => $bodyParams['description'],
+                'type' => $bodyParams['type'],
+                'client_wallet_id' => $bodyParams['clientwallet_id']
+            ]);
+
+            $transaction = Yii::$app->db->beginTransaction();
+            try
+            {
+                if($model->save())
+                {
+                    $order_id = Yii::$app->db->lastInsertID;
+                    $products = json_decode($bodyParams['products']);
+                    foreach ($products as $product)
+                    {
+                        $model = new OrderDetail();
+                        $model->setAttributes([
+                            'order_id' => $order_id,
+                            'product_id' => $product->key,
+                            'quantity' => $product->quantity
+                        ]);
+                        if(!$model->save())
+                            throw new BadRequestHttpException($this->getErrorString($model->getErrors()));
+                    }
+                }
+                else
+                    throw new BadRequestHttpException($this->getErrorString($model->getErrors()));
+
+                $transaction->commit();
+                $response = Yii::$app->getResponse();
+                $response->setStatusCode(201);
+                return ['message' => Yii::t('backend', 'Order created successfully')];
+            }
+            catch (Exception $e)
+            {
+                $transaction->rollBack();
+                throw $e;
+            }
+        }
+        else
+            throw new BadRequestHttpException(Yii::t('backend', 'Missing Body Params'));
+    }
+
+    private function getErrorString($errorArray)
+    {
+        $aux = '';
+        foreach ($errorArray as $value) {
+            $aux .= array_pop($value) . ' ';
+        }
+        return $aux;
     }
 }

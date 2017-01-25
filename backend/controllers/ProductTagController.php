@@ -35,9 +35,9 @@ class ProductTagController extends Controller
      * @return mixed
      */
 
-    public function actionTags($id)
+    public function actionTags($product_id)
     {
-        $subQuery = ProductTag::find()->select('tag_id')->where(['product_id' => $id]);
+        $subQuery = ProductTag::find()->select('tag_id')->where(['product_id' => $product_id]);
         $query = Tag::find()->where(['not in', 'id', $subQuery])->all();
 
         if(!empty($query))

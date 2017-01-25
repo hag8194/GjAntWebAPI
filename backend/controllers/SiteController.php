@@ -6,6 +6,7 @@ use backend\models\ProfileForm;
 use backend\models\RegisterForm;
 use common\models\Client;
 use common\models\Employer;
+use common\models\Enterprise;
 use common\models\User;
 use Yii;
 //use yii\filters\AccessControl;
@@ -163,6 +164,20 @@ class SiteController extends Controller
             'model_user' => $model_user,
             'model_employer' => $model_employer,
             'model_client' => $model_client
+        ]);
+    }
+
+
+    public function actionEnterprise()
+    {
+        $model = Enterprise::findOne(1);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
+        }
+
+        return $this->render('enterprise', [
+            'model' => $model,
         ]);
     }
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-01-2017 a las 22:19:06
+-- Tiempo de generación: 25-01-2017 a las 03:50:54
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -149,6 +149,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/related-articles/create', 2, NULL, NULL, NULL, 1481510878, 1481510878),
 ('/related-articles/index', 2, NULL, NULL, NULL, 1481510878, 1481510878),
 ('/site/*', 2, NULL, NULL, NULL, 1481431390, 1481431390),
+('/site/enterprise', 2, NULL, NULL, NULL, 1485307033, 1485307033),
 ('/site/example', 2, NULL, NULL, NULL, 1480811248, 1480811248),
 ('/site/index', 2, NULL, NULL, NULL, 1480811248, 1480811248),
 ('/site/logout', 2, NULL, NULL, NULL, 1480813307, 1480813307),
@@ -167,6 +168,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('Client CRUD', 2, NULL, NULL, NULL, 1481079791, 1481079791),
 ('ClientWallet CRUD', 2, NULL, NULL, NULL, 1481510908, 1481510908),
 ('Employer CRUD', 2, NULL, NULL, NULL, 1481079810, 1481079810),
+('enterprise', 2, NULL, NULL, NULL, 1485307048, 1485307048),
 ('Product CRUD', 2, NULL, NULL, NULL, 1480900556, 1480900556),
 ('ProductTag CRUD', 2, NULL, NULL, NULL, 1482478287, 1482478287),
 ('register-user', 2, NULL, NULL, NULL, 1481070676, 1481070676),
@@ -198,6 +200,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'Client CRUD'),
 ('administrator', 'ClientWallet CRUD'),
 ('administrator', 'Employer CRUD'),
+('administrator', 'enterprise'),
 ('administrator', 'Product CRUD'),
 ('administrator', 'ProductTag CRUD'),
 ('administrator', 'register-user'),
@@ -210,6 +213,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Client CRUD', '/client/*'),
 ('ClientWallet CRUD', '/client-wallet/*'),
 ('Employer CRUD', '/employer/*'),
+('enterprise', '/site/enterprise'),
 ('Product CRUD', '/product/*'),
 ('ProductTag CRUD', '/product-tag/*'),
 ('register-user', '/site/register'),
@@ -290,8 +294,8 @@ INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `c
 (7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 0, 0, 0, 1482536695, 1484264265, 35, 14),
 (8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 0, 0, 0, 1482536836, 1484264266, 36, 15),
 (9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 0, 1482536936, 1482536936, 37, 16),
-(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '', 50000, 0, 1, 1484425076, 1484425088, 39, 18),
-(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 10000000, 0, 1, 1484425522, 1484425536, 40, 19);
+(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 50000, 0, 1, 1484425076, 1484880687, 39, 18),
+(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 10000000, 0, 1, 1484425522, 1485228263, 40, 19);
 
 -- --------------------------------------------------------
 
@@ -314,7 +318,7 @@ INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
 (10, 3, 4),
 (11, 3, 2),
 (12, 3, 10),
-(13, 3, 11);
+(14, 3, 11);
 
 -- --------------------------------------------------------
 
@@ -345,6 +349,28 @@ INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`
 (4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12),
 (5, 'Marjoire Susana', 'Navas Martines', '7111654', 1482536520, 1482536520, 6, 34, 13),
 (6, 'Pedro', 'Palma', '19221152', 1482561821, 1482561821, 4, 38, 17);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `enterprise`
+--
+
+CREATE TABLE `enterprise` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `rif` varchar(45) NOT NULL,
+  `phone` varchar(45) NOT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `founded_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `enterprise`
+--
+
+INSERT INTO `enterprise` (`id`, `name`, `rif`, `phone`, `address`, `founded_date`) VALUES
+(1, 'INVERSIONESGONMART C.A.', 'J-123654158122', '0241-8530707', 'Carialinda 1era Etapa, Naguanagua, Carabobo, ', '2011-11-17');
 
 -- --------------------------------------------------------
 
@@ -419,11 +445,22 @@ CREATE TABLE `order` (
   `code` varchar(255) NOT NULL,
   `status` smallint(6) DEFAULT '10',
   `description` tinytext,
-  `type` smallint(6) DEFAULT '0' COMMENT '0: Buy Order or Cotization 1: Sales Order',
+  `type` smallint(6) DEFAULT '0' COMMENT '0: Cotization 1: Buy Order or Sales Order',
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   `client_wallet_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `order`
+--
+
+INSERT INTO `order` (`id`, `code`, `status`, `description`, `type`, `created_at`, `updated_at`, `client_wallet_id`) VALUES
+(2, 'ORD101485297776560', 10, 'dsa', 0, 147483647, 147483647, 10),
+(3, 'ORD141485297776560', 10, 'Hola amigos!!', 0, 147483647, 147483647, 14),
+(4, 'ORD141485298311707', 10, '', 0, 147483647, 147483647, 14),
+(5, 'ORD121485298513258', 10, 'Esto es una cotización de prueba.', 0, 1485298518, 1485298518, 12),
+(6, 'ORD61485300686643', 10, 'Cotización de prueba', 0, 1485300692, 1485300692, 6);
 
 -- --------------------------------------------------------
 
@@ -436,6 +473,20 @@ CREATE TABLE `order_detail` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `order_detail`
+--
+
+INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`) VALUES
+(2, 3, 10),
+(3, 3, 10),
+(3, 4, 50),
+(4, 3, 199),
+(5, 3, 200),
+(5, 4, 50),
+(6, 3, 200),
+(6, 4, 50);
 
 -- --------------------------------------------------------
 
@@ -461,9 +512,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 200, 100000, 1, 1482560950, 1483457178, 1, 1),
-(4, 'producprueba2', 'Producto 2', 50, 500000, 1, 1483456818, 1483456818, 1, 1),
-(5, 'producprueba3', 'Producto 3', 33350, 150, 0, 1483457199, 1483457199, 1, 1);
+(3, 'producprueba1', 'Producto 1', 200, 3500, 1, 1482560950, 1484894304, 1, 1),
+(4, 'producprueba2', 'Producto 2', 50, 2000, 1, 1483456818, 1484894311, 1, 1),
+(5, 'producprueba3', 'Producto 3', 33350, 1500, 0, 1483457199, 1484894319, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -703,6 +754,12 @@ ALTER TABLE `employer`
   ADD KEY `fk_employer_address1_idx` (`address_id`);
 
 --
+-- Indices de la tabla `enterprise`
+--
+ALTER TABLE `enterprise`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `menu`
 --
 ALTER TABLE `menu`
@@ -807,12 +864,17 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT de la tabla `enterprise`
+--
+ALTER TABLE `enterprise`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
@@ -822,7 +884,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --

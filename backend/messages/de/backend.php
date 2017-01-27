@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Address' => '',
     'Are you sure you want to delete this item?' => '',
     'Assign a Zone' => '',
     'Assigned detail' => '',
@@ -43,6 +44,7 @@ return [
     'Employer' => '',
     'Employer updated' => '',
     'Employers' => '',
+    'Enterprise' => '',
     'Invalid user' => '',
     'Password' => '',
     'Please fill out the following fields to create a new user:' => '',
@@ -59,6 +61,7 @@ return [
     'Select a brand' => '',
     'Select an Employee' => '',
     'Sign In' => '',
+    'Sign in' => '',
     'Sign in to start your session' => '',
     'Tags' => '',
     'The product has not images' => '',
@@ -66,6 +69,7 @@ return [
     'This username has already been taken.' => '',
     'Update' => '',
     'Update {modelClass}: ' => '',
+    'Updating Enterprise Information' => '',
     'Upload Image' => '',
     'User' => '',
     'User updated' => '',

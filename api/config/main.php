@@ -11,6 +11,8 @@ return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),    
     'bootstrap' => ['log'],
+    'language'=>'es',
+    'sourceLanguage' => 'en-US',
     'modules' => [
         'v1' => [
             'basePath' => '@app/modules/v1',

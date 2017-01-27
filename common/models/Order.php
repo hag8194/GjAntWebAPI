@@ -24,6 +24,9 @@ use yii\helpers\ArrayHelper;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    const TYPE_COTIZATION = 0;
+    const TYPE_BUY_ORDER = 1;
+
     /**
      * @inheritdoc
      */

@@ -9,7 +9,20 @@
 namespace api\modules\v1\controllers;
 
 
-class ClientController
-{
+use yii\rest\ActiveController;
 
+class ClientController extends ActiveController
+{
+    public $modelClass = 'common\models\Client';
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['create'], $actions['update'], $actions['delete'], $actions['index']);
+
+        return $actions;
+    }
 }

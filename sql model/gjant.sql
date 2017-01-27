@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2017 a las 03:50:54
+-- Tiempo de generación: 27-01-2017 a las 10:02:04
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -285,17 +285,17 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
-(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 100000, 0, 0, 1482255082, 1484264263, 26, 3),
-(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 600000, 0, 1, 1482333126, 1484425148, 27, 4),
-(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 0, 0, 1, 1482335127, 1482335127, 28, 7),
-(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 100000, 0, 1, 1482335701, 1484425130, 29, 8),
-(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 0, 0, 0, 1482336123, 1484264264, 30, 9),
-(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 0, 0, 0, 1482336412, 1484264264, 31, 10),
-(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 0, 0, 0, 1482536695, 1484264265, 35, 14),
-(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 0, 0, 0, 1482536836, 1484264266, 36, 15),
-(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 0, 0, 0, 1482536936, 1482536936, 37, 16),
-(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 50000, 0, 1, 1484425076, 1484880687, 39, 18),
-(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 10000000, 0, 1, 1484425522, 1485228263, 40, 19);
+(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 700000, 0, 0, 1482255082, 1484264263, 26, 3),
+(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 0, 1, 1482333126, 1484425148, 27, 4),
+(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 700000, 0, 1, 1482335127, 1482335127, 28, 7),
+(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 700000, 0, 1, 1482335701, 1484425130, 29, 8),
+(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 0, 0, 1482336123, 1484264264, 30, 9),
+(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 0, 0, 1482336412, 1484264264, 31, 10),
+(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 0, 0, 1482536695, 1484264265, 35, 14),
+(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 0, 0, 1482536836, 1484264266, 36, 15),
+(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 0, 0, 1482536936, 1482536936, 37, 16),
+(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 700000, 0, 1, 1484425076, 1484880687, 39, 18),
+(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 700000, 9000, 1, 1484425522, 1485507578, 40, 19);
 
 -- --------------------------------------------------------
 
@@ -460,7 +460,13 @@ INSERT INTO `order` (`id`, `code`, `status`, `description`, `type`, `created_at`
 (3, 'ORD141485297776560', 10, 'Hola amigos!!', 0, 147483647, 147483647, 14),
 (4, 'ORD141485298311707', 10, '', 0, 147483647, 147483647, 14),
 (5, 'ORD121485298513258', 10, 'Esto es una cotización de prueba.', 0, 1485298518, 1485298518, 12),
-(6, 'ORD61485300686643', 10, 'Cotización de prueba', 0, 1485300692, 1485300692, 6);
+(6, 'ORD61485300686643', 10, 'Cotización de prueba', 0, 1485300692, 1485300692, 6),
+(7, 'ORD61485300686645', 10, 'Description here!', 0, 1485460288, 1485460288, 14),
+(8, 'ORD141485462349522', 10, 'Cotización!', 0, 1485462365, 1485462365, 14),
+(9, 'ORD141485464763474', 10, 'Cotizacion de prueba!!', 0, 1485464781, 1485464781, 14),
+(12, 'ORD62485300686668', 10, 'Orden de prueba, postman!', 1, 1485465149, 1485465149, 14),
+(13, 'ORD141485466065491', 10, 'Orden de compra de prueba!', 1, 1485466138, 1485466138, 14),
+(14, 'ORD63485300686668', 10, 'Orden de prueba, postman!', 1, 1485505382, 1485505382, 14);
 
 -- --------------------------------------------------------
 
@@ -486,7 +492,16 @@ INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`) VALUES
 (5, 3, 200),
 (5, 4, 50),
 (6, 3, 200),
-(6, 4, 50);
+(6, 4, 50),
+(7, 3, 10),
+(8, 3, 199),
+(8, 4, 5),
+(9, 3, 197),
+(10, 3, 2),
+(12, 3, 10),
+(13, 3, 190),
+(13, 4, 50),
+(14, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -512,8 +527,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 200, 3500, 1, 1482560950, 1484894304, 1, 1),
-(4, 'producprueba2', 'Producto 2', 50, 2000, 1, 1483456818, 1484894311, 1, 1),
+(3, 'producprueba1', 'Producto 1', 40, 3500, 1, 1482560950, 1485505382, 1, 1),
+(4, 'producprueba2', 'Producto 2', 50, 2000, 1, 1483456818, 1485466138, 1, 1),
 (5, 'producprueba3', 'Producto 3', 33350, 1500, 0, 1483457199, 1484894319, 1, 1);
 
 -- --------------------------------------------------------
@@ -655,7 +670,7 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (37, 'clinicaloscolorados', 'C7ccO0BgknTP4TKhnK9hHsZE_ppQOIcS', '$2y$13$yWvCi1F03d3mvVCKuGM8SeQ9NeV9cu4yomAmOgPTDeTVNgHf8sq06', NULL, 'admin@clinicaloscolorados.com.ve', 10, NULL, '004747631764f1fa719dba93bb3f550a', 1482536892, 1482536936),
 (38, 'ppalma', 'FiTAVeiX2yuH2jqfH02nrxA9BOKnbLB3', '$2y$13$GSCnSXml8.NhnLBLD1ZBceDJiUwUvJz.Z.ip9QBXNpecVkZyZ6246', NULL, 'pedropalma@gmail.com', 10, NULL, '7ac2ec27dadf7e16a3440ca5a0748cf7', 1482561399, 1482561821),
 (39, 'hospitalcarabobo', 'DJrBRJaqcMEZb25VDTyn1Ci0tgFpP-pl', '$2y$13$/yj0lbCcLeyeSTNgpUEJU.Yfx.ZT4FHDQRMWEzduEKwE3ALuJokp.', NULL, 'admin@hospitalcarabobo.com', 10, NULL, '5d8885d98c3e045ffe568d22d41d2acb', 1484425007, 1484425076),
-(40, 'hospitalpsiquiatriconaguanagua', '6f4ttileEBeYKSkr0XPbwZXkaMajwqG1', '$2y$13$gUTrdBaxs.HSPUHkBzCIq.OYWBhMriePW5ueKbB/ViN1t4MOVkehu', NULL, 'admin@hospitalpsiquiatriconaguanagua.com', 10, '/img/k7f2-UKsEYKoTBSJ4TT3GHFyDxK-ndvE.jpg', '2ca2138cbc43df8d862e795e20ca8893', 1484425338, 1484425522);
+(40, 'hospitalpsiquiatriconaguanagua', '6f4ttileEBeYKSkr0XPbwZXkaMajwqG1', '$2y$13$gUTrdBaxs.HSPUHkBzCIq.OYWBhMriePW5ueKbB/ViN1t4MOVkehu', NULL, 'admin@hospitalpsiquiatriconaguanagua.com', 10, '/img/wohpAK0d55wou4igc8xyuzlBqDYCTg2K.jpg', '2ca2138cbc43df8d862e795e20ca8893', 1484425338, 1485507578);
 
 -- --------------------------------------------------------
 
@@ -884,7 +899,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --

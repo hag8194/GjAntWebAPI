@@ -16,7 +16,6 @@ use yii\web\Linkable;
  * @property string $phone1
  * @property string $phone2
  * @property double $credit_limit
- * @property double $credit_use
  * @property integer $assigned
  * @property integer $created_at
  * @property integer $updated_at
@@ -55,9 +54,13 @@ class Client extends \yii\db\ActiveRecord implements Linkable
      */
     public function beforeSave($insert)
     {
-        $user = User::findOne($this->user_id);
-        $user->status = User::STATUS_ACTIVE;
-        $user->save(false);
+        if($insert)
+        {
+            $user = User::findOne($this->user_id);
+            $user->status = User::STATUS_ACTIVE;
+            $user->save(false);
+        }
+
         return parent::beforeSave($insert);
     }
 
@@ -69,8 +72,8 @@ class Client extends \yii\db\ActiveRecord implements Linkable
     {
         return [
             [['fullname', 'identification', 'phone1', 'user_id', 'address_id'], 'required'],
-            [['credit_limit', 'credit_use'], 'number'],
-            [['credit_limit', 'credit_use'], 'default', 'value' => 0],
+            [['credit_limit'], 'number'],
+            [['credit_limit'], 'default', 'value' => 0],
             [['assigned', 'created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
             [['fullname'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],
@@ -92,7 +95,6 @@ class Client extends \yii\db\ActiveRecord implements Linkable
             'phone1' => Yii::t('backend', 'Phone1'),
             'phone2' => Yii::t('backend', 'Phone2'),
             'credit_limit' => Yii::t('backend', 'Credit Limit'),
-            'credit_use' => Yii::t('backend', 'Credit Use'),
             'assigned' => Yii::t('backend', 'Assigned'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
@@ -128,7 +130,7 @@ class Client extends \yii\db\ActiveRecord implements Linkable
 
     public function getLinks()
     {
-        $avatar = $this->user->avatar ? :'/img/default-avatar.jpg';
+        $avatar = $this->user->avatar ? : '/img/default-avatar.jpg';
         $url = Url::to('GjAntWebAPI/backend/web' . $avatar, true);
         return [
             'poster' => $url

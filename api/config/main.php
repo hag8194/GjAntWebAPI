@@ -39,8 +39,8 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => ['v1/client-wallet', 'v1/order', 'v1/product', 'v1/user', 'v1/enterprise'],
-                    'extraPatterns' => ['POST login' => 'login', 'GET search' => 'search', 'POST create' => 'create-order', 'GET info' => 'get-info'],
+                    'controller' => ['v1/client-wallet', 'v1/client', 'v1/order', 'v1/product', 'v1/user', 'v1/enterprise'],
+                    'extraPatterns' => ['POST login' => 'login'],
                     'except' => ['delete'],
                     'tokens' => [
                         '{id}' => '<id:\\w+>'

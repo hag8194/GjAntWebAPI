@@ -8,14 +8,10 @@ use common\models\ProductImage;
 use common\models\searchmodels\Product as ProductSearch;
 use mdm\admin\components\AccessControl;
 use Yii;
-use yii\db\Exception;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use yii\helpers\FileHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -134,13 +130,15 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->setAttribute('updated_by', Yii::$app->user->id);
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

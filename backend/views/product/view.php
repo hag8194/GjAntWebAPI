@@ -41,6 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
               'value' => Product::$STATUS_LABEL[$model->status]
             ],
             [
+                'attribute' => 'description',
+                'value' => $model->description ? : Yii::t('backend', 'Has no description')
+            ],
+            [
                 'attribute' => 'created_at',
                 'value' => Yii::$app->formatter->asDateTime($model->created_at, 'full')
             ],

@@ -20,7 +20,7 @@ class ClientSearch extends Client
         return [
             [['id', 'created_at', 'updated_at', 'user_id'], 'integer'],
             [['fullname', 'identification', 'address', 'phone1', 'phone2'], 'safe'],
-            [['credit_limit', 'credit_use'], 'number'],
+            [['credit_limit'], 'number'],
         ];
     }
 
@@ -62,7 +62,6 @@ class ClientSearch extends Client
         $query->andFilterWhere([
             'id' => $this->id,
             'credit_limit' => $this->credit_limit,
-            'credit_use' => $this->credit_use,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'user_id' => $this->user_id,

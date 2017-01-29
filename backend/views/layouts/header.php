@@ -33,9 +33,9 @@ use yii\helpers\Html;
 
                             <p>
                                 <?= Yii::$app->getUser()->getIdentity()->email . ' <br> '
-                                        /*. array_pop(Yii::$app->getAuthManager()
+                                        . array_pop(Yii::$app->getAuthManager()
                                         ->getRolesByUser(Yii::$app->getUser()
-                                        ->getId()))->name*/  ?>
+                                        ->getId()))->name  ?>
                                 <small>Member since
                                     <?= Yii::$app->getFormatter()
                                         ->asDatetime(Yii::$app->getUser()

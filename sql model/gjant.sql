@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2017 a las 07:44:05
+-- Tiempo de generación: 30-01-2017 a las 12:07:27
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -560,7 +560,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `description`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 21, 3500, NULL, 1, 1482560950, 1485644536, 1, 1),
+(3, 'producprueba1', 'Producto 1', 21, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1485774438, 1, 1),
 (4, 'producprueba2', 'Producto 2', 40, 2000, NULL, 1, 1483456818, 1485644536, 1, 1),
 (5, 'producprueba3', 'Producto 3', 33350, 1500, NULL, 0, 1483457199, 1484894319, 1, 1);
 

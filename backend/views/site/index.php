@@ -16,6 +16,7 @@ $orders = Order::find()->orderBy('created_at DESC')->limit(10)->all();
 $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->orderBy('created_at DESC')->limit(10)->all();
 ?>
 <div class="site-index">
+    <?php if(Yii::$app->user->can('show_dashboard')): ?>
     <!-- Info boxes -->
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -119,7 +120,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a href="<?= Yii::$app->urlManager->createUrl('/order/index') ?>" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                    <a href="<?= Yii::$app->urlManager->createUrl('/order/index') ?>" class="btn btn-sm btn-default btn-flat pull-right"><?= Yii::t('backend', 'View All Orders') ?></a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -156,7 +157,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
-                    <a href="<?= Yii::$app->urlManager->createUrl('/product/index') ?>" class="uppercase">View All Products</a>
+                    <a href="<?= Yii::$app->urlManager->createUrl('/product/index') ?>" class="uppercase"><?= Yii::t('backend', 'View All Products') ?></a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -270,4 +271,5 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
             </div>
         </div>
     </div>
+    <?php endif; ?>
 </div>

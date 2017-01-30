@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2017 a las 07:21:03
+-- Tiempo de generación: 30-01-2017 a las 07:44:05
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -169,6 +169,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('client', 1, NULL, NULL, NULL, 1480220062, 1480220062),
 ('Client CRUD', 2, NULL, NULL, NULL, 1481079791, 1481079791),
 ('ClientWallet CRUD', 2, NULL, NULL, NULL, 1481510908, 1481510908),
+('edit_product_images', 2, NULL, NULL, NULL, 1485758307, 1485758307),
 ('Employer CRUD', 2, NULL, NULL, NULL, 1481079810, 1481079810),
 ('enterprise', 2, NULL, NULL, NULL, 1485307048, 1485307048),
 ('order', 2, NULL, NULL, NULL, 1485756250, 1485756250),
@@ -176,6 +177,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('ProductTag CRUD', 2, NULL, NULL, NULL, 1482478287, 1482478287),
 ('register-user', 2, NULL, NULL, NULL, 1481070676, 1481070676),
 ('RelatedArticles CRUD', 2, NULL, NULL, NULL, 1481510934, 1481510934),
+('show_dashboard', 2, NULL, NULL, NULL, 1485758328, 1485758328),
 ('site', 2, NULL, NULL, NULL, 1480813276, 1480813276),
 ('Tag CRUD', 2, NULL, NULL, NULL, 1482478269, 1482478269),
 ('vendor', 1, NULL, NULL, NULL, 1480220049, 1480220049),
@@ -202,6 +204,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'Brand CRUD'),
 ('administrator', 'Client CRUD'),
 ('administrator', 'ClientWallet CRUD'),
+('administrator', 'edit_product_images'),
 ('administrator', 'Employer CRUD'),
 ('administrator', 'enterprise'),
 ('administrator', 'order'),
@@ -209,11 +212,13 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'ProductTag CRUD'),
 ('administrator', 'register-user'),
 ('administrator', 'RelatedArticles CRUD'),
+('administrator', 'show_dashboard'),
 ('administrator', 'site'),
 ('administrator', 'Tag CRUD'),
 ('administrator', 'Zone CRUD'),
 ('Brand CRUD', '/brand/*'),
 ('client', '/product/index'),
+('client', '/product/view'),
 ('client', 'site'),
 ('Client CRUD', '/client/*'),
 ('ClientWallet CRUD', '/client-wallet/*'),

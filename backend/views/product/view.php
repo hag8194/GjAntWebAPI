@@ -19,7 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php if(Yii::$app->user->can('edit_product_images')): ?>
         <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-images"><?= Yii::t('backend', 'Upload Image') ?></button>
+        <?php endif; ?>
         <?= Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -63,7 +65,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header">
             <h3 class="box-title"><?= $model->getAttributeLabel("productImages") ?></h3>
             <div class="box-tools pull-right">
+                <?php if(Yii::$app->user->can('edit_product_images')): ?>
                 <button id="<?= $model->productImages? $model->id : 0 ?>" class="btn btn-xs btn-danger delete-product-images"><i class="fa fa-trash"></i></button>
+                <?php endif; ?>
             </div>
         </div>
         <div id="product-images" class="box-body">
@@ -71,7 +75,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <?php foreach ($model->productImages as $productImage): ?>
                     <div class="col col-md-2">
+                    <?php if(Yii::$app->user->can('edit_product_images')): ?>
                         <button id="<?= $productImage->id ?>" type="button" class="close delete-product-image">×</button>
+                    <?php endif; ?>
                         <?= Html::img(Yii::$app->urlManager->createAbsoluteUrl($productImage->path), ['class' => 'img-responsive']) ?>
                     </div>
                 <?php endforeach; ?>

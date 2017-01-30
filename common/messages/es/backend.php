@@ -17,6 +17,16 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Founded Date' => '',
+    'Phone' => '',
+    'Remember Me' => '',
+    'Repeat Password' => '',
+    'Rif' => '',
+    'Brand ID' => '@@Marca@@',
+    'Category ID' => '@@Categoría@@',
+    'Child' => '@@Hijo@@',
+    'Credit Use' => '@@Crédito Consumido@@',
+    'Parent' => '@@Padre@@',
     'Address' => 'Dirección',
     'Assigned' => 'Asignado',
     'Avatar' => 'Avatar',
@@ -27,7 +37,6 @@ return [
     'Code' => 'Código',
     'Created At' => 'Creado a las',
     'Credit Limit' => 'Límite de Crédito',
-    'Credit Use' => 'Crédito Consumido',
     'Description' => 'Descripción',
     'Email' => 'Correo',
     'Employer ID' => 'Empleado',
@@ -37,6 +46,7 @@ return [
     'Lastname' => 'Apellido',
     'Lat' => 'Latitud',
     'Lng' => 'Longitud',
+    'Name' => 'Nombre',
     'Order ID' => 'Orden',
     'Parent Article' => 'Artículo Padre',
     'Password' => 'Contraseña',
@@ -62,9 +72,4 @@ return [
     'Zone' => 'Zona',
     'active' => 'Activo',
     'inactive' => 'Inactivo',
-    'Brand ID' => 'Marca',
-    'Category ID' => 'Categoría',
-    'Child' => 'Hijo',
-    'Parent' => 'Padre',
-    'Name' => 'Nombre',
 ];

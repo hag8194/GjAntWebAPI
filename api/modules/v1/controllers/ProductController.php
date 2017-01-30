@@ -4,6 +4,7 @@ namespace api\modules\v1\controllers;
 
 use yii\data\ActiveDataProvider;
 use yii\filters\auth\QueryParamAuth;
+use yii\helpers\ArrayHelper;
 use yii\rest\ActiveController;
 
 class ProductController extends ActiveController
@@ -21,6 +22,13 @@ class ProductController extends ActiveController
         return $actions;
     }
 
+    protected function verbs()
+    {
+        return ArrayHelper::merge(parent::verbs(), [
+            'search' => ['GET']
+        ]);
+    }
+
     public function actionIndex()
     {
         /* @var $modelClass \yii\db\BaseActiveRecord */
@@ -29,6 +37,10 @@ class ProductController extends ActiveController
         return new ActiveDataProvider([
             'query' => $modelClass::find()->where(['status' => 1])
         ]);
+    }
+
+    public function actionSearch($query){
+        return $query;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace backend\controllers;
 use backend\models\MapModel;
 use backend\models\ProfileForm;
 use backend\models\RegisterForm;
+use backend\utils\Report;
 use common\models\Client;
 use common\models\Employer;
 use common\models\Enterprise;
@@ -59,7 +60,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index', ['report' => new Report()]);
     }
 
     /**

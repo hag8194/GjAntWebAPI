@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-01-2017 a las 10:02:04
+-- Tiempo de generación: 30-01-2017 a las 07:21:03
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -136,6 +136,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/client/index', 2, NULL, NULL, NULL, 1481079715, 1481079715),
 ('/employer/*', 2, NULL, NULL, NULL, 1481079698, 1481079698),
 ('/employer/index', 2, NULL, NULL, NULL, 1481079705, 1481079705),
+('/order/*', 2, NULL, NULL, NULL, 1485756237, 1485756237),
+('/order/index', 2, NULL, NULL, NULL, 1485756236, 1485756236),
 ('/product-tag/*', 2, NULL, NULL, NULL, 1482478161, 1482478161),
 ('/product-tag/create', 2, NULL, NULL, NULL, 1482478161, 1482478161),
 ('/product-tag/index', 2, NULL, NULL, NULL, 1482478161, 1482478161),
@@ -169,6 +171,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('ClientWallet CRUD', 2, NULL, NULL, NULL, 1481510908, 1481510908),
 ('Employer CRUD', 2, NULL, NULL, NULL, 1481079810, 1481079810),
 ('enterprise', 2, NULL, NULL, NULL, 1485307048, 1485307048),
+('order', 2, NULL, NULL, NULL, 1485756250, 1485756250),
 ('Product CRUD', 2, NULL, NULL, NULL, 1480900556, 1480900556),
 ('ProductTag CRUD', 2, NULL, NULL, NULL, 1482478287, 1482478287),
 ('register-user', 2, NULL, NULL, NULL, 1481070676, 1481070676),
@@ -201,6 +204,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'ClientWallet CRUD'),
 ('administrator', 'Employer CRUD'),
 ('administrator', 'enterprise'),
+('administrator', 'order'),
 ('administrator', 'Product CRUD'),
 ('administrator', 'ProductTag CRUD'),
 ('administrator', 'register-user'),
@@ -209,11 +213,13 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'Tag CRUD'),
 ('administrator', 'Zone CRUD'),
 ('Brand CRUD', '/brand/*'),
+('client', '/product/index'),
 ('client', 'site'),
 ('Client CRUD', '/client/*'),
 ('ClientWallet CRUD', '/client-wallet/*'),
 ('Employer CRUD', '/employer/*'),
 ('enterprise', '/site/enterprise'),
+('order', '/order/*'),
 ('Product CRUD', '/product/*'),
 ('ProductTag CRUD', '/product-tag/*'),
 ('register-user', '/site/register'),
@@ -272,7 +278,6 @@ CREATE TABLE `client` (
   `phone1` varchar(45) NOT NULL,
   `phone2` varchar(45) DEFAULT NULL,
   `credit_limit` double NOT NULL DEFAULT '0',
-  `credit_use` double NOT NULL DEFAULT '0',
   `assigned` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
@@ -284,18 +289,18 @@ CREATE TABLE `client` (
 -- Volcado de datos para la tabla `client`
 --
 
-INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `credit_use`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
-(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 700000, 0, 0, 1482255082, 1484264263, 26, 3),
-(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 0, 1, 1482333126, 1484425148, 27, 4),
-(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 700000, 0, 1, 1482335127, 1482335127, 28, 7),
-(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 700000, 0, 1, 1482335701, 1484425130, 29, 8),
-(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 0, 0, 1482336123, 1484264264, 30, 9),
-(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 0, 0, 1482336412, 1484264264, 31, 10),
-(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 0, 0, 1482536695, 1484264265, 35, 14),
-(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 0, 0, 1482536836, 1484264266, 36, 15),
-(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 0, 0, 1482536936, 1482536936, 37, 16),
-(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 700000, 0, 1, 1484425076, 1484880687, 39, 18),
-(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 700000, 9000, 1, 1484425522, 1485507578, 40, 19);
+INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
+(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 700000, 0, 1482255082, 1484264263, 26, 3),
+(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 1, 1482333126, 1484425148, 27, 4),
+(3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 700000, 1, 1482335127, 1482335127, 28, 7),
+(4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 700000, 1, 1482335701, 1484425130, 29, 8),
+(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 0, 1482336123, 1484264264, 30, 9),
+(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 0, 1482336412, 1484264264, 31, 10),
+(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 0, 1482536695, 1484264265, 35, 14),
+(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 0, 1482536836, 1484264266, 36, 15),
+(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 0, 1482536936, 1482536936, 37, 16),
+(10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 700000, 1, 1484425076, 1484880687, 39, 18),
+(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 700000, 1, 1484425522, 1485507578, 40, 19);
 
 -- --------------------------------------------------------
 
@@ -394,7 +399,6 @@ CREATE TABLE `menu` (
 INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (2, 'Brand', 13, NULL, 0, NULL),
 (3, 'Crear', 2, '/brand/create', 1, NULL),
-(4, 'Example', NULL, '/site/example', 1000, '''fa fa-file-code-o'',''header'''),
 (5, 'Principal', 2, '/brand/index', 0, NULL),
 (6, 'Escritorio', NULL, '/site/index', 0, NULL),
 (7, 'Etiqueta', 13, NULL, NULL, NULL),
@@ -414,7 +418,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (23, 'Cartera de cliente', NULL, '/client-wallet/index', 4, NULL),
 (26, 'Articulos Relacionados', NULL, '/related-articles/index', 8, NULL),
 (27, 'Principal', 12, '/zone/index', NULL, NULL),
-(28, 'Crear', 12, '/zone/create', 1, NULL);
+(28, 'Crear', 12, '/zone/create', 1, NULL),
+(29, 'Ordenes', NULL, '/order/index', 9, NULL);
 
 -- --------------------------------------------------------
 
@@ -466,7 +471,15 @@ INSERT INTO `order` (`id`, `code`, `status`, `description`, `type`, `created_at`
 (9, 'ORD141485464763474', 10, 'Cotizacion de prueba!!', 0, 1485464781, 1485464781, 14),
 (12, 'ORD62485300686668', 10, 'Orden de prueba, postman!', 1, 1485465149, 1485465149, 14),
 (13, 'ORD141485466065491', 10, 'Orden de compra de prueba!', 1, 1485466138, 1485466138, 14),
-(14, 'ORD63485300686668', 10, 'Orden de prueba, postman!', 1, 1485505382, 1485505382, 14);
+(14, 'ORD63485300686668', 10, 'Orden de prueba, postman!', 1, 1485505382, 1485505382, 14),
+(15, 'ORD141485508223406', 10, 'Cotizando', 0, 1485508228, 1485508228, 14),
+(16, 'ORD111485513210560', 10, 'Cotizacion de prueba', 0, 1485513223, 1485513223, 11),
+(17, 'ORD141485579013118', 10, '', 0, 1485579015, 1485579015, 14),
+(18, 'ORD141485579107062', 10, '', 0, 1485579114, 1485579114, 14),
+(19, 'ORD141485579301997', 10, '', 0, 1485579304, 1485579304, 14),
+(20, 'ORD111485579752724', 10, 'Orden de compra de prueba!', 1, 1485579766, 1485579766, 11),
+(21, 'ORD121485617869463', 10, 'Holaa amigoos!!', 0, 1485644377, 1485644377, 12),
+(22, 'ORD121485618079751', 10, 'Esto es una orden de compra', 1, 1485644536, 1485644536, 12);
 
 -- --------------------------------------------------------
 
@@ -501,7 +514,21 @@ INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`) VALUES
 (12, 3, 10),
 (13, 3, 190),
 (13, 4, 50),
-(14, 3, 10);
+(14, 3, 10),
+(15, 3, 2),
+(15, 4, 12),
+(16, 3, 40),
+(16, 4, 4),
+(17, 3, 14),
+(17, 4, 12),
+(18, 3, 8),
+(19, 3, 27),
+(19, 4, 14),
+(20, 3, 4),
+(20, 4, 5),
+(21, 3, 12),
+(22, 3, 15),
+(22, 4, 5);
 
 -- --------------------------------------------------------
 
@@ -515,6 +542,7 @@ CREATE TABLE `product` (
   `name` varchar(255) NOT NULL,
   `quantity` bigint(11) NOT NULL,
   `price` double NOT NULL,
+  `description` text,
   `status` tinyint(1) DEFAULT '1' COMMENT 'True: The product will appear in the catalog; False: The product will not appear in the catalog',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
@@ -526,10 +554,10 @@ CREATE TABLE `product` (
 -- Volcado de datos para la tabla `product`
 --
 
-INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 40, 3500, 1, 1482560950, 1485505382, 1, 1),
-(4, 'producprueba2', 'Producto 2', 50, 2000, 1, 1483456818, 1485466138, 1, 1),
-(5, 'producprueba3', 'Producto 3', 33350, 1500, 0, 1483457199, 1484894319, 1, 1);
+INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `description`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
+(3, 'producprueba1', 'Producto 1', 21, 3500, NULL, 1, 1482560950, 1485644536, 1, 1),
+(4, 'producprueba2', 'Producto 2', 40, 2000, NULL, 1, 1483456818, 1485644536, 1, 1),
+(5, 'producprueba3', 'Producto 3', 33350, 1500, NULL, 0, 1483457199, 1484894319, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -894,12 +922,12 @@ ALTER TABLE `enterprise`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --

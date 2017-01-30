@@ -27,6 +27,9 @@ class Order extends \yii\db\ActiveRecord
     const TYPE_COTIZATION = 0;
     const TYPE_BUY_ORDER = 1;
 
+    const TYPE_LABELS = ['Cotización', 'Orden de Compra'];
+    const STATUS_LABELS = [];
+
     /**
      * @inheritdoc
      */

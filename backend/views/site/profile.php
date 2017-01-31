@@ -33,7 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
         else if($model_client)
         {
             echo $this->render('/client/_form', [
-                'model' => $model_client
+                'model' => $model_client,
+                'model_address' => $model_client->address
             ]);
         } ?>
     </div>

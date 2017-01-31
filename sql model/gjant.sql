@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-01-2017 a las 12:07:27
+-- Tiempo de generación: 31-01-2017 a las 01:48:16
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -54,7 +54,9 @@ INSERT INTO `address` (`id`, `name`, `lat`, `lng`) VALUES
 (16, 'Clinica Los Colorados, Valencia, Carabobo, Venezuela', 10.1932, -68.0097),
 (17, 'Los Caobos, Av 112 San Juan María Vianney, Valencia, Carabobo, Venezuela', 10.1572, -68.0213),
 (18, 'hospital carabobo, Calle Carabobo, Naguanagua, Carabobo, Venezuela', 10.2839, -68.0141),
-(19, 'Hospital Psiquiátrico "Dr. José Ortega Durán", Naguanagua, Carabobo, Venezuela', 10.282, -68.009);
+(19, 'Hospital Psiquiátrico "Dr. José Ortega Durán", Naguanagua, Carabobo, Venezuela', 10.282, -68.009),
+(20, 'Paraparal, Los Guayos, Carabobo, Venezuela', 10.1986, -67.9221),
+(21, 'Carialinda 1era Etapa, Naguanagua, Carabobo, Venezuela', 10.3024, -68.0386);
 
 -- --------------------------------------------------------
 
@@ -86,6 +88,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('client', '37', 1482536892),
 ('client', '39', 1484425007),
 ('client', '40', 1484425338),
+('client', '41', 1485799679),
 ('vendor', '1', 1481508332),
 ('vendor', '17', 1481510739),
 ('vendor', '19', 1482068615),
@@ -98,7 +101,8 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('vendor', '32', 1482369034),
 ('vendor', '33', 1482475791),
 ('vendor', '34', 1482536479),
-('vendor', '38', 1482561399);
+('vendor', '38', 1482561399),
+('vendor', '42', 1485810274);
 
 -- --------------------------------------------------------
 
@@ -268,7 +272,9 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`id`, `name`, `description`) VALUES
-(1, 'Addidas', '');
+(1, 'Marca1', ''),
+(2, 'Marca2', ''),
+(3, 'Marca3', '');
 
 -- --------------------------------------------------------
 
@@ -295,17 +301,18 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
-(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 700000, 0, 1482255082, 1484264263, 26, 3),
+(1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 700000, 1, 1482255082, 1485809607, 26, 3),
 (2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 1, 1482333126, 1484425148, 27, 4),
 (3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 700000, 1, 1482335127, 1482335127, 28, 7),
 (4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 700000, 1, 1482335701, 1484425130, 29, 8),
 (5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 0, 1482336123, 1484264264, 30, 9),
-(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 0, 1482336412, 1484264264, 31, 10),
+(6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 1, 1482336412, 1485809610, 31, 10),
 (7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 0, 1482536695, 1484264265, 35, 14),
 (8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 0, 1482536836, 1484264266, 36, 15),
 (9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 0, 1482536936, 1482536936, 37, 16),
 (10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 700000, 1, 1484425076, 1484880687, 39, 18),
-(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 700000, 1, 1484425522, 1485507578, 40, 19);
+(11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 700000, 1, 1484425522, 1485507578, 40, 19),
+(12, 'Cliente de prueba1', '991828439249584', '0412-4244643', '', 500000, 0, 1485799790, 1485800741, 41, 20);
 
 -- --------------------------------------------------------
 
@@ -328,7 +335,9 @@ INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
 (10, 3, 4),
 (11, 3, 2),
 (12, 3, 10),
-(14, 3, 11);
+(14, 3, 11),
+(15, 4, 1),
+(16, 4, 6);
 
 -- --------------------------------------------------------
 
@@ -353,12 +362,13 @@ CREATE TABLE `employer` (
 --
 
 INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`, `updated_at`, `zone_id`, `user_id`, `address_id`) VALUES
-(1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1482535567, 1, 24, 1),
+(1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1485799405, 1, 24, 1),
 (2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2),
 (3, 'Victoria', 'Noguera', '20812115', 1482369588, 1482505913, 1, 32, 11),
 (4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12),
 (5, 'Marjoire Susana', 'Navas Martines', '7111654', 1482536520, 1482536520, 6, 34, 13),
-(6, 'Pedro', 'Palma', '19221152', 1482561821, 1482561821, 4, 38, 17);
+(6, 'Pedro', 'Palma', '19221152', 1482561821, 1482561821, 4, 38, 17),
+(7, 'Felipe', 'Nunez', '24330457', 1485810414, 1485810414, 3, 42, 21);
 
 -- --------------------------------------------------------
 
@@ -484,7 +494,8 @@ INSERT INTO `order` (`id`, `code`, `status`, `description`, `type`, `created_at`
 (19, 'ORD141485579301997', 10, '', 0, 1485579304, 1485579304, 14),
 (20, 'ORD111485579752724', 10, 'Orden de compra de prueba!', 1, 1485579766, 1485579766, 11),
 (21, 'ORD121485617869463', 10, 'Holaa amigoos!!', 0, 1485644377, 1485644377, 12),
-(22, 'ORD121485618079751', 10, 'Esto es una orden de compra', 1, 1485644536, 1485644536, 12);
+(22, 'ORD121485618079751', 10, 'Esto es una orden de compra', 1, 1485644536, 1485644536, 12),
+(23, 'ORD121485812103026', 10, 'Esto es una cotizacion', 0, 1485812146, 1485812146, 12);
 
 -- --------------------------------------------------------
 
@@ -533,7 +544,11 @@ INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`) VALUES
 (20, 4, 5),
 (21, 3, 12),
 (22, 3, 15),
-(22, 4, 5);
+(22, 4, 5),
+(23, 3, 9),
+(23, 4, 2),
+(23, 5, 3),
+(23, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -562,7 +577,9 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `description`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
 (3, 'producprueba1', 'Producto 1', 21, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1485774438, 1, 1),
 (4, 'producprueba2', 'Producto 2', 40, 2000, NULL, 1, 1483456818, 1485644536, 1, 1),
-(5, 'producprueba3', 'Producto 3', 33350, 1500, NULL, 0, 1483457199, 1484894319, 1, 1);
+(5, 'producprueba3', 'Producto 3', 33350, 1500, '', 1, 1483457199, 1485798596, 1, 1),
+(6, 'codeproduct4', 'Producto 4', 200, 5000, 'Esta es la descripción del producto 4', 1, 1485797631, 1485797631, 1, 1),
+(7, 'codeproduct5', 'Producto 5', 400, 8000, 'Descripción del producto 5', 1, 1485797990, 1485798515, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -589,7 +606,17 @@ INSERT INTO `product_image` (`id`, `path`, `product_id`) VALUES
 (7, '/img/8p_IqpevDE2AQvZ1OknbbzmK3kPf-oGA.jpg', 4),
 (13, '/img/83gEU8WEYMOlC1u1_Z-5qHn8hIRRnOKp.jpg', 3),
 (14, '/img/ZRWWeH4QCcXbC2efzjEorN1BbWAoJ130.jpg', 3),
-(15, '/img/ogHLTV1yyKtgFrR_0OIwlrRIpK7-VJGP.jpg', 3);
+(15, '/img/ogHLTV1yyKtgFrR_0OIwlrRIpK7-VJGP.jpg', 3),
+(16, '/img/i4UK7NZR3-sPHtIc5Ybt1YOmE2Ep4q5f.jpg', 6),
+(17, '/img/lv7UP0j4yfcoN__MarNfxN12ALE8tnAr.jpg', 6),
+(18, '/img/uftBb8V464bxctrt461YcSvrq9BIos0c.jpg', 6),
+(19, '/img/qZXTS9tQQdjCUp0H4c83YRn9RHotb2za.jpg', 6),
+(20, '/img/GLvHW26-6EP48bSsI4qVNDWRdor8R5Pq.jpg', 7),
+(21, '/img/glMGttNIDoB3MHI7EgQPMXpDXIyZKt7L.jpg', 7),
+(22, '/img/miwBPDy11M1XhxDlH7uPMmjqYMO_r_j_.png', 7),
+(23, '/img/hSKSblEHrn92kkirc6aiqGJ3OOGVufDZ.jpg', 7),
+(24, '/img/Vo82IRBSqpWxs6RUmVagIJ9GoAyIuVn-.png', 7),
+(26, '/img/22vS3N1-G8WB1v3WW_Utu0XA0tT9qgY2.png', 5);
 
 -- --------------------------------------------------------
 
@@ -687,7 +714,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `avatar`, `access_token`, `created_at`, `updated_at`) VALUES
 (1, 'hag8194', 'lRXrrCSJaD8XyCBrwKlBtqbkAagYGVyM', '$2y$13$IiZPayfpjlo4k/wdpxHgw.Tz3WIRlR2FjQSOZNUYPxBH9GPPdwPSu', 'aCLVjEo_d0S-QhH-VzzAwP6tZN2AsjyC_1480273544', 'hag8194@gmail.com', 10, '', 'cdhc28ff5634094d8e69h2164a864404', 0, 1482528689),
-(24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$eNfzQiD73X8z9gBr8C1KLejeViiBQTCA/pYva3x7G19hvhvc5kNfC', NULL, 'ers.cesar@gmail.com', 10, NULL, '5b571f297c71827853d1109b21a82462', 1482208219, 1482535568),
+(24, 'feanoro', 'FJ1lF7WcX7hzWnZFuAQX3Q1rosB5mwax', '$2y$13$eNfzQiD73X8z9gBr8C1KLejeViiBQTCA/pYva3x7G19hvhvc5kNfC', NULL, 'ers.cesar@gmail.com', 10, '/img/QhxUrKCzTSCkfsGJIgK12pIyEpxoS9iy.png', '5b571f297c71827853d1109b21a82462', 1482208219, 1485799405),
 (25, 'ivangn', 'FSHyfI8v8EdqoPO49KsdOGxLEt7vIxdh', '$2y$13$ISFOtqrM1pdMYfsWtV.GbOs6mq5AY6pgUu5UsmeU.cCGg.wKwg7KK', NULL, 'ign-jm@hotmail.com', 10, '/img/11ko_C3XVIBPTIqEbuvlWz5K2qXiQ-OL.jpg', '85b84fa04f5de2d259eb6c0760859e83', 1482253197, 1482253277),
 (26, 'tcusnier', 'D4vZ2TJMcl86alIkB0ZON2Xd-v2gtTjw', '$2y$13$T2XY6jGEt61FYsFT0k/SWe3epvI2CaNpYdczWZl8Tme3QWIBfu5Bm', NULL, 'tamaracusnier@hotmail.com', 10, '/img/A3gEE6TzCQjTJC98pVVsmudrSlBSbGei.jpg', '60558e1ed6821676624bb958d8fe89e5', 1482254756, 1482536161),
 (27, 'farmatodogranja', 'QP7zmIQkTmMo94iXJeMHvpJrrF30KjHA', '$2y$13$d6DxmAFLiGtciOAYm7xlrexaRCBCrPQAZEIag6GvJEOWrGAW3ZJ/O', NULL, 'farmatodogranja@farmatodo.com.ve', 10, '/img/I-pi0sY1A-6OjFO_l-ooGUS9kyBaImYe.jpg', 'c6efb067dac6b0da2f966869e45a912a', 1482331562, 1484417922),
@@ -703,7 +730,9 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (37, 'clinicaloscolorados', 'C7ccO0BgknTP4TKhnK9hHsZE_ppQOIcS', '$2y$13$yWvCi1F03d3mvVCKuGM8SeQ9NeV9cu4yomAmOgPTDeTVNgHf8sq06', NULL, 'admin@clinicaloscolorados.com.ve', 10, NULL, '004747631764f1fa719dba93bb3f550a', 1482536892, 1482536936),
 (38, 'ppalma', 'FiTAVeiX2yuH2jqfH02nrxA9BOKnbLB3', '$2y$13$GSCnSXml8.NhnLBLD1ZBceDJiUwUvJz.Z.ip9QBXNpecVkZyZ6246', NULL, 'pedropalma@gmail.com', 10, NULL, '7ac2ec27dadf7e16a3440ca5a0748cf7', 1482561399, 1482561821),
 (39, 'hospitalcarabobo', 'DJrBRJaqcMEZb25VDTyn1Ci0tgFpP-pl', '$2y$13$/yj0lbCcLeyeSTNgpUEJU.Yfx.ZT4FHDQRMWEzduEKwE3ALuJokp.', NULL, 'admin@hospitalcarabobo.com', 10, NULL, '5d8885d98c3e045ffe568d22d41d2acb', 1484425007, 1484425076),
-(40, 'hospitalpsiquiatriconaguanagua', '6f4ttileEBeYKSkr0XPbwZXkaMajwqG1', '$2y$13$gUTrdBaxs.HSPUHkBzCIq.OYWBhMriePW5ueKbB/ViN1t4MOVkehu', NULL, 'admin@hospitalpsiquiatriconaguanagua.com', 10, '/img/wohpAK0d55wou4igc8xyuzlBqDYCTg2K.jpg', '2ca2138cbc43df8d862e795e20ca8893', 1484425338, 1485507578);
+(40, 'hospitalpsiquiatriconaguanagua', '6f4ttileEBeYKSkr0XPbwZXkaMajwqG1', '$2y$13$gUTrdBaxs.HSPUHkBzCIq.OYWBhMriePW5ueKbB/ViN1t4MOVkehu', NULL, 'admin@hospitalpsiquiatriconaguanagua.com', 10, '/img/wohpAK0d55wou4igc8xyuzlBqDYCTg2K.jpg', '2ca2138cbc43df8d862e795e20ca8893', 1484425338, 1485507578),
+(41, 'jomorales15', 'XUDPLl0Ab0lCsSxiD_hPh95XJzFJfGXM', '$2y$13$n22pB8Fsh.KYs3.vVVR86eZsA3bcv3RjqEpXlQEcN4JHxukRptowi', NULL, 'johanmorales89@gmail.com', 10, NULL, '0dd5dcb517c65853e694c0b1b7b051cd', 1485799679, 1485799789),
+(42, 'nnunez', 'IHZyEU45RTARz01dgnjXlAh9UzOa8V79', '$2y$13$n0dgsaL0GkC1KbbB7nqpFupA/XI93N.D0yPwpupdvJZVAstC0G/QK', NULL, 'nunez@test.com', 10, '/img/F0gN_YKmivlOc6DkF7cF8dKx6oViaBvA.png', '15e4cab6602d4da7a3d74ee283ff05d9', 1485810274, 1485810414);
 
 -- --------------------------------------------------------
 
@@ -729,7 +758,8 @@ INSERT INTO `zone` (`id`, `name`, `description`, `lat`, `lng`) VALUES
 (3, 'Bejuma, Carabobo, Venezuela', 'Municipio Bejuma', 10.1771, -68.2594),
 (4, 'Valencia, Libertador, Carabobo, Venezuela', 'Municipio Libertador', 10.1579, -67.9972),
 (5, 'Guacara, Carabobo, Venezuela', 'Municipio Guacara', 10.2647, -67.8927),
-(6, 'Valencia, Carabobo, Venezuela', 'Municipio Valencia', 10.1579, -67.9972);
+(6, 'Valencia, Carabobo, Venezuela', 'Municipio Valencia', 10.1579, -67.9972),
+(7, 'Los Guayos, Carabobo, Venezuela', 'Zona de los guayos', 10.1821, -67.9166);
 
 --
 -- Índices para tablas volcadas
@@ -897,27 +927,27 @@ ALTER TABLE `zone`
 -- AUTO_INCREMENT de la tabla `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT de la tabla `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `enterprise`
 --
@@ -932,17 +962,17 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --
@@ -952,12 +982,12 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT de la tabla `zone`
 --
 ALTER TABLE `zone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- Restricciones para tablas volcadas
 --
@@ -1014,40 +1044,6 @@ ALTER TABLE `menu`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `fk_order_client_wallet1` FOREIGN KEY (`client_wallet_id`) REFERENCES `client_wallet` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `order_detail`
---
-ALTER TABLE `order_detail`
-  ADD CONSTRAINT `fk_order_detail_order1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_order_detail_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `product`
---
-ALTER TABLE `product`
-  ADD CONSTRAINT `fk_product_brand1` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_product_user1` FOREIGN KEY (`updated_by`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `product_image`
---
-ALTER TABLE `product_image`
-  ADD CONSTRAINT `fk_product_image_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `product_tag`
---
-ALTER TABLE `product_tag`
-  ADD CONSTRAINT `fk_product_has_tag_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_product_has_tag_tag1` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `related_articles`
---
-ALTER TABLE `related_articles`
-  ADD CONSTRAINT `fk_related_articles_product1` FOREIGN KEY (`parent`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_related_articles_product2` FOREIGN KEY (`child`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

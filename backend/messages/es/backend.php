@@ -26,7 +26,7 @@ return [
     'Best customers by buy order quantity' => 'Mejores clientes mediante la cantidad de ordenes de compra',
     'Best vendors by buy order entry' => 'Mejores vendedores mediante la entrada de ordenes de compra',
     'Best vendors by buy order quantity' => 'Mejores vendedores mediante la cantidad de ordenes de compra',
-    'Bs' => '@@',
+    'Bs' => '',
     'Create Order' => 'Crear Orden',
     'Has no description' => 'No tiene descripción',
     'Latest Orders' => 'Últimas Órdenes',

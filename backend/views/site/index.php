@@ -164,112 +164,123 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
             <!-- /.box -->
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <?php $bestVendorsByBuyOrderEntry = $report->bestVendorsByBuyOrderEntry(); ?>
-            <div class="box box-primary">
-                <?= Highcharts::widget([
-                    'options' => [
-                        'chart' => [
-                            'type' => 'column'
-                        ],
-                        'title' => ['text' => Yii::t('backend', 'Best vendors by buy order entry')],//Mejores vendedores mediante la entrada de ordenes de compra
-                        'yAxis' => [
-                            'title' => ['text' => Yii::t('backend', 'Bs')]
-                        ],
-                        'series' => $bestVendorsByBuyOrderEntry['series']
-                    ]
-                ]) ?>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Gain Report from Purchase Orders')//Reporte de ganancia a partir de órdenes de compra ?></h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
         </div>
-        <div class="col-md-4">
-            <?php $bestClientsByBuyOrderEntry = $report->bestClientsByBuyOrderEntry(); ?>
-            <div class="box box-primary">
-                <?= Highcharts::widget([
-                    'options' => [
-                        'chart' => [
-                            'type' => 'column'
-                        ],
-                        'title' => ['text' => Yii::t('backend', 'Best customers by buy order entry')],//Mejores clientes mediante la entrada de ordenes de compra
-                        'yAxis' => [
-                            'title' => ['text' => Yii::t('backend', 'Bs')]
-                        ],
-                        'series' => $bestClientsByBuyOrderEntry['series']
-                    ]
-                ]) ?>
+        <div class="box-body">
+            <div class="col-md-4">
+                <?php $bestVendorsByBuyOrderEntry = $report->bestVendorsByBuyOrderEntry(); ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best vendors by buy order entry')],//Mejores vendedores mediante la entrada de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Bs')]
+                            ],
+                            'series' => $bestVendorsByBuyOrderEntry['series']
+                        ]
+                    ]) ?>
             </div>
-        </div>
-        <div class="col-md-4">
-            <?php $mostBoughtProductsByBuyEntry = $report->mostBoughtProductByBuyOrderEntry() ?>
-            <div class="box box-primary">
-                <?= Highcharts::widget([
-                    'options' => [
-                        'chart' => [
-                            'type' => 'column'
-                        ],
-                        'title' => ['text' => Yii::t('backend', 'Most bought product by buy order entry')],//Productos mas comprados mediante la entrada de ordenes de compra
-                        'yAxis' => [
-                            'title' => ['text' => Yii::t('backend', 'Bs')]
-                        ],
-                        'series' => $mostBoughtProductsByBuyEntry['series']
-                    ]
-                ]) ?>
+            <div class="col-md-4">
+                <?php $bestClientsByBuyOrderEntry = $report->bestClientsByBuyOrderEntry(); ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best customers by buy order entry')],//Mejores clientes mediante la entrada de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Bs')]
+                            ],
+                            'series' => $bestClientsByBuyOrderEntry['series']
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?php $mostBoughtProductsByBuyEntry = $report->mostBoughtProductByBuyOrderEntry() ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Most bought product by buy order entry')],//Productos mas comprados mediante la entrada de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Bs')]
+                            ],
+                            'series' => $mostBoughtProductsByBuyEntry['series']
+                        ]
+                    ]) ?>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <?php $bestVendorsByBuyOrderQuantity = $report->bestVendorsByBuyOrderQuantity() ?>
-            <div class="box box-primary">
-                <?= Highcharts::widget([
-                    'options' => [
-                        'chart' => [
-                            'type' => 'column'
-                        ],
-                        'title' => ['text' => Yii::t('backend', 'Best vendors by buy order quantity')],//Mejores vendedores mediante la cantidad de ordenes de compra
-                        'yAxis' => [
-                            'title' => ['text' => Yii::t('backend', 'Quantity')]
-                        ],
-                        'series' => $bestVendorsByBuyOrderQuantity['series']
-                    ]
-                ]) ?>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Reports from the number of purchase orders')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
         </div>
-        <div class="col-md-4">
-            <?php $bestClientsByBuyOrderQuantity = $report->bestClientsByBuyOrderQuantity() ?>
-            <div class="box box-primary">
-                <?= Highcharts::widget([
-                    'options' => [
-                        'chart' => [
-                            'type' => 'column'
-                        ],
-                        'title' => ['text' => Yii::t('backend', 'Best customers by buy order quantity')],//Mejores clientes mediante la cantidad de ordenes de compra
-                        'yAxis' => [
-                            'title' => ['text' => Yii::t('backend', 'Quantity')]
-                        ],
-                        'series' => $bestClientsByBuyOrderQuantity['series']
-                    ]
-                ]) ?>
+        <div class="box-body">
+            <div class="col-md-4">
+                <?php $bestVendorsByBuyOrderQuantity = $report->bestVendorsByBuyOrderQuantity() ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best vendors by buy order quantity')],//Mejores vendedores mediante la cantidad de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Quantity')]
+                            ],
+                            'series' => $bestVendorsByBuyOrderQuantity['series']
+                        ]
+                    ]) ?>
             </div>
-        </div>
-        <div class="col-md-4">
-            <?php $mostBoughtProductsByBuyQuantity = $report->mostBoughtProductByBuyOrderQuantity() ?>
-            <div class="box box-primary">
-                <?= Highcharts::widget([
-                    'options' => [
-                        'chart' => [
-                            'type' => 'column'
-                        ],
-                        'title' => ['text' => Yii::t('backend', 'Most bought product by buy order quantity')],//Productos mas comprados mediante la cantidad de ordenes de compra
-                        'yAxis' => [
-                            'title' => ['text' => Yii::t('backend', 'Quantity')]
-                        ],
-                        'series' => $mostBoughtProductsByBuyQuantity['series']
-                    ]
-                ]) ?>
+            <div class="col-md-4">
+                <?php $bestClientsByBuyOrderQuantity = $report->bestClientsByBuyOrderQuantity() ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best customers by buy order quantity')],//Mejores clientes mediante la cantidad de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Quantity')]
+                            ],
+                            'series' => $bestClientsByBuyOrderQuantity['series']
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?php $mostBoughtProductsByBuyQuantity = $report->mostBoughtProductByBuyOrderQuantity() ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Most bought product by buy order quantity')],//Productos mas comprados mediante la cantidad de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Quantity')]
+                            ],
+                            'series' => $mostBoughtProductsByBuyQuantity['series']
+                        ]
+                    ]) ?>
             </div>
         </div>
     </div>
+
     <?php endif; ?>
 </div>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-01-2017 a las 01:48:16
+-- Tiempo de generación: 03-02-2017 a las 03:33:14
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -495,7 +495,25 @@ INSERT INTO `order` (`id`, `code`, `status`, `description`, `type`, `created_at`
 (20, 'ORD111485579752724', 10, 'Orden de compra de prueba!', 1, 1485579766, 1485579766, 11),
 (21, 'ORD121485617869463', 10, 'Holaa amigoos!!', 0, 1485644377, 1485644377, 12),
 (22, 'ORD121485618079751', 10, 'Esto es una orden de compra', 1, 1485644536, 1485644536, 12),
-(23, 'ORD121485812103026', 10, 'Esto es una cotizacion', 0, 1485812146, 1485812146, 12);
+(23, 'ORD121485812103026', 10, 'Esto es una cotizacion', 0, 1485812146, 1485812146, 12),
+(24, 'ORD61485986171876', 10, 'Test', 1, 1485986176, 1485986176, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `orders_by_zone`
+--
+CREATE TABLE `orders_by_zone` (
+`id` int(11)
+,`code` varchar(255)
+,`status` smallint(6)
+,`description` tinytext
+,`type` smallint(6)
+,`created_at` int(11)
+,`updated_at` int(11)
+,`client_wallet_id` int(11)
+,`zone_name` varchar(255)
+);
 
 -- --------------------------------------------------------
 
@@ -548,7 +566,8 @@ INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`) VALUES
 (23, 3, 9),
 (23, 4, 2),
 (23, 5, 3),
-(23, 7, 1);
+(23, 7, 1),
+(24, 3, 12);
 
 -- --------------------------------------------------------
 
@@ -575,7 +594,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `description`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 21, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1485774438, 1, 1),
+(3, 'producprueba1', 'Producto 1', 9, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1485986177, 1, 1),
 (4, 'producprueba2', 'Producto 2', 40, 2000, NULL, 1, 1483456818, 1485644536, 1, 1),
 (5, 'producprueba3', 'Producto 3', 33350, 1500, '', 1, 1483457199, 1485798596, 1, 1),
 (6, 'codeproduct4', 'Producto 4', 200, 5000, 'Esta es la descripción del producto 4', 1, 1485797631, 1485797631, 1, 1),
@@ -760,6 +779,15 @@ INSERT INTO `zone` (`id`, `name`, `description`, `lat`, `lng`) VALUES
 (5, 'Guacara, Carabobo, Venezuela', 'Municipio Guacara', 10.2647, -67.8927),
 (6, 'Valencia, Carabobo, Venezuela', 'Municipio Valencia', 10.1579, -67.9972),
 (7, 'Los Guayos, Carabobo, Venezuela', 'Zona de los guayos', 10.1821, -67.9166);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `orders_by_zone`
+--
+DROP TABLE IF EXISTS `orders_by_zone`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `orders_by_zone`  AS  select `order`.`id` AS `id`,`order`.`code` AS `code`,`order`.`status` AS `status`,`order`.`description` AS `description`,`order`.`type` AS `type`,`order`.`created_at` AS `created_at`,`order`.`updated_at` AS `updated_at`,`order`.`client_wallet_id` AS `client_wallet_id`,`zone`.`name` AS `zone_name` from (`order` left join (`client_wallet` left join (`employer` left join `zone` on((`employer`.`zone_id` = `zone`.`id`))) on((`client_wallet`.`employer_id` = `employer`.`id`))) on((`order`.`client_wallet_id` = `client_wallet`.`id`))) ;
 
 --
 -- Índices para tablas volcadas
@@ -962,7 +990,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --

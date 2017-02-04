@@ -4,6 +4,7 @@ use common\models\Order;
 use common\models\Product;
 use miloschuman\highcharts\Highcharts;
 use yii\bootstrap\Html;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $report \backend\utils\Report */
@@ -174,10 +175,14 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
         </div>
-        <div class="box-body">
+        <div class="box-body row">
             <div class="col-md-4">
                 <?php $bestVendorsByBuyOrderEntry = $report->bestVendorsByBuyOrderEntry(); ?>
                     <?= Highcharts::widget([
+                        'scripts' => [
+                            'modules/exporting',
+                            'themes/grid-light',
+                        ],
                         'options' => [
                             'chart' => [
                                 'type' => 'column'
@@ -233,7 +238,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
         </div>
-        <div class="box-body">
+        <div class="box-body row">
             <div class="col-md-4">
                 <?php $bestVendorsByBuyOrderQuantity = $report->bestVendorsByBuyOrderQuantity() ?>
                     <?= Highcharts::widget([
@@ -278,6 +283,58 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'series' => $mostBoughtProductsByBuyQuantity['series']
                         ]
                     ]) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Reports from the number of purchase orders')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body row">
+            <div class="col-md-6">
+                <?php $bestZonesByBuyOrderQuantity = $report->bestZonesByBuyOrderQuantity(); ?>
+                <?= Highcharts::widget([
+                    'options' => [
+                        'title' => ['text' => Yii::t('backend', 'Best Zones By Buy Order Quantity')],//Mejores Zonas por Cantidad de Pedido de Compra
+                        'series' => [
+                            [
+                                'type' => 'pie',
+                                'name' => Yii::t('backend', 'Total of buy orders'),
+                                'data' => $bestZonesByBuyOrderQuantity['data'],
+                                'showInLegend' => true,
+                                'dataLabels' => [
+                                    'enabled' => false,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-md-6">
+                <?php $bestZonesByBuyOrderEntry = $report->bestZonesByBuyOrderEntry(); ?>
+                <?= Highcharts::widget([
+                    'options' => [
+                        'title' => ['text' => Yii::t('backend', 'Best Zones By Buy Order Entry')],//Mejores Zonas por Entrada de Pedido de Compra
+                        'series' => [
+                            [
+                                'type' => 'pie',
+                                'name' => Yii::t('backend', 'Total of buy orders'),
+                                'data' => $bestZonesByBuyOrderEntry['data'],
+                                'showInLegend' => true,
+                                'dataLabels' => [
+                                    'enabled' => false,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]) ?>
             </div>
         </div>
     </div>

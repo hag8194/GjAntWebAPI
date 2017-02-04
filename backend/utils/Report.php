@@ -12,7 +12,9 @@ use common\models\Client;
 use common\models\ClientWallet;
 use common\models\Employer;
 use common\models\Order;
+use common\models\OrdersByZone;
 use common\models\searchmodels\Product;
+use common\models\Zone;
 use yii\base\Object;
 
 class Report extends Object
@@ -197,5 +199,49 @@ class Report extends Object
         }
 
         return $data;
+    }
+
+    public function bestZonesByBuyOrderQuantity()
+    {
+        /* @var $zones Zone[] */
+        $zones = Zone::find()->all();
+
+        $data = [];
+        $data['data'] = [];
+
+        foreach ($zones as $zone)
+            array_push($data['data'], [
+                'name' => $zone->name,
+                'y' => count($zone->ordersByZone),
+            ]);
+
+        return $data;
+    }
+
+    public function bestZonesByBuyOrderEntry()
+    {
+        /* @var $zones Zone[] */
+        $zones = Zone::find()->all();
+
+        $data = [];
+        $data['data'] = [];
+        $acum = 0.0;
+
+        foreach ($zones as $zone){
+            foreach ($zone->ordersByZone as $item) {
+                foreach ($item->orderDetails as $orderDetail)
+                    if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER)
+                        $acum += $orderDetail->product->price * $orderDetail->quantity;
+            }
+            array_push($data['data'], [
+                'name' => $zone->name,
+                'y' => $acum
+            ]);
+            $acum = 0.0;
+        }
+
+
+        return $data;
+
     }
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-02-2017 a las 03:33:14
+-- Tiempo de generación: 04-02-2017 a las 04:39:13
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -512,6 +512,7 @@ CREATE TABLE `orders_by_zone` (
 ,`created_at` int(11)
 ,`updated_at` int(11)
 ,`client_wallet_id` int(11)
+,`zone_id` int(11)
 ,`zone_name` varchar(255)
 );
 
@@ -787,7 +788,7 @@ INSERT INTO `zone` (`id`, `name`, `description`, `lat`, `lng`) VALUES
 --
 DROP TABLE IF EXISTS `orders_by_zone`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `orders_by_zone`  AS  select `order`.`id` AS `id`,`order`.`code` AS `code`,`order`.`status` AS `status`,`order`.`description` AS `description`,`order`.`type` AS `type`,`order`.`created_at` AS `created_at`,`order`.`updated_at` AS `updated_at`,`order`.`client_wallet_id` AS `client_wallet_id`,`zone`.`name` AS `zone_name` from (`order` left join (`client_wallet` left join (`employer` left join `zone` on((`employer`.`zone_id` = `zone`.`id`))) on((`client_wallet`.`employer_id` = `employer`.`id`))) on((`order`.`client_wallet_id` = `client_wallet`.`id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `orders_by_zone`  AS  select `order`.`id` AS `id`,`order`.`code` AS `code`,`order`.`status` AS `status`,`order`.`description` AS `description`,`order`.`type` AS `type`,`order`.`created_at` AS `created_at`,`order`.`updated_at` AS `updated_at`,`order`.`client_wallet_id` AS `client_wallet_id`,`zone`.`id` AS `zone_id`,`zone`.`name` AS `zone_name` from (`order` left join (`client_wallet` left join (`employer` left join `zone` on((`employer`.`zone_id` = `zone`.`id`))) on((`client_wallet`.`employer_id` = `employer`.`id`))) on((`order`.`client_wallet_id` = `client_wallet`.`id`))) ;
 
 --
 -- Índices para tablas volcadas

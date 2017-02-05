@@ -8,6 +8,8 @@ use backend\utils\Report;
 use common\models\Client;
 use common\models\Employer;
 use common\models\Enterprise;
+use common\models\Product;
+use common\models\searchmodels\CatalogSearch;
 use common\models\User;
 use Yii;
 //use yii\filters\AccessControl;
@@ -179,6 +181,17 @@ class SiteController extends Controller
 
         return $this->render('enterprise', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionCatalog()
+    {
+        $searchModel = new CatalogSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('catalog', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 }

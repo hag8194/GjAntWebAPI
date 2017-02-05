@@ -39,7 +39,7 @@ class OrderController extends ActiveController
         $modelClass = $this->modelClass;
 
         return new ActiveDataProvider([
-            'query' => $modelClass::find()->joinWith('clientWallet')
+            'query' => $modelClass::find()->joinWith('clientWallet')->orderBy('created_at DESC')
                 ->where(['client_wallet.employer_id' => $employer_id])
         ]);
     }

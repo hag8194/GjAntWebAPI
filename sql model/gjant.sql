@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-02-2017 a las 04:39:13
+-- Tiempo de generación: 05-02-2017 a las 04:11:45
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -305,11 +305,11 @@ INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `c
 (2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 1, 1482333126, 1484425148, 27, 4),
 (3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 700000, 1, 1482335127, 1482335127, 28, 7),
 (4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 700000, 1, 1482335701, 1484425130, 29, 8),
-(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 0, 1482336123, 1484264264, 30, 9),
+(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 1, 1482336123, 1486223665, 30, 9),
 (6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 1, 1482336412, 1485809610, 31, 10),
-(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 0, 1482536695, 1484264265, 35, 14),
-(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 0, 1482536836, 1484264266, 36, 15),
-(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 0, 1482536936, 1482536936, 37, 16),
+(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 1, 1482536695, 1486223666, 35, 14),
+(8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 1, 1482536836, 1486223685, 36, 15),
+(9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 1, 1482536936, 1486223685, 37, 16),
 (10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 700000, 1, 1484425076, 1484880687, 39, 18),
 (11, 'Hospital Psiquiatrico "Dr. José Ortega Durán"', 'hospitalpsiquiatricodrjoseortegaduran', '0424-5138754', '', 700000, 1, 1484425522, 1485507578, 40, 19),
 (12, 'Cliente de prueba1', '991828439249584', '0412-4244643', '', 500000, 0, 1485799790, 1485800741, 41, 20);
@@ -337,7 +337,11 @@ INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
 (12, 3, 10),
 (14, 3, 11),
 (15, 4, 1),
-(16, 4, 6);
+(16, 4, 6),
+(17, 4, 5),
+(18, 4, 7),
+(21, 5, 8),
+(22, 5, 9);
 
 -- --------------------------------------------------------
 
@@ -463,8 +467,8 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 CREATE TABLE `order` (
   `id` int(11) NOT NULL,
   `code` varchar(255) NOT NULL,
-  `status` smallint(6) DEFAULT '10',
-  `description` tinytext,
+  `status` smallint(6) DEFAULT '0' COMMENT '0: standby 1: processing 2: processed 3: canceled',
+  `description` text,
   `type` smallint(6) DEFAULT '0' COMMENT '0: Cotization 1: Buy Order or Sales Order',
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
@@ -476,27 +480,31 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `code`, `status`, `description`, `type`, `created_at`, `updated_at`, `client_wallet_id`) VALUES
-(2, 'ORD101485297776560', 10, 'dsa', 0, 147483647, 147483647, 10),
-(3, 'ORD141485297776560', 10, 'Hola amigos!!', 0, 147483647, 147483647, 14),
-(4, 'ORD141485298311707', 10, '', 0, 147483647, 147483647, 14),
-(5, 'ORD121485298513258', 10, 'Esto es una cotización de prueba.', 0, 1485298518, 1485298518, 12),
-(6, 'ORD61485300686643', 10, 'Cotización de prueba', 0, 1485300692, 1485300692, 6),
-(7, 'ORD61485300686645', 10, 'Description here!', 0, 1485460288, 1485460288, 14),
-(8, 'ORD141485462349522', 10, 'Cotización!', 0, 1485462365, 1485462365, 14),
-(9, 'ORD141485464763474', 10, 'Cotizacion de prueba!!', 0, 1485464781, 1485464781, 14),
-(12, 'ORD62485300686668', 10, 'Orden de prueba, postman!', 1, 1485465149, 1485465149, 14),
-(13, 'ORD141485466065491', 10, 'Orden de compra de prueba!', 1, 1485466138, 1485466138, 14),
-(14, 'ORD63485300686668', 10, 'Orden de prueba, postman!', 1, 1485505382, 1485505382, 14),
-(15, 'ORD141485508223406', 10, 'Cotizando', 0, 1485508228, 1485508228, 14),
-(16, 'ORD111485513210560', 10, 'Cotizacion de prueba', 0, 1485513223, 1485513223, 11),
-(17, 'ORD141485579013118', 10, '', 0, 1485579015, 1485579015, 14),
-(18, 'ORD141485579107062', 10, '', 0, 1485579114, 1485579114, 14),
-(19, 'ORD141485579301997', 10, '', 0, 1485579304, 1485579304, 14),
-(20, 'ORD111485579752724', 10, 'Orden de compra de prueba!', 1, 1485579766, 1485579766, 11),
-(21, 'ORD121485617869463', 10, 'Holaa amigoos!!', 0, 1485644377, 1485644377, 12),
-(22, 'ORD121485618079751', 10, 'Esto es una orden de compra', 1, 1485644536, 1485644536, 12),
-(23, 'ORD121485812103026', 10, 'Esto es una cotizacion', 0, 1485812146, 1485812146, 12),
-(24, 'ORD61485986171876', 10, 'Test', 1, 1485986176, 1485986176, 6);
+(2, 'ORD101485297776560', 0, 'Descripción de la orden ', 0, 147483647, 1486262992, 10),
+(3, 'ORD141485297776560', 0, 'Hola amigos!!', 0, 147483647, 147483647, 14),
+(4, 'ORD141485298311707', 0, '', 0, 147483647, 147483647, 14),
+(5, 'ORD121485298513258', 0, 'Esto es una cotización de prueba.', 0, 1485298518, 1485298518, 12),
+(6, 'ORD61485300686643', 0, 'Cotización de prueba', 0, 1485300692, 1485300692, 6),
+(7, 'ORD61485300686645', 0, 'Description here!', 0, 1485460288, 1485460288, 14),
+(8, 'ORD141485462349522', 0, 'Cotización!', 0, 1485462365, 1485462365, 14),
+(9, 'ORD141485464763474', 0, 'Cotizacion de prueba!!', 0, 1485464781, 1485464781, 14),
+(12, 'ORD62485300686668', 1, 'Orden de prueba, postman!', 1, 1485465149, 1485465149, 14),
+(13, 'ORD141485466065491', 1, 'Orden de compra de prueba!', 1, 1485466138, 1485466138, 14),
+(14, 'ORD63485300686668', 1, 'Orden de prueba, postman!', 1, 1485505382, 1485505382, 14),
+(15, 'ORD141485508223406', 0, 'Cotizando', 0, 1485508228, 1485508228, 14),
+(16, 'ORD111485513210560', 0, 'Cotizacion de prueba', 0, 1485513223, 1485513223, 11),
+(17, 'ORD141485579013118', 0, '', 0, 1485579015, 1485579015, 14),
+(18, 'ORD141485579107062', 0, '', 0, 1485579114, 1485579114, 14),
+(19, 'ORD141485579301997', 0, '', 0, 1485579304, 1485579304, 14),
+(20, 'ORD111485579752724', 2, 'Orden de compra de prueba!', 1, 1485579766, 1485579766, 11),
+(21, 'ORD121485617869463', 0, 'Holaa amigoos!!', 0, 1485644377, 1485644377, 12),
+(22, 'ORD121485618079751', 2, 'Esto es una orden de compra', 1, 1485644536, 1485644536, 12),
+(23, 'ORD121485812103026', 0, 'Esto es una cotizacion', 0, 1485812146, 1485812146, 12),
+(24, 'ORD61485986171876', 2, 'Test', 1, 1485986176, 1485986176, 6),
+(25, 'ORD101486252491279', 0, 'Pedido de medicamentos', 1, 1486252498, 1486252498, 10),
+(26, 'ORD151486261277688', 3, 'Orden de compra para la doctora Tamara Cusnier', 1, 1486261292, 1486261612, 15),
+(27, 'ORD151486261418170', 1, 'Orden de compra doctora Tamara', 1, 1486261422, 1486261625, 15),
+(28, 'ORD161486261538118', 0, 'Orden de compra para locatel del parral', 1, 1486261539, 1486261539, 16);
 
 -- --------------------------------------------------------
 
@@ -507,7 +515,7 @@ CREATE TABLE `orders_by_zone` (
 `id` int(11)
 ,`code` varchar(255)
 ,`status` smallint(6)
-,`description` tinytext
+,`description` text
 ,`type` smallint(6)
 ,`created_at` int(11)
 ,`updated_at` int(11)
@@ -568,7 +576,20 @@ INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`) VALUES
 (23, 4, 2),
 (23, 5, 3),
 (23, 7, 1),
-(24, 3, 12);
+(24, 3, 12),
+(25, 8, 2),
+(25, 9, 9),
+(25, 11, 5),
+(26, 7, 10),
+(26, 9, 27),
+(26, 10, 30),
+(26, 11, 16),
+(27, 8, 20),
+(27, 11, 25),
+(28, 3, 2),
+(28, 4, 5),
+(28, 6, 20),
+(28, 11, 30);
 
 -- --------------------------------------------------------
 
@@ -595,11 +616,15 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `description`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 9, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1485986177, 1, 1),
-(4, 'producprueba2', 'Producto 2', 40, 2000, NULL, 1, 1483456818, 1485644536, 1, 1),
+(3, 'producprueba1', 'Producto 1', 7, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1486261539, 1, 1),
+(4, 'producprueba2', 'Producto 2', 35, 2000, NULL, 1, 1483456818, 1486261539, 1, 1),
 (5, 'producprueba3', 'Producto 3', 33350, 1500, '', 1, 1483457199, 1485798596, 1, 1),
-(6, 'codeproduct4', 'Producto 4', 200, 5000, 'Esta es la descripción del producto 4', 1, 1485797631, 1485797631, 1, 1),
-(7, 'codeproduct5', 'Producto 5', 400, 8000, 'Descripción del producto 5', 1, 1485797990, 1485798515, 1, 1);
+(6, 'codeproduct4', 'Producto 4', 180, 5000, 'Esta es la descripción del producto 4', 1, 1485797631, 1486261539, 1, 1),
+(7, 'codeproduct5', 'Urokinase', 390, 8000, 'Descripción del producto 5', 1, 1485797990, 1486261292, 1, 1),
+(8, 'codeproduct6', 'Dobutamina', 28, 3000, 'Descripción del producto 6', 1, 1486222448, 1486261422, 1, 3),
+(9, 'codeproduct7', 'Metamizol', 464, 300, 'Descripción del Metamizol', 1, 1486222488, 1486261292, 1, 2),
+(10, 'codeproduct8', 'Supradol', 470, 200, 'Descripción del producto 8', 1, 1486222529, 1486261292, 1, 3),
+(11, 'codeproduct9', 'Adrenalina', 74, 5000, 'Descripción del producto 9', 1, 1486222565, 1486261539, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -631,12 +656,12 @@ INSERT INTO `product_image` (`id`, `path`, `product_id`) VALUES
 (17, '/img/lv7UP0j4yfcoN__MarNfxN12ALE8tnAr.jpg', 6),
 (18, '/img/uftBb8V464bxctrt461YcSvrq9BIos0c.jpg', 6),
 (19, '/img/qZXTS9tQQdjCUp0H4c83YRn9RHotb2za.jpg', 6),
-(20, '/img/GLvHW26-6EP48bSsI4qVNDWRdor8R5Pq.jpg', 7),
-(21, '/img/glMGttNIDoB3MHI7EgQPMXpDXIyZKt7L.jpg', 7),
-(22, '/img/miwBPDy11M1XhxDlH7uPMmjqYMO_r_j_.png', 7),
-(23, '/img/hSKSblEHrn92kkirc6aiqGJ3OOGVufDZ.jpg', 7),
-(24, '/img/Vo82IRBSqpWxs6RUmVagIJ9GoAyIuVn-.png', 7),
-(26, '/img/22vS3N1-G8WB1v3WW_Utu0XA0tT9qgY2.png', 5);
+(26, '/img/22vS3N1-G8WB1v3WW_Utu0XA0tT9qgY2.png', 5),
+(27, '/img/n-Hpsf5OQbMBaj1EedtQAu7JtAVFIo7Y.jpg', 8),
+(28, '/img/4uBP94DZoIcbqj27Eq2PtSOtchkRnhel.jpg', 9),
+(29, '/img/fsIGSM4JG8pGzH0Le_-yWJ7ydaByL9AP.jpg', 10),
+(30, '/img/hq6uJ9G-NfbaJCn3AVW0gGl601FSaVPQ.jpg', 7),
+(31, '/img/PZKQOhXKzq9tPPw36Tf8DGckrqra_p_t.jpg', 11);
 
 -- --------------------------------------------------------
 
@@ -660,7 +685,16 @@ INSERT INTO `product_tag` (`product_id`, `tag_id`) VALUES
 (3, 6),
 (3, 8),
 (4, 6),
-(4, 7);
+(4, 7),
+(7, 9),
+(8, 9),
+(8, 11),
+(9, 9),
+(9, 10),
+(10, 9),
+(10, 10),
+(11, 9),
+(11, 11);
 
 -- --------------------------------------------------------
 
@@ -706,7 +740,10 @@ INSERT INTO `tag` (`id`, `name`, `description`) VALUES
 (5, 'Etiqueta5', 'Esta es la etiqueta5'),
 (6, 'Etiqueta6', 'Etiqueta6!!!'),
 (7, 'Etiqueta7', 'Etiqueta7'),
-(8, 'Etiqueta8', 'Esta es la etiqueta8');
+(8, 'Etiqueta8', 'Esta es la etiqueta8'),
+(9, 'Medicamento', ''),
+(10, 'Analgésico', ''),
+(11, 'Antiaritmico', '');
 
 -- --------------------------------------------------------
 
@@ -971,7 +1008,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT de la tabla `employer`
 --
@@ -991,22 +1028,22 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --
 ALTER TABLE `tag`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `user`
 --

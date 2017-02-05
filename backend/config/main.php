@@ -13,7 +13,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'language'=>'es',
-    'sourceLanguage' => 'en-US',
+    'sourceLanguage' => 'en-VEN',
     'bootstrap' => ['log'],
     'modules' => [
         'admin' => [

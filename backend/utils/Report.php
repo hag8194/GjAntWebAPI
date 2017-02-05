@@ -16,6 +16,7 @@ use common\models\OrdersByZone;
 use common\models\searchmodels\Product;
 use common\models\Zone;
 use yii\base\Object;
+use yii\helpers\ArrayHelper;
 
 class Report extends Object
 {
@@ -67,7 +68,7 @@ class Report extends Object
                 foreach ($clientWallet->orders as $order)
                 {
                     foreach ($order->orderDetails as $orderDetail)
-                        if($order->type == Order::TYPE_BUY_ORDER)
+                        if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
                             $acum += $orderDetail->quantity * $orderDetail->product->price;
                 }
             }
@@ -99,7 +100,7 @@ class Report extends Object
             foreach ($clientWallet->orders as $order)
             {
                 foreach ($order->orderDetails as $orderDetail){
-                    if($order->type == Order::TYPE_BUY_ORDER)
+                    if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
                         $acum += $orderDetail->quantity * $orderDetail->product->price;
                 }
             }
@@ -122,7 +123,7 @@ class Report extends Object
         {
             foreach ($product->orderDetails as $orderDetail)
             {
-                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER)
+                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED)
                     $acum += $product->price * $orderDetail->quantity;
             }
             array_push($data['series'], ['name' => $product->name, 'data' => [$acum]]);
@@ -146,7 +147,7 @@ class Report extends Object
             {
                 foreach ($clientWallet->orders as $order)
                 {
-                    if($order->type == Order::TYPE_BUY_ORDER)
+                    if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
                         $cont++;
                 }
             }
@@ -169,7 +170,7 @@ class Report extends Object
         {
             foreach ($clientWallet->orders as $order)
             {
-                if($order->type == Order::TYPE_BUY_ORDER)
+                if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
                     $cont++;
             }
             array_push($data['series'], ['name' => $clientWallet->client->fullname, 'data' => [$cont]]);
@@ -191,7 +192,7 @@ class Report extends Object
         {
             foreach ($product->orderDetails as $orderDetail)
             {
-                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER)
+                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED)
                     $cont++;
             }
             array_push($data['series'], ['name' => $product->name, 'data' => [$cont]]);
@@ -230,18 +231,45 @@ class Report extends Object
         foreach ($zones as $zone){
             foreach ($zone->ordersByZone as $item) {
                 foreach ($item->orderDetails as $orderDetail)
-                    if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER)
+                    if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED)
                         $acum += $orderDetail->product->price * $orderDetail->quantity;
             }
             array_push($data['data'], [
                 'name' => $zone->name,
-                'y' => $acum
+                'y' => doubleval($acum)
             ]);
             $acum = 0.0;
         }
 
 
         return $data;
+    }
 
+    public function buyOrdersByStatus()
+    {
+        $data = [];
+        $data['data'] = [];
+
+        $data['data'][] = [
+            'name' => Order::STATUS_LABELS[Order::STATUS_STANDBY],
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_STANDBY, 'type' => Order::TYPE_BUY_ORDER])->count())
+        ];
+
+        $data['data'][] = [
+            'name' => Order::STATUS_LABELS[Order::STATUS_PROCESSING],
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_PROCESSING, 'type' => Order::TYPE_BUY_ORDER])->count())
+        ];
+
+        $data['data'][] = [
+            'name' => Order::STATUS_LABELS[Order::STATUS_PROCESSED],
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_PROCESSED, 'type' => Order::TYPE_BUY_ORDER])->count())
+        ];
+
+        $data['data'][] =  [
+            'name' => Order::STATUS_LABELS[Order::STATUS_CANCELED],
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_CANCELED, 'type' => Order::TYPE_BUY_ORDER])->count())
+        ];
+
+        return $data;
     }
 }

@@ -24,7 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'code',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => function($model){
+                    return \common\models\Order::STATUS_LABELS[$model->status];
+                }
+            ],
             [
                 'attribute' => 'type',
                 'value' => function($model){

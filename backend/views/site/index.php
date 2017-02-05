@@ -4,7 +4,6 @@ use common\models\Order;
 use common\models\Product;
 use miloschuman\highcharts\Highcharts;
 use yii\bootstrap\Html;
-use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $report \backend\utils\Report */
@@ -14,7 +13,7 @@ use yii\web\JsExpression;
 $this->title = Yii::t('backend', 'Dashboard');
 
 $orders = Order::find()->orderBy('created_at DESC')->limit(10)->all();
-$products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->orderBy('created_at DESC')->limit(10)->all();
+$products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->orderBy('created_at DESC')->limit(5)->all();
 ?>
 <div class="site-index">
     <?php if(Yii::$app->user->can('show_dashboard')): ?>
@@ -109,7 +108,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                                 <tr>
                                     <td><?= Html::a($order->code, Yii::$app->urlManager->createUrl(['/order/view', 'id' => $order->id])) ?></td>
                                     <td><?= Order::TYPE_LABELS[$order->type] ?></td>
-                                    <td><?= $order->status ?></td>
+                                    <td><?= Order::STATUS_LABELS[$order->status] ?></td>
                                     <td><?= $order->clientWallet->client->fullname ?></td>
                                     <td><?= $order->clientWallet->employer->name . ' ' . $order->clientWallet->employer->lastname ?></td>
                                 </tr>
@@ -144,7 +143,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                     <ul class="products-list product-list-in-box">
                         <?php foreach($products as $product): ?>
                             <li class="item">
-                                <div class="product-img"><?= Html::img(Yii::$app->urlManager->createAbsoluteUrl($product->productImages[0]->path)) ?></div>
+                                <div class="product-img"><?= Html::img(!empty($product->productImages) ? Yii::$app->urlManager->createAbsoluteUrl($product->productImages[0]->path) : "") ?></div>
                                 <div class="product-info">
                                     <div class="product-title">
                                         <?= Html::a($product->name . '<span class="label label-warning pull-right">'. $product->price .' Bs</span>',
@@ -187,7 +186,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'chart' => [
                                 'type' => 'column'
                             ],
-                            'title' => ['text' => Yii::t('backend', 'Best vendors by buy order entry')],//Mejores vendedores mediante la entrada de ordenes de compra
+                            'title' => ['text' => Yii::t('backend', 'Best vendors')],//Mejores vendedores mediante la entrada de ordenes de compra
                             'yAxis' => [
                                 'title' => ['text' => Yii::t('backend', 'Bs')]
                             ],
@@ -202,7 +201,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'chart' => [
                                 'type' => 'column'
                             ],
-                            'title' => ['text' => Yii::t('backend', 'Best customers by buy order entry')],//Mejores clientes mediante la entrada de ordenes de compra
+                            'title' => ['text' => Yii::t('backend', 'Best customers')],//Mejores clientes mediante la entrada de ordenes de compra
                             'yAxis' => [
                                 'title' => ['text' => Yii::t('backend', 'Bs')]
                             ],
@@ -217,7 +216,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'chart' => [
                                 'type' => 'column'
                             ],
-                            'title' => ['text' => Yii::t('backend', 'Most bought product by buy order entry')],//Productos mas comprados mediante la entrada de ordenes de compra
+                            'title' => ['text' => Yii::t('backend', 'Most selled products')],//Productos mas comprados mediante la entrada de ordenes de compra
                             'yAxis' => [
                                 'title' => ['text' => Yii::t('backend', 'Bs')]
                             ],
@@ -230,7 +229,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title"><?= Yii::t('backend', 'Reports from the number of purchase orders')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
+            <h3 class="box-title"><?= Yii::t('backend', 'Report for quantity of purchase orders')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -246,7 +245,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'chart' => [
                                 'type' => 'column'
                             ],
-                            'title' => ['text' => Yii::t('backend', 'Best vendors by buy order quantity')],//Mejores vendedores mediante la cantidad de ordenes de compra
+                            'title' => ['text' => Yii::t('backend', 'Best vendors')],//Mejores vendedores mediante la cantidad de ordenes de compra
                             'yAxis' => [
                                 'title' => ['text' => Yii::t('backend', 'Quantity')]
                             ],
@@ -261,7 +260,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'chart' => [
                                 'type' => 'column'
                             ],
-                            'title' => ['text' => Yii::t('backend', 'Best customers by buy order quantity')],//Mejores clientes mediante la cantidad de ordenes de compra
+                            'title' => ['text' => Yii::t('backend', 'Best customers')],//Mejores clientes mediante la cantidad de ordenes de compra
                             'yAxis' => [
                                 'title' => ['text' => Yii::t('backend', 'Quantity')]
                             ],
@@ -276,7 +275,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                             'chart' => [
                                 'type' => 'column'
                             ],
-                            'title' => ['text' => Yii::t('backend', 'Most bought product by buy order quantity')],//Productos mas comprados mediante la cantidad de ordenes de compra
+                            'title' => ['text' => Yii::t('backend', 'Most selled products')],//Productos mas comprados mediante la cantidad de ordenes de compra
                             'yAxis' => [
                                 'title' => ['text' => Yii::t('backend', 'Quantity')]
                             ],
@@ -289,7 +288,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title"><?= Yii::t('backend', 'Reports from the number of purchase orders')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
+            <h3 class="box-title"><?= Yii::t('backend', 'Report Purchase Orders by Zone')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -302,7 +301,7 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                 <?php $bestZonesByBuyOrderQuantity = $report->bestZonesByBuyOrderQuantity(); ?>
                 <?= Highcharts::widget([
                     'options' => [
-                        'title' => ['text' => Yii::t('backend', 'Best Zones By Buy Order Quantity')],//Mejores Zonas por Cantidad de Pedido de Compra
+                        'title' => ['text' => Yii::t('backend', 'By Quantity')],//Mejores Zonas por Cantidad de Pedido de Compra
                         'series' => [
                             [
                                 'type' => 'pie',
@@ -321,11 +320,11 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                 <?php $bestZonesByBuyOrderEntry = $report->bestZonesByBuyOrderEntry(); ?>
                 <?= Highcharts::widget([
                     'options' => [
-                        'title' => ['text' => Yii::t('backend', 'Best Zones By Buy Order Entry')],//Mejores Zonas por Entrada de Pedido de Compra
+                        'title' => ['text' => Yii::t('backend', 'By Entry')],//Mejores Zonas por Entrada de Pedido de Compra
                         'series' => [
                             [
                                 'type' => 'pie',
-                                'name' => Yii::t('backend', 'Total of buy orders'),
+                                'name' => Yii::t('backend', 'Total of profit'),
                                 'data' => $bestZonesByBuyOrderEntry['data'],
                                 'showInLegend' => true,
                                 'dataLabels' => [
@@ -335,6 +334,38 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
                         ]
                     ]
                 ]) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header">
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+
+        <div class="box-body row">
+            <div class="col-lg-12">
+                <?php $buyOrdersByStatus = $report->buyOrdersByStatus(); ?>
+                <?= Highcharts::widget([
+                    'options' => [
+                        'title' => ['text' => Yii::t('backend', 'Buy Orders by Status')],//Mejores Zonas por Entrada de Pedido de Compra
+                        'series' => [
+                            [
+                                'type' => 'pie',
+                                'name' => Yii::t('backend', 'Total of buy orders'),
+                                'data' => $buyOrdersByStatus['data'],
+                                'showInLegend' => true,
+                                'dataLabels' => [
+                                    'enabled' => false,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]); ?>
             </div>
         </div>
     </div>

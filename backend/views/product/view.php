@@ -4,6 +4,7 @@ use common\models\Product;
 use kartik\file\FileInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -14,6 +15,7 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Products'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="product-view">
 
@@ -36,8 +38,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'code',
             'name',
-            'quantity',
-            'price',
+            [
+                'attribute' => 'quantity',
+                'value' => $model->price . ' UND'
+            ],
+            [
+                'attribute' => 'price',
+                'value' => $model->price . ' Bs'
+            ],
+            [
+                'label' => $model->getAttributeLabel('brand_id'),
+                'value' => $model->brand->name
+            ],
+            [
+                'label' => Yii::t('backend', 'Tags'),
+                'value' => !empty($model->tags) ? implode(", ", ArrayHelper::map($model->tags, 'id', 'name')) : Yii::t('backend', 'Has no tags')
+            ],
             [
               'attribute' => 'status',
               'value' => Product::$STATUS_LABEL[$model->status]

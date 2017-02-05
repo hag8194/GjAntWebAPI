@@ -27,8 +27,13 @@ class Order extends \yii\db\ActiveRecord
     const TYPE_COTIZATION = 0;
     const TYPE_BUY_ORDER = 1;
 
+    const STATUS_STANDBY = 0;
+    const STATUS_PROCESSING = 1;
+    const STATUS_PROCESSED = 2;
+    const STATUS_CANCELED = 3;
+
     const TYPE_LABELS = ['Cotización', 'Orden de Compra'];
-    const STATUS_LABELS = [];
+    const STATUS_LABELS = ['En espera', 'Procesando', 'Procesada', 'Cancelada'];
 
     /**
      * @inheritdoc

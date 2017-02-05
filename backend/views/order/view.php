@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Order;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -27,14 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'code',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => Order::STATUS_LABELS[$model->status]
+            ],
             [
                 'attribute' => 'description',
                 'value' => $model->description ? : Yii::t('backend', 'Has no description')
             ],
             [
                 'attribute' => 'type',
-                'value' => \common\models\Order::TYPE_LABELS[$model->type]
+                'value' => Order::TYPE_LABELS[$model->type]
             ],
             [
                 'attribute' => 'created_at',

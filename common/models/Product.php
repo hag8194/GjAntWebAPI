@@ -40,7 +40,7 @@ class Product extends \yii\db\ActiveRecord implements Linkable
     const STATUS_NO_SHOW = 0;
     const STATUS_TO_SHOW = 1;
 
-    public static $STATUS_LABEL = ['No mostrar', 'Mostrar'];
+    public static $STATUS_LABEL = ['No mostrar en el Catálogo', 'Mostrar en el Catálogo'];
 
     /**
      * @inheritdoc

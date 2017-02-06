@@ -56,6 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('backend', 'Client'),
                 'value' => $model->clientWallet->client->fullname,
             ],
+            [
+                'label' => Yii::t('backend', 'Total'),
+                'value' => $model->getOrderDetails()->joinWith('product')->sum('product.price * order_detail.quantity') . ' ' . Yii::t('backend', 'Bs')
+            ]
         ],
     ]) ?>
 

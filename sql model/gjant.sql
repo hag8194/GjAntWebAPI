@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-02-2017 a las 04:11:45
+-- Tiempo de generación: 05-02-2017 a las 23:45:14
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -155,6 +155,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/related-articles/create', 2, NULL, NULL, NULL, 1481510878, 1481510878),
 ('/related-articles/index', 2, NULL, NULL, NULL, 1481510878, 1481510878),
 ('/site/*', 2, NULL, NULL, NULL, 1481431390, 1481431390),
+('/site/catalog', 2, NULL, NULL, NULL, 1486306900, 1486306900),
 ('/site/enterprise', 2, NULL, NULL, NULL, 1485307033, 1485307033),
 ('/site/example', 2, NULL, NULL, NULL, 1480811248, 1480811248),
 ('/site/index', 2, NULL, NULL, NULL, 1480811248, 1480811248),
@@ -221,7 +222,6 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('administrator', 'Tag CRUD'),
 ('administrator', 'Zone CRUD'),
 ('Brand CRUD', '/brand/*'),
-('client', '/product/index'),
 ('client', '/product/view'),
 ('client', 'site'),
 ('Client CRUD', '/client/*'),
@@ -233,6 +233,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('ProductTag CRUD', '/product-tag/*'),
 ('register-user', '/site/register'),
 ('RelatedArticles CRUD', '/related-articles/*'),
+('site', '/site/catalog'),
 ('site', '/site/example'),
 ('site', '/site/index'),
 ('site', '/site/logout'),
@@ -438,7 +439,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (26, 'Articulos Relacionados', NULL, '/related-articles/index', 8, NULL),
 (27, 'Principal', 12, '/zone/index', NULL, NULL),
 (28, 'Crear', 12, '/zone/create', 1, NULL),
-(29, 'Ordenes', NULL, '/order/index', 9, NULL);
+(29, 'Ordenes', NULL, '/order/index', 9, NULL),
+(30, 'Catálogo', NULL, '/site/catalog', 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -714,7 +716,11 @@ CREATE TABLE `related_articles` (
 INSERT INTO `related_articles` (`parent`, `child`) VALUES
 (3, 4),
 (3, 5),
-(4, 3);
+(4, 3),
+(8, 9),
+(8, 10),
+(8, 11),
+(11, 8);
 
 -- --------------------------------------------------------
 
@@ -1023,7 +1029,7 @@ ALTER TABLE `enterprise`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT de la tabla `order`
 --
@@ -1033,7 +1039,7 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `product_image`
 --

@@ -173,12 +173,14 @@ a.desc:after {
 #catalog-list-view {
     height: 525px;
     overflow-y: scroll;
+    padding-right: 10px;
 }
 .catalog-item {
     background: white;
     margin: 5px auto;
     -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    display: block;
 }
 
 .catalog-item img {

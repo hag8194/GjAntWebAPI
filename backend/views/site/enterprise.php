@@ -8,6 +8,8 @@ use yii\widgets\ActiveForm;
 /* @var $form ActiveForm */
 
 $this->title = Yii::t('backend', 'Updating Enterprise Information');
+$this->params['breadcrumbs'][] = Yii::t('backend', 'Enterprise');
+
 ?>
 
 <div class="site-enterprise row">

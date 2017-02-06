@@ -13,17 +13,15 @@ use yii\widgets\DetailView;
 /* @var $upload_image_model backend\models\UploadProductImagesForm */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Products'), 'url' => ['index']];
+Yii::$app->user->can('Product CRUD') ? $this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Products'), 'url' => ['index']] : null;
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="product-view">
-
+    <?php if(Yii::$app->user->can('Product CRUD')): ?>
     <p>
         <?= Html::a(Yii::t('backend', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?php if(Yii::$app->user->can('edit_product_images')): ?>
         <button class="btn btn-default" type="button" data-toggle="modal" data-target="#upload-images"><?= Yii::t('backend', 'Upload Image') ?></button>
-        <?php endif; ?>
         <?= Html::a(Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -32,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <?php endif; ?>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -81,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header">
             <h3 class="box-title"><?= $model->getAttributeLabel("productImages") ?></h3>
             <div class="box-tools pull-right">
-                <?php if(Yii::$app->user->can('edit_product_images')): ?>
+                <?php if(Yii::$app->user->can('Product CRUD')): ?>
                 <button id="<?= $model->productImages? $model->id : 0 ?>" class="btn btn-xs btn-danger delete-product-images"><i class="fa fa-trash"></i></button>
                 <?php endif; ?>
             </div>

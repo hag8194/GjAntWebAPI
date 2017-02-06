@@ -9,6 +9,7 @@ use yii\widgets\ListView;
 /* @var $dataProvider \yii\data\ActiveDataProvider*/
 
 $this->title = Yii::t('backend', 'Catalog');
+$this->params['breadcrumbs'][] = Yii::t('backend', 'Catalog');
 
 ?>
 <div class="row">
@@ -28,7 +29,8 @@ $this->title = Yii::t('backend', 'Catalog');
         <?= ListView::widget([
             'id' => 'catalog-list-view',
             'dataProvider' => $dataProvider,
-            'itemView' => 'product'
+            'itemView' => 'product',
+            'layout' => '{items}{pager}'
         ]) ?>
     </div>
     <div class="col-md-4">

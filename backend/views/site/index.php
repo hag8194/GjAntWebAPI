@@ -11,12 +11,15 @@ use yii\bootstrap\Html;
 /* @var $products Product[] */
 
 $this->title = Yii::t('backend', 'Dashboard');
-
-$orders = Order::find()->orderBy('created_at DESC')->limit(10)->all();
-$products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->orderBy('created_at DESC')->limit(5)->all();
 ?>
 <div class="site-index">
     <?php if(Yii::$app->user->can('show_dashboard')): ?>
+
+    <?php
+        $orders = Order::find()->orderBy('created_at DESC')->limit(10)->all();
+        $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->orderBy('created_at DESC')->limit(5)->all();
+    ?>
+
     <!-- Info boxes -->
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -369,6 +372,20 @@ $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->order
             </div>
         </div>
     </div>
-
+    <?php else: ?>
+        <?php
+        /* @var $user \common\models\User */
+        $user = Yii::$app->user->identity;
+        if(!empty($user->client)): ?>
+            <div class="row">
+                <?= yii\widgets\ListView::widget([
+                    'dataProvider' => new \yii\data\ActiveDataProvider([
+                        'query' => $user->client->clientWallet->getOrders()
+                    ]),
+                    'itemView' => 'order',
+                    'layout' => '{items}{pager}'
+                ])?>
+            </div>
     <?php endif; ?>
+<?php endif; ?>
 </div>

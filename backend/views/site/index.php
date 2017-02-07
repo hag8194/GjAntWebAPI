@@ -3,10 +3,12 @@
 use common\models\Order;
 use common\models\Product;
 use miloschuman\highcharts\Highcharts;
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
 /* @var $this yii\web\View */
 /* @var $report \backend\utils\Report */
+/* @var $model_datetime \backend\models\DateTimeModel */
 /* @var $orders Order[] */
 /* @var $products Product[] */
 
@@ -169,6 +171,28 @@ $this->title = Yii::t('backend', 'Dashboard');
     </div>
     <div class="box box-primary">
         <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Choose a Date Range') ?></h3>
+        </div>
+        <div class="box-body">
+            <?php $form = ActiveForm::begin(['layout' => 'inline']); ?>
+            <?= $form->field($model_datetime, 'since')->widget('\kartik\datetime\DateTimePicker', [
+                'options' => ['placeholder' => $model_datetime->getAttributeLabel('since')],
+                /*'pluginOptions' => [
+                    'format' => 'dd M yyyy hh:ii'
+                ]*/
+            ]) ?>
+            <?= $form->field($model_datetime, 'to')->widget('\kartik\datetime\DateTimePicker', [
+                'options' => ['placeholder' => $model_datetime->getAttributeLabel('to')],
+                /*'pluginOptions' => [
+                    'format' => 'dd M yyyy hh:ii'
+                ]*/
+            ]) ?>
+            <?= Html::submitButton(Yii::t('backend', 'Submit'), ['class' => 'btn btn-primary btn-flat']) ?>
+            <?php ActiveForm::end(); ?>
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
             <h3 class="box-title"><?= Yii::t('backend', 'Gain Report from Purchase Orders')//Reporte de ganancia a partir de órdenes de compra ?></h3>
 
             <div class="box-tools pull-right">
@@ -179,7 +203,7 @@ $this->title = Yii::t('backend', 'Dashboard');
         </div>
         <div class="box-body row">
             <div class="col-md-4">
-                <?php $bestVendorsByBuyOrderEntry = $report->bestVendorsByBuyOrderEntry(); ?>
+                <?php $bestVendorsByBuyOrderEntry = $report->bestVendorsByBuyOrderEntry($model_datetime); ?>
                     <?= Highcharts::widget([
                         'scripts' => [
                             'modules/exporting',
@@ -198,7 +222,7 @@ $this->title = Yii::t('backend', 'Dashboard');
                     ]) ?>
             </div>
             <div class="col-md-4">
-                <?php $bestClientsByBuyOrderEntry = $report->bestClientsByBuyOrderEntry(); ?>
+                <?php $bestClientsByBuyOrderEntry = $report->bestClientsByBuyOrderEntry($model_datetime); ?>
                     <?= Highcharts::widget([
                         'options' => [
                             'chart' => [
@@ -213,7 +237,7 @@ $this->title = Yii::t('backend', 'Dashboard');
                     ]) ?>
             </div>
             <div class="col-md-4">
-                <?php $mostBoughtProductsByBuyEntry = $report->mostBoughtProductByBuyOrderEntry() ?>
+                <?php $mostBoughtProductsByBuyEntry = $report->mostBoughtProductByBuyOrderEntry($model_datetime) ?>
                     <?= Highcharts::widget([
                         'options' => [
                             'chart' => [
@@ -242,7 +266,7 @@ $this->title = Yii::t('backend', 'Dashboard');
         </div>
         <div class="box-body row">
             <div class="col-md-4">
-                <?php $bestVendorsByBuyOrderQuantity = $report->bestVendorsByBuyOrderQuantity() ?>
+                <?php $bestVendorsByBuyOrderQuantity = $report->bestVendorsByBuyOrderQuantity($model_datetime) ?>
                     <?= Highcharts::widget([
                         'options' => [
                             'chart' => [
@@ -257,7 +281,7 @@ $this->title = Yii::t('backend', 'Dashboard');
                     ]) ?>
             </div>
             <div class="col-md-4">
-                <?php $bestClientsByBuyOrderQuantity = $report->bestClientsByBuyOrderQuantity() ?>
+                <?php $bestClientsByBuyOrderQuantity = $report->bestClientsByBuyOrderQuantity($model_datetime) ?>
                     <?= Highcharts::widget([
                         'options' => [
                             'chart' => [
@@ -272,7 +296,7 @@ $this->title = Yii::t('backend', 'Dashboard');
                     ]) ?>
             </div>
             <div class="col-md-4">
-                <?php $mostBoughtProductsByBuyQuantity = $report->mostBoughtProductByBuyOrderQuantity() ?>
+                <?php $mostBoughtProductsByBuyQuantity = $report->mostBoughtProductByBuyOrderQuantity($model_datetime) ?>
                     <?= Highcharts::widget([
                         'options' => [
                             'chart' => [
@@ -301,7 +325,7 @@ $this->title = Yii::t('backend', 'Dashboard');
         </div>
         <div class="box-body row">
             <div class="col-md-6">
-                <?php $bestZonesByBuyOrderQuantity = $report->bestZonesByBuyOrderQuantity(); ?>
+                <?php $bestZonesByBuyOrderQuantity = $report->bestZonesByBuyOrderQuantity($model_datetime); ?>
                 <?= Highcharts::widget([
                     'options' => [
                         'title' => ['text' => Yii::t('backend', 'By Quantity')],//Mejores Zonas por Cantidad de Pedido de Compra
@@ -320,7 +344,7 @@ $this->title = Yii::t('backend', 'Dashboard');
                 ]) ?>
             </div>
             <div class="col-md-6">
-                <?php $bestZonesByBuyOrderEntry = $report->bestZonesByBuyOrderEntry(); ?>
+                <?php $bestZonesByBuyOrderEntry = $report->bestZonesByBuyOrderEntry($model_datetime); ?>
                 <?= Highcharts::widget([
                     'options' => [
                         'title' => ['text' => Yii::t('backend', 'By Entry')],//Mejores Zonas por Entrada de Pedido de Compra
@@ -352,7 +376,7 @@ $this->title = Yii::t('backend', 'Dashboard');
 
         <div class="box-body row">
             <div class="col-lg-12">
-                <?php $buyOrdersByStatus = $report->buyOrdersByStatus(); ?>
+                <?php $buyOrdersByStatus = $report->buyOrdersByStatus($model_datetime); ?>
                 <?= Highcharts::widget([
                     'options' => [
                         'title' => ['text' => Yii::t('backend', 'Buy Orders by Status')],//Mejores Zonas por Entrada de Pedido de Compra

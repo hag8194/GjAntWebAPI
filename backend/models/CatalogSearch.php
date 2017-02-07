@@ -6,7 +6,7 @@
  * Time: 11:07 AM
  */
 
-namespace common\models\searchmodels;
+namespace backend\models;
 
 use common\models\Product;
 use Yii;

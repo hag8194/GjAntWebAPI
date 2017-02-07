@@ -1,25 +1,16 @@
 <?php
 namespace backend\controllers;
 
-use backend\models\MapModel;
-use backend\models\ProfileForm;
-use backend\models\RegisterForm;
+use backend\models\DateTimeModel;
 use backend\utils\Report;
-use common\models\Client;
-use common\models\Employer;
 use common\models\Enterprise;
-use common\models\Product;
-use common\models\searchmodels\CatalogSearch;
+use backend\models\CatalogSearch;
 use common\models\User;
 use Yii;
-//use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use mdm\admin\components\AccessControl;
-
 use common\models\LoginForm;
-use yii\web\UploadedFile;
-
 /**
  * Site controller
  */
@@ -62,7 +53,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index', ['report' => new Report()]);
+        $model_datetime = new DateTimeModel();
+        $model_datetime->load(Yii::$app->request->post());
+
+        return $this->render('index', [
+            'report' => new Report(),
+            'model_datetime' => $model_datetime
+        ]);
     }
 
     /**

@@ -8,6 +8,7 @@
 
 namespace backend\utils;
 
+use backend\models\DateTimeModel;
 use common\models\Client;
 use common\models\ClientWallet;
 use common\models\Employer;
@@ -15,6 +16,7 @@ use common\models\Order;
 use common\models\OrdersByZone;
 use common\models\searchmodels\Product;
 use common\models\Zone;
+use Yii;
 use yii\base\Object;
 use yii\helpers\ArrayHelper;
 
@@ -53,7 +55,7 @@ class Report extends Object
         return Product::find()->count();
     }
 
-    public function bestVendorsByBuyOrderEntry()
+    public function bestVendorsByBuyOrderEntry(DateTimeModel $model_datetime)
     {
         /* @var $employers Employer[] */
         $employers = Employer::find()->all();
@@ -67,27 +69,23 @@ class Report extends Object
             {
                 foreach ($clientWallet->orders as $order)
                 {
-                    foreach ($order->orderDetails as $orderDetail)
-                        if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
+                    foreach ($order->orderDetails as $orderDetail){
+                        if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED &&
+                        $order->created_at > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                        $order->created_at < Yii::$app->formatter->asTimestamp($model_datetime->to))
                             $acum += $orderDetail->quantity * $orderDetail->product->price;
+                    }
+
                 }
             }
             array_push($data['series'], ['name' => $employer->name . ' ' . $employer->lastname, 'data' => [$acum]]);
             $acum = 0;
         }
 
-        /*foreach ($employers as $employer)
-        {
-            foreach ($employer->clientWallets as $clientWallet)
-                $acum += count($clientWallet->orders);
-            array_push($data['series'], ['name' => $employer->identification, 'data' => [$acum]]);
-            $acum = 0;
-        }*/
-
         return $data;
     }
 
-    public function bestClientsByBuyOrderEntry()
+    public function bestClientsByBuyOrderEntry(DateTimeModel $model_datetime)
     {
         /* @var $client_wallets ClientWallet[] */
         $client_wallets = ClientWallet::find()->all();
@@ -100,7 +98,10 @@ class Report extends Object
             foreach ($clientWallet->orders as $order)
             {
                 foreach ($order->orderDetails as $orderDetail){
-                    if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
+                    if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED &&
+                        $order->created_at > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                        $order->created_at < Yii::$app->formatter->asTimestamp($model_datetime->to))
+
                         $acum += $orderDetail->quantity * $orderDetail->product->price;
                 }
             }
@@ -111,7 +112,7 @@ class Report extends Object
         return $data;
     }
 
-    public function mostBoughtProductByBuyOrderEntry()
+    public function mostBoughtProductByBuyOrderEntry(DateTimeModel $model_datetime)
     {
         /* @var $products Product[] */
         $products = Product::find()->all();
@@ -123,7 +124,9 @@ class Report extends Object
         {
             foreach ($product->orderDetails as $orderDetail)
             {
-                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED)
+                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED &&
+                    $orderDetail->order['created_at'] > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                    $orderDetail->order['created_at'] < Yii::$app->formatter->asTimestamp($model_datetime->to))
                     $acum += $product->price * $orderDetail->quantity;
             }
             array_push($data['series'], ['name' => $product->name, 'data' => [$acum]]);
@@ -133,7 +136,7 @@ class Report extends Object
         return $data;
     }
 
-    public function bestVendorsByBuyOrderQuantity()
+    public function bestVendorsByBuyOrderQuantity(DateTimeModel $model_datetime)
     {
         /* @var $employers Employer[] */
         $employers = Employer::find()->all();
@@ -147,7 +150,9 @@ class Report extends Object
             {
                 foreach ($clientWallet->orders as $order)
                 {
-                    if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
+                    if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED &&
+                        $order->created_at > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                        $order->created_at < Yii::$app->formatter->asTimestamp($model_datetime->to))
                         $cont++;
                 }
             }
@@ -158,7 +163,7 @@ class Report extends Object
         return $data;
     }
 
-    public function bestClientsByBuyOrderQuantity()
+    public function bestClientsByBuyOrderQuantity(DateTimeModel $model_datetime)
     {
         /* @var $client_wallets ClientWallet[] */
         $client_wallets = ClientWallet::find()->all();
@@ -170,7 +175,9 @@ class Report extends Object
         {
             foreach ($clientWallet->orders as $order)
             {
-                if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED)
+                if($order->type == Order::TYPE_BUY_ORDER && $order->status != Order::STATUS_CANCELED &&
+                    $order->created_at > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                    $order->created_at < Yii::$app->formatter->asTimestamp($model_datetime->to))
                     $cont++;
             }
             array_push($data['series'], ['name' => $clientWallet->client->fullname, 'data' => [$cont]]);
@@ -180,7 +187,7 @@ class Report extends Object
         return $data;
     }
 
-    public function mostBoughtProductByBuyOrderQuantity()
+    public function mostBoughtProductByBuyOrderQuantity(DateTimeModel $model_datetime)
     {
         /* @var $products Product[] */
         $products = Product::find()->all();
@@ -192,7 +199,9 @@ class Report extends Object
         {
             foreach ($product->orderDetails as $orderDetail)
             {
-                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED)
+                if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED &&
+                    $orderDetail->order['created_at'] > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                    $orderDetail->order['created_at'] < Yii::$app->formatter->asTimestamp($model_datetime->to))
                     $cont++;
             }
             array_push($data['series'], ['name' => $product->name, 'data' => [$cont]]);
@@ -202,24 +211,34 @@ class Report extends Object
         return $data;
     }
 
-    public function bestZonesByBuyOrderQuantity()
+    public function bestZonesByBuyOrderQuantity(DateTimeModel $model_datetime)
     {
         /* @var $zones Zone[] */
         $zones = Zone::find()->all();
 
         $data = [];
         $data['data'] = [];
+        $count = 0;
 
         foreach ($zones as $zone)
+        {
+            foreach ($zone->ordersByZone as $orderByZone)
+                if($orderByZone->type == Order::TYPE_BUY_ORDER && $orderByZone->status != Order::STATUS_CANCELED &&
+                    $orderByZone->created_at > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                    $orderByZone->created_at < Yii::$app->formatter->asTimestamp($model_datetime->to))
+                    $count++;
+
             array_push($data['data'], [
                 'name' => $zone->name,
-                'y' => count($zone->ordersByZone),
+                'y' => $count,
             ]);
+            $count = 0;
+        }
 
         return $data;
     }
 
-    public function bestZonesByBuyOrderEntry()
+    public function bestZonesByBuyOrderEntry(DateTimeModel $model_datetime)
     {
         /* @var $zones Zone[] */
         $zones = Zone::find()->all();
@@ -231,7 +250,9 @@ class Report extends Object
         foreach ($zones as $zone){
             foreach ($zone->ordersByZone as $item) {
                 foreach ($item->orderDetails as $orderDetail)
-                    if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED)
+                    if($orderDetail->order['type'] == Order::TYPE_BUY_ORDER && $orderDetail->order['status'] != Order::STATUS_CANCELED &&
+                        $orderDetail->order['created_at'] > Yii::$app->formatter->asTimestamp($model_datetime->since) &&
+                        $orderDetail->order['created_at'] < Yii::$app->formatter->asTimestamp($model_datetime->to))
                         $acum += $orderDetail->product->price * $orderDetail->quantity;
             }
             array_push($data['data'], [
@@ -245,29 +266,37 @@ class Report extends Object
         return $data;
     }
 
-    public function buyOrdersByStatus()
+    public function buyOrdersByStatus(DateTimeModel $model_datetime)
     {
         $data = [];
         $data['data'] = [];
 
         $data['data'][] = [
             'name' => Order::STATUS_LABELS[Order::STATUS_STANDBY],
-            'y' => intval(Order::find()->where(['status' => Order::STATUS_STANDBY, 'type' => Order::TYPE_BUY_ORDER])->count())
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_STANDBY, 'type' => Order::TYPE_BUY_ORDER])
+                ->andWhere(['between', 'order.created_at', Yii::$app->formatter->asTimestamp($model_datetime->since), Yii::$app->formatter->asTimestamp($model_datetime->to)])
+                ->count())
         ];
 
         $data['data'][] = [
             'name' => Order::STATUS_LABELS[Order::STATUS_PROCESSING],
-            'y' => intval(Order::find()->where(['status' => Order::STATUS_PROCESSING, 'type' => Order::TYPE_BUY_ORDER])->count())
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_PROCESSING, 'type' => Order::TYPE_BUY_ORDER])
+                ->andWhere(['between', 'order.created_at', Yii::$app->formatter->asTimestamp($model_datetime->since), Yii::$app->formatter->asTimestamp($model_datetime->to)])
+                ->count())
         ];
 
         $data['data'][] = [
             'name' => Order::STATUS_LABELS[Order::STATUS_PROCESSED],
-            'y' => intval(Order::find()->where(['status' => Order::STATUS_PROCESSED, 'type' => Order::TYPE_BUY_ORDER])->count())
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_PROCESSED, 'type' => Order::TYPE_BUY_ORDER])
+                ->andWhere(['between', 'order.created_at', Yii::$app->formatter->asTimestamp($model_datetime->since), Yii::$app->formatter->asTimestamp($model_datetime->to)])
+                ->count())
         ];
 
         $data['data'][] =  [
             'name' => Order::STATUS_LABELS[Order::STATUS_CANCELED],
-            'y' => intval(Order::find()->where(['status' => Order::STATUS_CANCELED, 'type' => Order::TYPE_BUY_ORDER])->count())
+            'y' => intval(Order::find()->where(['status' => Order::STATUS_CANCELED, 'type' => Order::TYPE_BUY_ORDER])
+                ->andWhere(['between', 'order.created_at', Yii::$app->formatter->asTimestamp($model_datetime->since), Yii::$app->formatter->asTimestamp($model_datetime->to)])
+                ->count())
         ];
 
         return $data;

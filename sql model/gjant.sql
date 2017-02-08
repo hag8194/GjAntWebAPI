@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-02-2017 a las 04:58:17
+-- Tiempo de generación: 08-02-2017 a las 16:46:54
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -616,10 +616,10 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `code`, `name`, `quantity`, `price`, `description`, `status`, `created_at`, `updated_at`, `updated_by`, `brand_id`) VALUES
-(3, 'producprueba1', 'Producto 1', 7, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1486261539, 1, 1),
-(4, 'producprueba2', 'Producto 2', 35, 2000, NULL, 1, 1483456818, 1486261539, 1, 1),
-(5, 'producprueba3', 'Producto 3', 33350, 1500, '', 1, 1483457199, 1485798596, 1, 1),
-(6, 'codeproduct4', 'Producto 4', 180, 5000, 'Esta es la descripción del producto 4', 1, 1485797631, 1486261539, 1, 1),
+(3, 'producprueba1', 'Cateter Balon ', 7, 3500, 'Descriptión del product 1. Es una descripción de prueba!!!', 1, 1482560950, 1486568200, 1, 1),
+(4, 'producprueba2', 'Stent Coronario ', 35, 2000, '', 1, 1483456818, 1486568458, 1, 1),
+(5, 'producprueba3', 'Stent Malla ', 33350, 1500, '', 1, 1483457199, 1486568568, 1, 1),
+(6, 'codeproduct4', 'Stent liberador de farmaco', 180, 5000, 'Esta es la descripción del producto 4', 1, 1485797631, 1486568681, 1, 1),
 (7, 'codeproduct5', 'Urokinase', 390, 8000, 'Descripción del producto 5', 1, 1485797990, 1486261292, 1, 1),
 (8, 'codeproduct6', 'Dobutamina', 28, 3000, 'Descripción del producto 6', 1, 1486222448, 1486261422, 1, 3),
 (9, 'codeproduct7', 'Metamizol', 464, 300, 'Descripción del Metamizol', 1, 1486222488, 1486261292, 1, 2),
@@ -643,25 +643,16 @@ CREATE TABLE `product_image` (
 --
 
 INSERT INTO `product_image` (`id`, `path`, `product_id`) VALUES
-(1, '/img/NN-TG7bN2wdVF53gvExAr-RH6mQTQJQm.png', 3),
-(2, '/img/Qrh5NvZuA5uGym0oRFgc8ZXkTE0qb0rf.png', 3),
-(3, '/img/k9e00i5tFero-mvHHr4UhFv8l1CDK-6k.jpg', 3),
-(5, '/img/B16sPWpjMxSGlF7oO6fXfknojIqTPz0A.jpg', 4),
-(6, '/img/tW7qQL8QkzKG5L_fqfSzicQWdRogaR-g.jpg', 4),
-(7, '/img/8p_IqpevDE2AQvZ1OknbbzmK3kPf-oGA.jpg', 4),
-(13, '/img/83gEU8WEYMOlC1u1_Z-5qHn8hIRRnOKp.jpg', 3),
-(14, '/img/ZRWWeH4QCcXbC2efzjEorN1BbWAoJ130.jpg', 3),
-(15, '/img/ogHLTV1yyKtgFrR_0OIwlrRIpK7-VJGP.jpg', 3),
-(16, '/img/i4UK7NZR3-sPHtIc5Ybt1YOmE2Ep4q5f.jpg', 6),
-(17, '/img/lv7UP0j4yfcoN__MarNfxN12ALE8tnAr.jpg', 6),
-(18, '/img/uftBb8V464bxctrt461YcSvrq9BIos0c.jpg', 6),
-(19, '/img/qZXTS9tQQdjCUp0H4c83YRn9RHotb2za.jpg', 6),
-(26, '/img/22vS3N1-G8WB1v3WW_Utu0XA0tT9qgY2.png', 5),
 (27, '/img/n-Hpsf5OQbMBaj1EedtQAu7JtAVFIo7Y.jpg', 8),
 (28, '/img/4uBP94DZoIcbqj27Eq2PtSOtchkRnhel.jpg', 9),
 (29, '/img/fsIGSM4JG8pGzH0Le_-yWJ7ydaByL9AP.jpg', 10),
 (30, '/img/hq6uJ9G-NfbaJCn3AVW0gGl601FSaVPQ.jpg', 7),
-(31, '/img/PZKQOhXKzq9tPPw36Tf8DGckrqra_p_t.jpg', 11);
+(31, '/img/PZKQOhXKzq9tPPw36Tf8DGckrqra_p_t.jpg', 11),
+(32, '/img/6n8uFkw1PSLpUcDdtaYE1wNzNn5weFyG.jpg', 3),
+(33, '/img/vp8jS_dBQB0KUQGZa_I4CEpku_NOsjdc.jpg', 3),
+(34, '/img/VZjQl4HZejatSmnhdUAfO_20hBVJiMY_.jpg', 4),
+(35, '/img/gb8kD7tfbUmJyGYwwTJGNbNDzFrOim34.jpg', 5),
+(36, '/img/-Ulgxl4l9Vh4i_s106U9KCNUtTcylHJv.jpg', 6);
 
 -- --------------------------------------------------------
 
@@ -1042,7 +1033,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT de la tabla `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT de la tabla `tag`
 --

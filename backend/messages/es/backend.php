@@ -18,7 +18,7 @@
  */
 return [
     'Bs' => '',
-    'Choose a DateTime Range' => 'Escoge un Rango de Fecha y de Tiempo',
+    'Choose a DateTime Range' => 'Escoge un Rango de Fecha y de Hora',
     'Since' => 'Desde',
     'Submit' => 'Enviar',
     'To' => 'Hasta',

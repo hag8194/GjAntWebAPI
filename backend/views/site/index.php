@@ -169,26 +169,24 @@ $this->title = Yii::t('backend', 'Dashboard');
             <!-- /.box -->
         </div>
     </div>
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title"><?= Yii::t('backend', 'Choose a Date Range') ?></h3>
-        </div>
-        <div class="box-body">
-            <?php $form = ActiveForm::begin(['layout' => 'inline']); ?>
-            <?= $form->field($model_datetime, 'since')->widget('\kartik\datetime\DateTimePicker', [
-                'options' => ['placeholder' => $model_datetime->getAttributeLabel('since')],
-                /*'pluginOptions' => [
-                    'format' => 'dd M yyyy hh:ii'
-                ]*/
-            ]) ?>
-            <?= $form->field($model_datetime, 'to')->widget('\kartik\datetime\DateTimePicker', [
-                'options' => ['placeholder' => $model_datetime->getAttributeLabel('to')],
-                /*'pluginOptions' => [
-                    'format' => 'dd M yyyy hh:ii'
-                ]*/
-            ]) ?>
-            <?= Html::submitButton(Yii::t('backend', 'Submit'), ['class' => 'btn btn-primary btn-flat']) ?>
-            <?php ActiveForm::end(); ?>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= Yii::t('backend', 'Choose a DateTime Range') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?php $form = ActiveForm::begin(['layout' => 'inline']); ?>
+                    <?= $form->field($model_datetime, 'since')->widget('\kartik\datetime\DateTimePicker', [
+                        'options' => ['placeholder' => $model_datetime->getAttributeLabel('since')]
+                    ]) ?>
+                    <?= $form->field($model_datetime, 'to')->widget('\kartik\datetime\DateTimePicker', [
+                        'options' => ['placeholder' => $model_datetime->getAttributeLabel('to')]
+                    ]) ?>
+                    <?= Html::submitButton(Yii::t('backend', 'Submit'), ['class' => 'btn btn-primary btn-flat']) ?>
+                    <?php ActiveForm::end(); ?>
+                </div>
+            </div>
         </div>
     </div>
     <div class="box box-primary">

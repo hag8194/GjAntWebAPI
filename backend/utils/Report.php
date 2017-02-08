@@ -243,6 +243,14 @@ class Report extends Object
         /* @var $zones Zone[] */
         $zones = Zone::find()->all();
 
+        /*$test = Zone::find()->joinWith('ordersByZone')
+            ->where(['orders_by_zone.type' => Order::TYPE_BUY_ORDER])
+            ->andWhere(['!=', 'orders_by_zone.status', Order::STATUS_CANCELED])
+            ->andWhere(['between', 'orders_by_zone.created_at', Yii::$app->formatter->asTimestamp($model_datetime->since),
+                Yii::$app->formatter->asTimestamp($model_datetime->to)])
+            ->limit(10)
+            ->count();*/
+
         $data = [];
         $data['data'] = [];
         $acum = 0.0;

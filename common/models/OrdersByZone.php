@@ -18,6 +18,7 @@ use Yii;
  * @property string $zone_name
  *
  * @property OrderDetail[] $orderDetails
+ * @property Order $order
  */
 class OrdersByZone extends \yii\db\ActiveRecord
 {
@@ -67,4 +68,13 @@ class OrdersByZone extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrderDetail::className(), ['order_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    /*public function getZone()
+    {
+        return $this->hasMany(Zone::className(), ['id' => 'order_id'])->viaTable('order_detail', ['order_id' => 'id']);
+    }*/
+
 }

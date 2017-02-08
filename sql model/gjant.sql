@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-02-2017 a las 23:45:14
+-- Tiempo de generación: 08-02-2017 a las 04:58:17
 -- Versión del servidor: 10.1.19-MariaDB
 -- Versión de PHP: 5.6.28
 
@@ -303,12 +303,12 @@ CREATE TABLE `client` (
 
 INSERT INTO `client` (`id`, `fullname`, `identification`, `phone1`, `phone2`, `credit_limit`, `assigned`, `created_at`, `updated_at`, `user_id`, `address_id`) VALUES
 (1, 'Dra. Tamara Cusnier Albretch', '4426269', '04164255333', '', 700000, 1, 1482255082, 1485809607, 26, 3),
-(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 1, 1482333126, 1484425148, 27, 4),
+(2, 'Farmatodo C.C La Granja', 'farmatodogranja123456', '0241-867-5468', '', 700000, 0, 1482333126, 1486515264, 27, 4),
 (3, 'Farmahorro Paseo la Granja', 'farmahorropaseogranja123456', '0241-8686066', '', 700000, 1, 1482335127, 1482335127, 28, 7),
 (4, 'Centro Clinico Naguanagua', 'centrocliniconaguanagua0123456789', '0241-8663347', '', 700000, 1, 1482335701, 1484425130, 29, 8),
-(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 1, 1482336123, 1486223665, 30, 9),
+(5, 'Farmatodo Paseo Cuatricentenario', 'farmatodolosmangos123456789', '0241-8233829', '', 700000, 0, 1482336123, 1486515336, 30, 9),
 (6, 'Locatel Parral', 'locatelpiazza@locatel.com.ve', '0241-8238383', '', 700000, 1, 1482336412, 1485809610, 31, 10),
-(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 1, 1482536695, 1486223666, 35, 14),
+(7, 'Farmacia La Torre', 'farmacialatorre123456789', '0241-8680051', '', 700000, 0, 1482536695, 1486515334, 35, 14),
 (8, 'Farmacia Nuevo Siglo', 'J-30927929-7', '0241-8318910', '', 700000, 1, 1482536836, 1486223685, 36, 15),
 (9, 'Clinica Los Colorados', 'clinicaloscolorados123456', '0241-1223365', '', 700000, 1, 1482536936, 1486223685, 37, 16),
 (10, 'Hospital de Carabobo', 'hospitalcarabobo', '0241-4456987', '0241-4456988', 700000, 1, 1484425076, 1484880687, 39, 18),
@@ -339,8 +339,6 @@ INSERT INTO `client_wallet` (`id`, `employer_id`, `client_id`) VALUES
 (14, 3, 11),
 (15, 4, 1),
 (16, 4, 6),
-(17, 4, 5),
-(18, 4, 7),
 (21, 5, 8),
 (22, 5, 9);
 
@@ -370,7 +368,7 @@ INSERT INTO `employer` (`id`, `name`, `lastname`, `identification`, `created_at`
 (1, 'Cesar', 'Ramirez', '18412245', 1482252228, 1485799405, 1, 24, 1),
 (2, 'Ivan Edgardo', 'Giordano Navas', '24330567', 1482253277, 1482253389, 4, 25, 2),
 (3, 'Victoria', 'Noguera', '20812115', 1482369588, 1482505913, 1, 32, 11),
-(4, 'Johana', 'Romero', '18412223', 1482475902, 1482477411, 6, 33, 12),
+(4, 'Johana', 'Romero', '18412223', 1482475902, 1486496644, 6, 33, 12),
 (5, 'Marjoire Susana', 'Navas Martines', '7111654', 1482536520, 1482536520, 6, 34, 13),
 (6, 'Pedro', 'Palma', '19221152', 1482561821, 1482561821, 4, 38, 17),
 (7, 'Felipe', 'Nunez', '24330457', 1485810414, 1485810414, 3, 42, 21);
@@ -786,7 +784,7 @@ INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_res
 (30, 'farmatodoguataparo', 'MciIrR5Wyo2BlOcrEWYafwe8tHAzDlKN', '$2y$13$a/oQi0txoHm8EiBnZ08.fenv5Zwn/LYY.XLzm6omZSgME07RsExqC', NULL, 'farmatodoguataparo@farmatodo.com.ve', 10, NULL, '45bfe446a414ba92340b07a4f6d07e33', 1482336048, 1482336123),
 (31, 'locatelparral', 'zU6Gnxa8t8VVsf7lWEjWZY7rgJU4uyh5', '$2y$13$PiaMW1XtaVGP59KHH/BGV.kBkXu592/OXH1R2yAXieyJZLZdZfjvu', NULL, 'locatelparral@locatel.com.ve', 10, NULL, 'ae830f26dd35c7232c4113fb041e712e', 1482336294, 1482336412),
 (32, 'monsefoster@gmail.com', 'uxFOVmxHpLDO2apnmeSj2BVpiIRj6yv6', '$2y$13$QIvhKgDsaj8ONnciVDam8u0Q8Rmadqb46cbRzX3GBuu28o.NNLi.W', NULL, 'monsefoster@gmail.com', 10, '/img/mJMNyOFaJKZy2k9_NOY8QH97LDonAvRR.jpg', '9ec34b816c1bfdfb48b12f3d26e6ce98', 1482369034, 1482369587),
-(33, 'noromero1', 'Ww0a3F15NaKsrN2LGLFEVUsh03F16tab', '$2y$13$sAmSRjRkeLY46cyftrDXKOsyc.PKE7hymRsRbcTraDzcFp84gDGvK', NULL, 'johanaromero@gmail.com', 10, NULL, '13e4b1187ff240a02c22cd9d7015130c', 1482475791, 1482475902),
+(33, 'noromero1', 'Ww0a3F15NaKsrN2LGLFEVUsh03F16tab', '$2y$13$sAmSRjRkeLY46cyftrDXKOsyc.PKE7hymRsRbcTraDzcFp84gDGvK', NULL, 'johanaromero@gmail.com', 10, '/img/cPRpr1z00yf1fiRPtK_RiOJLWS2YxkoO.png', '13e4b1187ff240a02c22cd9d7015130c', 1482475791, 1486496644),
 (34, 'cuarzoplata', 'HRGtBhMx6MhOfoafjdnFh27xAMZmmfnT', '$2y$13$KKAaNDbusx80Q8ZdUjUK..odKCvg7FMHrbW1Yyfj3rYcE2E1zU8Zm', NULL, 'cuarzoplata@hotmail.com', 10, NULL, 'effa3d8e4c9ff8e8aa94f336bfcc4348', 1482536479, 1482536520),
 (35, 'farmacialatorre', 'bo08JkuWomifGFboBLmxQ7QZ4IgoVbtz', '$2y$13$Z2ZU3MjIwo7xtmWVRT7mceW09XNiM7A4ZaOboxZQ86XWDOnBKMqQ2', NULL, 'admin@farmacialatorre.com.ve', 10, NULL, '27319a800fcf460d041ff9760562e244', 1482536649, 1482536695),
 (36, 'farmacianuevosiglo', '4b1keTlyF5rzOTG1Suq-bu_JciptGcRK', '$2y$13$ZFGmmKT9kWuvAJfpp3F6q.kW3JaLQTsbzXU2gNqCmC6GQSUEpjDW.', NULL, 'admin@farmacias.nuevosiglo.com.ve', 10, NULL, '814739fe9e9e327cef3477a5b57717ae', 1482536762, 1482536836),

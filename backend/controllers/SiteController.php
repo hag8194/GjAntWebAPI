@@ -1,21 +1,16 @@
 <?php
 namespace backend\controllers;
 
-use backend\models\MapModel;
-use backend\models\ProfileForm;
-use backend\models\RegisterForm;
-use common\models\Client;
-use common\models\Employer;
+use backend\models\DateTimeModel;
+use backend\utils\Report;
+use common\models\Enterprise;
+use backend\models\CatalogSearch;
 use common\models\User;
 use Yii;
-//use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use mdm\admin\components\AccessControl;
-
 use common\models\LoginForm;
-use yii\web\UploadedFile;
-
 /**
  * Site controller
  */
@@ -58,7 +53,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model_datetime = new DateTimeModel();
+        $model_datetime->load(Yii::$app->request->post());
+
+        return $this->render('index', [
+            'report' => new Report(),
+            'model_datetime' => $model_datetime
+        ]);
     }
 
     /**
@@ -163,6 +164,31 @@ class SiteController extends Controller
             'model_user' => $model_user,
             'model_employer' => $model_employer,
             'model_client' => $model_client
+        ]);
+    }
+
+
+    public function actionEnterprise()
+    {
+        $model = Enterprise::findOne(1);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
+        }
+
+        return $this->render('enterprise', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCatalog()
+    {
+        $searchModel = new CatalogSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('catalog', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 }

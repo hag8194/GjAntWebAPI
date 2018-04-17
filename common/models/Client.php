@@ -2,9 +2,10 @@
 
 namespace common\models;
 
-use backend\utils\MapTrait;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
+use yii\web\Linkable;
 
 /**
  * This is the model class for table "client".
@@ -15,7 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $phone1
  * @property string $phone2
  * @property double $credit_limit
- * @property double $credit_use
+ * @property integer $assigned
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $user_id
@@ -25,9 +26,10 @@ use yii\behaviors\TimestampBehavior;
  * @property User $user
  * @property ClientWallet $clientWallet
  */
-class Client extends \yii\db\ActiveRecord
+class Client extends \yii\db\ActiveRecord implements Linkable
 {
-    use MapTrait;
+    const UNASSIGNED = 0;
+    const ASSIGNED = 1;
 
     /**
      * @inheritdoc
@@ -52,9 +54,13 @@ class Client extends \yii\db\ActiveRecord
      */
     public function beforeSave($insert)
     {
-        $user = User::findOne($this->user_id);
-        $user->status = User::STATUS_ACTIVE;
-        $user->save(false);
+        if($insert)
+        {
+            $user = User::findOne($this->user_id);
+            $user->status = User::STATUS_ACTIVE;
+            $user->save(false);
+        }
+
         return parent::beforeSave($insert);
     }
 
@@ -66,9 +72,9 @@ class Client extends \yii\db\ActiveRecord
     {
         return [
             [['fullname', 'identification', 'phone1', 'user_id', 'address_id'], 'required'],
-            [['credit_limit', 'credit_use'], 'number'],
-            [['credit_limit', 'credit_use'], 'default', 'value' => 0],
-            [['created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
+            [['credit_limit'], 'number'],
+            [['credit_limit'], 'default', 'value' => 0],
+            [['assigned', 'created_at', 'updated_at', 'user_id', 'address_id'], 'integer'],
             [['fullname'], 'string', 'max' => 255],
             [['identification', 'phone1', 'phone2'], 'string', 'max' => 45],
             [['identification'], 'unique'],
@@ -89,7 +95,7 @@ class Client extends \yii\db\ActiveRecord
             'phone1' => Yii::t('backend', 'Phone1'),
             'phone2' => Yii::t('backend', 'Phone2'),
             'credit_limit' => Yii::t('backend', 'Credit Limit'),
-            'credit_use' => Yii::t('backend', 'Credit Use'),
+            'assigned' => Yii::t('backend', 'Assigned'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),
             'user_id' => Yii::t('backend', 'User ID'),
@@ -121,6 +127,16 @@ class Client extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ClientWallet::className(), ['client_id' => 'id']);
     }
+
+    public function getLinks()
+    {
+        $avatar = $this->user->avatar ? : '/img/default-avatar.jpg';
+        $url = Url::to('GjAntWebAPI/backend/web' . $avatar, true);
+        return [
+            'poster' => $url
+        ];
+    }
+
 
     /**
      * @inheritdoc

@@ -1,19 +1,36 @@
 <?php
 
+use common\models\Order;
+use common\models\Product;
+use miloschuman\highcharts\Highcharts;
+use yii\bootstrap\ActiveForm;
+use yii\bootstrap\Html;
+
 /* @var $this yii\web\View */
+/* @var $report \backend\utils\Report */
+/* @var $model_datetime \backend\models\DateTimeModel */
+/* @var $orders Order[] */
+/* @var $products Product[] */
 
 $this->title = Yii::t('backend', 'Dashboard');
 ?>
 <div class="site-index">
+    <?php if(Yii::$app->user->can('show_dashboard')): ?>
+
+    <?php
+        $orders = Order::find()->orderBy('created_at DESC')->limit(10)->all();
+        $products = Product::find()->where(['status' => Product::STATUS_TO_SHOW])->orderBy('created_at DESC')->limit(5)->all();
+    ?>
+
     <!-- Info boxes -->
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">CPU Traffic</span>
-                    <span class="info-box-number">90<small>%</small></span>
+                    <span class="info-box-text"><?= Yii::t('backend', 'Employers') ?></span>
+                    <span class="info-box-number"><?= $report->totalEmployers() ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -22,11 +39,11 @@ $this->title = Yii::t('backend', 'Dashboard');
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+                <span class="info-box-icon bg-red"><i class="ion ion-android-person"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Likes</span>
-                    <span class="info-box-number">41,410</span>
+                    <span class="info-box-text"><?= Yii::t('backend', 'Clients') ?></span>
+                    <span class="info-box-number"><?= $report->totalClients() ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -39,11 +56,11 @@ $this->title = Yii::t('backend', 'Dashboard');
 
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-paper-outline"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Sales</span>
-                    <span class="info-box-number">760</span>
+                    <span class="info-box-text"><?= Yii::t('backend', 'Purchase Orders') ?></span>
+                    <span class="info-box-number"><?= $report->totalBuyOrders() ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -52,11 +69,11 @@ $this->title = Yii::t('backend', 'Dashboard');
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-box"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">New Members</span>
-                    <span class="info-box-number">2,000</span>
+                    <span class="info-box-text"><?= Yii::t('backend', 'Products') ?></span>
+                    <span class="info-box-number"><?= $report->totalProducts() ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -70,7 +87,7 @@ $this->title = Yii::t('backend', 'Dashboard');
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Latest Orders</h3>
+                    <h3 class="box-title"><?= Yii::t('backend', 'Latest Orders') ?></h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -84,69 +101,23 @@ $this->title = Yii::t('backend', 'Dashboard');
                         <table class="table no-margin">
                             <thead>
                             <tr>
-                                <th>Order ID</th>
-                                <th>Item</th>
-                                <th>Status</th>
-                                <th>Popularity</th>
+                                <th><?= Yii::t('backend', 'Code') ?></th>
+                                <th><?= Yii::t('backend', 'Type') ?></th>
+                                <th><?= Yii::t('backend', 'Status') ?></th>
+                                <th><?= Yii::t('backend', 'Client') ?></th>
+                                <th><?= Yii::t('backend', 'Vendor') ?></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>iPhone 6 Plus</td>
-                                <td><span class="label label-danger">Delivered</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-info">Processing</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR7429</a></td>
-                                <td>iPhone 6 Plus</td>
-                                <td><span class="label label-danger">Delivered</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span class="label label-success">Shipped</span></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-                                </td>
-                            </tr>
+                            <?php foreach ($orders as $order): ?>
+                                <tr>
+                                    <td><?= Html::a($order->code, Yii::$app->urlManager->createUrl(['/order/view', 'id' => $order->id])) ?></td>
+                                    <td><?= Order::TYPE_LABELS[$order->type] ?></td>
+                                    <td><?= Order::STATUS_LABELS[$order->status] ?></td>
+                                    <td><?= $order->clientWallet->client->fullname ?></td>
+                                    <td><?= $order->clientWallet->employer->name . ' ' . $order->clientWallet->employer->lastname ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -154,8 +125,7 @@ $this->title = Yii::t('backend', 'Dashboard');
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                    <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                    <a href="<?= Yii::$app->urlManager->createUrl('/order/index') ?>" class="btn btn-sm btn-default btn-flat pull-right"><?= Yii::t('backend', 'View All Orders') ?></a>
                 </div>
                 <!-- /.box-footer -->
             </div>
@@ -165,7 +135,7 @@ $this->title = Yii::t('backend', 'Dashboard');
             <!-- PRODUCT LIST -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Recently Added Products</h3>
+                    <h3 class="box-title"><?= Yii::t('backend', 'Recently Added Products') ?></h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -176,66 +146,268 @@ $this->title = Yii::t('backend', 'Dashboard');
                 <!-- /.box-header -->
                 <div class="box-body">
                     <ul class="products-list product-list-in-box">
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-50x50.gif" alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Samsung TV
-                                    <span class="label label-warning pull-right">$1800</span></a>
-                                <span class="product-description">
-                      Samsung 32" 1080p 60Hz LED Smart HDTV.
-                    </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-50x50.gif" alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Bicycle
-                                    <span class="label label-info pull-right">$700</span></a>
-                                <span class="product-description">
-                      26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                    </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-50x50.gif" alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Xbox One <span class="label label-danger pull-right">$350</span></a>
-                                <span class="product-description">
-                      Xbox One Console Bundle with Halo Master Chief Collection.
-                    </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-50x50.gif" alt="Product Image">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                    <span class="label label-success pull-right">$399</span></a>
-                                <span class="product-description">
-                      PlayStation 4 500GB Console (PS4)
-                    </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
+                        <?php foreach($products as $product): ?>
+                            <li class="item">
+                                <div class="product-img"><?= Html::img(!empty($product->productImages) ? Yii::$app->urlManager->createAbsoluteUrl($product->productImages[0]->path) : "") ?></div>
+                                <div class="product-info">
+                                    <div class="product-title">
+                                        <?= Html::a($product->name . '<span class="label label-warning pull-right">'. $product->price .' Bs</span>',
+                                            Yii::$app->urlManager->createUrl(['/product/view', 'id' => $product->id])) ?>
+                                    </div>
+                                    <span class="product-description"><?= empty($product->description) ? Yii::t('backend', 'Has no description') : $product->description ?></span>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                    <a href="<?= Yii::$app->urlManager->createUrl('/product/index') ?>" class="uppercase"><?= Yii::t('backend', 'View All Products') ?></a>
                 </div>
                 <!-- /.box-footer -->
             </div>
             <!-- /.box -->
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= Yii::t('backend', 'Choose a DateTime Range') ?></h3>
+                </div>
+                <div class="box-body">
+                    <?php $form = ActiveForm::begin(['layout' => 'inline']); ?>
+                    <?= $form->field($model_datetime, 'since')->widget('\kartik\datetime\DateTimePicker', [
+                        'options' => ['placeholder' => $model_datetime->getAttributeLabel('since')]
+                    ]) ?>
+                    <?= $form->field($model_datetime, 'to')->widget('\kartik\datetime\DateTimePicker', [
+                        'options' => ['placeholder' => $model_datetime->getAttributeLabel('to')]
+                    ]) ?>
+                    <?= Html::submitButton(Yii::t('backend', 'Submit'), ['class' => 'btn btn-primary btn-flat']) ?>
+                    <?php ActiveForm::end(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Gain Report from Purchase Orders')//Reporte de ganancia a partir de órdenes de compra ?></h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body row">
+            <div class="col-md-4">
+                <?php $bestVendorsByBuyOrderEntry = $report->bestVendorsByBuyOrderEntry($model_datetime); ?>
+                    <?= Highcharts::widget([
+                        'scripts' => [
+                            'modules/exporting',
+                            'themes/grid-light',
+                        ],
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best vendors')],//Mejores vendedores mediante la entrada de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Bs')]
+                            ],
+                            'series' => $bestVendorsByBuyOrderEntry['series']
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?php $bestClientsByBuyOrderEntry = $report->bestClientsByBuyOrderEntry($model_datetime); ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best customers')],//Mejores clientes mediante la entrada de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Bs')]
+                            ],
+                            'series' => $bestClientsByBuyOrderEntry['series']
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?php $mostBoughtProductsByBuyEntry = $report->mostBoughtProductByBuyOrderEntry($model_datetime) ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Most selled products')],//Productos mas comprados mediante la entrada de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Bs')]
+                            ],
+                            'series' => $mostBoughtProductsByBuyEntry['series']
+                        ]
+                    ]) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Report for quantity of purchase orders')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body row">
+            <div class="col-md-4">
+                <?php $bestVendorsByBuyOrderQuantity = $report->bestVendorsByBuyOrderQuantity($model_datetime) ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best vendors')],//Mejores vendedores mediante la cantidad de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Quantity')]
+                            ],
+                            'series' => $bestVendorsByBuyOrderQuantity['series']
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?php $bestClientsByBuyOrderQuantity = $report->bestClientsByBuyOrderQuantity($model_datetime) ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Best customers')],//Mejores clientes mediante la cantidad de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Quantity')]
+                            ],
+                            'series' => $bestClientsByBuyOrderQuantity['series']
+                        ]
+                    ]) ?>
+            </div>
+            <div class="col-md-4">
+                <?php $mostBoughtProductsByBuyQuantity = $report->mostBoughtProductByBuyOrderQuantity($model_datetime) ?>
+                    <?= Highcharts::widget([
+                        'options' => [
+                            'chart' => [
+                                'type' => 'column'
+                            ],
+                            'title' => ['text' => Yii::t('backend', 'Most selled products')],//Productos mas comprados mediante la cantidad de ordenes de compra
+                            'yAxis' => [
+                                'title' => ['text' => Yii::t('backend', 'Quantity')]
+                            ],
+                            'series' => $mostBoughtProductsByBuyQuantity['series']
+                        ]
+                    ]) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Yii::t('backend', 'Report Purchase Orders by Zone')//Reportes a partir de la cantidad de órdenes de compra ?></h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body row">
+            <div class="col-md-6">
+                <?php $bestZonesByBuyOrderQuantity = $report->bestZonesByBuyOrderQuantity($model_datetime); ?>
+                <?= Highcharts::widget([
+                    'options' => [
+                        'title' => ['text' => Yii::t('backend', 'By Quantity')],//Mejores Zonas por Cantidad de Pedido de Compra
+                        'series' => [
+                            [
+                                'type' => 'pie',
+                                'name' => Yii::t('backend', 'Total of buy orders'),
+                                'data' => $bestZonesByBuyOrderQuantity['data'],
+                                'showInLegend' => true,
+                                'dataLabels' => [
+                                    'enabled' => false,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]) ?>
+            </div>
+            <div class="col-md-6">
+                <?php $bestZonesByBuyOrderEntry = $report->bestZonesByBuyOrderEntry($model_datetime); ?>
+                <?= Highcharts::widget([
+                    'options' => [
+                        'title' => ['text' => Yii::t('backend', 'By Entry')],//Mejores Zonas por Entrada de Pedido de Compra
+                        'series' => [
+                            [
+                                'type' => 'pie',
+                                'name' => Yii::t('backend', 'Total of profit'),
+                                'data' => $bestZonesByBuyOrderEntry['data'],
+                                'showInLegend' => true,
+                                'dataLabels' => [
+                                    'enabled' => false,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]) ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <div class="box-header">
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+
+        <div class="box-body row">
+            <div class="col-lg-12">
+                <?php $buyOrdersByStatus = $report->buyOrdersByStatus($model_datetime); ?>
+                <?= Highcharts::widget([
+                    'options' => [
+                        'title' => ['text' => Yii::t('backend', 'Buy Orders by Status')],//Mejores Zonas por Entrada de Pedido de Compra
+                        'series' => [
+                            [
+                                'type' => 'pie',
+                                'name' => Yii::t('backend', 'Total of buy orders'),
+                                'data' => $buyOrdersByStatus['data'],
+                                'showInLegend' => true,
+                                'dataLabels' => [
+                                    'enabled' => false,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]); ?>
+            </div>
+        </div>
+    </div>
+    <?php else: ?>
+        <?php
+        /* @var $user \common\models\User */
+        $user = Yii::$app->user->identity;
+        if(!empty($user->client)): ?>
+            <div class="row">
+                <?= yii\widgets\ListView::widget([
+                    'dataProvider' => new \yii\data\ActiveDataProvider([
+                        'query' => $user->client->clientWallet->getOrders()
+                    ]),
+                    'itemView' => 'order',
+                    'layout' => '{items}{pager}'
+                ])?>
+            </div>
+    <?php endif; ?>
+<?php endif; ?>
 </div>

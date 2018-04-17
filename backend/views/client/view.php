@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => !$model->phone2 ? Yii::t('backend', 'Don´t has second phone') : $model->phone2
             ],
             'credit_limit',
-            'credit_use',
             'created_at:datetime',
             'updated_at:datetime',
             [

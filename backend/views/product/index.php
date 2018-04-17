@@ -27,8 +27,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'code',
             'name',
-            'quantity',
-            'price',
+            [
+                'attribute' => 'quantity',
+                'value' => function($model){
+                    return $model->quantity . ' UND';
+                }
+            ],
+            [
+                'attribute' => 'price',
+                'value' => function($model){
+                    return $model->price . ' Bs';
+                }
+            ],
             [
                 'attribute' => 'status',
                 'value' => function($model){

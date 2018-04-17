@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Tag;
 use Yii;
 use common\models\ProductTag;
 use common\models\searchmodels\ProductTagSearch;
@@ -33,6 +34,25 @@ class ProductTagController extends Controller
      * Lists all ProductTag models.
      * @return mixed
      */
+
+    public function actionTags($product_id)
+    {
+        $subQuery = ProductTag::find()->select('tag_id')->where(['product_id' => $product_id]);
+        $query = Tag::find()->where(['not in', 'id', $subQuery])->all();
+
+        if(!empty($query))
+        {
+            foreach($query as $tag)
+            {
+                echo "<option value='".$tag->id."'>".$tag->name."</option>";
+            }
+        }
+        else
+        {
+            echo "<option>-</option>";
+        }
+    }
+
     public function actionIndex()
     {
         $searchModel = new ProductTagSearch();
@@ -65,6 +85,8 @@ class ProductTagController extends Controller
     public function actionCreate()
     {
         $model = new ProductTag();
+
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'product_id' => $model->product_id, 'tag_id' => $model->tag_id]);

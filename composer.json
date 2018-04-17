@@ -23,7 +23,9 @@
         "voime/yii2-google-maps": "*",
         "yiisoft/yii2-imagine": "^2.1",
         "kartik-v/yii2-widget-fileinput": "^1.0",
-        "kalyabin/yii2-select-google-map-location": "*"
+        "kartik-v/yii2-widget-datetimepicker": "1.4.2",
+        "kalyabin/yii2-select-google-map-location": "*",
+        "miloschuman/yii2-highcharts-widget": "5.0.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

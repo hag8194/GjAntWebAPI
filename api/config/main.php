@@ -11,6 +11,8 @@ return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),    
     'bootstrap' => ['log'],
+    'language'=>'es',
+    'sourceLanguage' => 'en-US',
     'modules' => [
         'v1' => [
             'basePath' => '@app/modules/v1',
@@ -19,7 +21,7 @@ return [
     ],
     'components' => [        
         'user' => [
-            'identityClass' => 'api\modules\v1\models\UserAPI',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => false,
             'loginUrl' => null
         ],
@@ -39,7 +41,7 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule', 
-                    'controller' => ['v1/client-wallet', 'v1/order', 'v1/product', 'v1/user'],
+                    'controller' => ['v1/client-wallet', 'v1/client', 'v1/order', 'v1/product', 'v1/user', 'v1/enterprise'],
                     'extraPatterns' => ['POST login' => 'login', 'GET search' => 'search'],
                     'except' => ['delete'],
                     'tokens' => [

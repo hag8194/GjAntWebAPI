@@ -16,6 +16,7 @@ use yii\web\Linkable;
  * @property string $name
  * @property string $quantity
  * @property double $price
+ * @property double $description
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -36,7 +37,10 @@ use yii\web\Linkable;
  */
 class Product extends \yii\db\ActiveRecord implements Linkable
 {
-    public static $STATUS_LABEL = ['No mostrar', 'Mostrar'];
+    const STATUS_NO_SHOW = 0;
+    const STATUS_TO_SHOW = 1;
+
+    public static $STATUS_LABEL = ['No mostrar en el Catálogo', 'Mostrar en el Catálogo'];
 
     /**
      * @inheritdoc
@@ -65,6 +69,7 @@ class Product extends \yii\db\ActiveRecord implements Linkable
             [['name', 'quantity', 'price', 'updated_by', 'brand_id'], 'required'],
             [['quantity', 'status', 'created_at', 'updated_at', 'updated_by', 'brand_id'], 'integer'],
             [['price'], 'number'],
+            [['description'], 'string'],
             [['code', 'name'], 'string', 'max' => 255],
             [['code'], 'unique'],
             [['brand_id'], 'exist', 'skipOnError' => true, 'targetClass' => Brand::className(), 'targetAttribute' => ['brand_id' => 'id']],
@@ -83,6 +88,7 @@ class Product extends \yii\db\ActiveRecord implements Linkable
             'name' => Yii::t('backend', 'Name'),
             'quantity' => Yii::t('backend', 'Quantity'),
             'price' => Yii::t('backend', 'Price'),
+            'description' => Yii::t('backend', 'Description'),
             'status' => Yii::t('backend', 'Status'),
             'created_at' => Yii::t('backend', 'Created At'),
             'updated_at' => Yii::t('backend', 'Updated At'),

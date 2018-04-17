@@ -14,6 +14,7 @@ use Yii;
  * @property double $lng
  *
  * @property Employer[] $employers
+ * @property OrdersByZone[] $ordersByZone
  */
 class Zone extends \yii\db\ActiveRecord
 {
@@ -58,5 +59,13 @@ class Zone extends \yii\db\ActiveRecord
     public function getEmployers()
     {
         return $this->hasMany(Employer::className(), ['zone_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrdersByZone()
+    {
+        return $this->hasMany(OrdersByZone::className(), ['zone_id' => 'id']);
     }
 }

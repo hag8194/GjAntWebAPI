@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model){
                     $src = Yii::$app->urlManager->createAbsoluteUrl(
                         !empty($model->user->avatar) ?
-                            $model->user->avatar : 'img/default-avatar.gif');
+                            $model->user->avatar : 'img/default-avatar.jpg');
                     return Html::img($src, ['class' => 'img-circle', 'width' => 45]);
                 },
                 'format' => 'html'

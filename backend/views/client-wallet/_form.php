@@ -11,7 +11,7 @@
 <div class="client-wallet-form">
     <div class="row">
         <div class="col col-md-5">
-            <div class="box">
+            <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2><?= Yii::t('backend', 'Employers') ?></h2>
                 </div>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="col col-md-5">
-            <div class="box">
+            <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2><?= Yii::t('backend', 'Available clients') ?></h2>
                 </div>

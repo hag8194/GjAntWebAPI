@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\ClientListViewSearch;
 use backend\models\EmployerListViewSearch;
+use common\models\Client;
 use common\models\Employer;
 use mdm\admin\components\AccessControl;
 use Yii;
@@ -50,6 +51,7 @@ class ClientWalletController extends Controller
 
             $clientSearchModel = new ClientListViewSearch();
             $clientSearchModel->zone_name = $model_employer->zone->name;
+            $clientSearchModel->employer_id = $model_employer->id;
 
             $clientDataProvider = $clientSearchModel->search(Yii::$app->request->queryParams);
 
@@ -75,10 +77,23 @@ class ClientWalletController extends Controller
             if(!$query->exists()){
                 $model = new ClientWallet();
                 $model->setAttributes(['client_id' => $client_id, 'employer_id' => $employer_id]);
-                return $model->save();
+                $model->client->assigned = Client::ASSIGNED;
+
+                if($model->client->save())
+                    return $model->save();
+                else
+                    return $model->errors;
             }
-            else
-                return $query->one()->delete();
+            else{
+                $model = Client::findOne($client_id);
+                $model->assigned = Client::UNASSIGNED;
+
+                if($model->save())
+                    return $query->one()->delete();
+                else
+                    return $model->errors;
+            }
+
         }
         else
             throw new BadRequestHttpException('The request need to be an Ajax');

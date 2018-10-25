@@ -23,3 +23,6 @@ Web Application for Sales Management
 ## Additional Information
 * This application has two layers: BACK-END and RESTful API
 * The development time was 3 months.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
